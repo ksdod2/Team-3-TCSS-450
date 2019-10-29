@@ -19,9 +19,7 @@
     <string name="btn_register_register">Register</string>
 
     //verification fragment strings
-    <string name="tv_verification_verificationMessage">Please enter the verification code.</string>
-    <string name="et_verification_verification">Verification Code</string>
-    <string name="tv_verification_verificationSent">A verification code was sent to your Email address.</string>
-    <string name="btn_verification_confirm">Confirm</string>
+    <string name="tv_verification_verificationMessage">A verification link has been sent to your Email address.
+        Please check your inbox and follow the instructions to verify your account.</string>
 
 </resources>
