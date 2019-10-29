@@ -16,8 +16,8 @@
     <string name="btn_confirm">Confirm</string>
 
     //Various strings
-    <string name="tv_staySignedIn">Stay signed in?</string>
-    <string name="tv_verificationMessage">Please enter the verification code.</string>
-    <string name="tv_verificationSent">A verification code has been sent to your email address.</string>
+    <string name="chk_staySignedIn">Stay signed in?</string>
+    <string name="tv_verificationSent">Please enter the verification code.</string>
+    <string name="tv_verificationMessage">Please enter the verification code that was sent to your Email Address.</string>
 
 </resources>
