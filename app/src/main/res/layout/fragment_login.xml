@@ -5,7 +5,7 @@
     android:id="@+id/fragment_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginFragment" >
+    tools:context=".LoginFragment">
 
     <ImageView
         android:id="@+id/img_login_header"
@@ -33,15 +33,14 @@
         android:id="@+id/et_register_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
-        android:autoText="false"
+        android:layout_marginBottom="200dp"
         android:ems="10"
+        android:hint="@string/email_editText"
         android:importantForAutofill="no"
         android:inputType="textWebEmailAddress"
-        android:text="@string/email_editText"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login_appname" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/et_register_password"
@@ -49,39 +48,43 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="@string/password_editText"
         android:inputType="textPassword"
-        android:text="@string/password_editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_register_email"
         android:autofillHints="" />
 
     <Button
-        android:id="@+id/btn_register_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="99dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/register_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_register_password" />
-
-    <Button
         android:id="@+id/btn_login_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:text="@string/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_register_register"
+        app:layout_constraintTop_toBottomOf="@+id/et_register_password" />
+
+    <Button
+        android:id="@+id/btn_register_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/register_button"
+        app:layout_constraintEnd_toStartOf="@+id/btn_login_login"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_register_password" />
 
     <CheckBox
         android:id="@+id/chk_login_stayloggedin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/stayLoggedIn"
+        android:layout_marginTop="16dp"
+        android:text="@string/staySignedIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_login_login" />

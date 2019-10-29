@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_login"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="edu.uw.tcss450.team3chatapp.LoginFragment"
+        android:label="nav_fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/nav_action_loginToRegister"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="edu.uw.tcss450.team3chatapp.RegisterFragment"
+        android:label="nav_fragment_register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/nav_action_registerToVerification"
+            app:destination="@id/verificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verificationFragment"
+        android:name="edu.uw.tcss450.team3chatapp.VerificationFragment"
+        android:label="nav_fragment_verification"
+        tools:layout="@layout/fragment_verification">
+        <action
+            android:id="@+id/nav_action_verificationToLogin"
+            app:destination="@id/loginFragment" />
+    </fragment>
+</navigation>

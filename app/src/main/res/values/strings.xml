@@ -5,7 +5,7 @@
     //editText fields
     <string name="name_editText">First and Last Name</string>
     <string name="nickname_editText">Nickname</string>
-    <string name="email_editText">Email</string>
+    <string name="email_editText">Email Address</string>
     <string name="password_editText">Password</string>
     <string name="confirmPass_editText">Retype Password</string>
     <string name="verification_editText">Verification Code</string>
@@ -16,6 +16,6 @@
     <string name="confirm_button">Confirm</string>
 
     //Various strings
-    <string name="stayLoggedIn">Stay Logged in</string>
+    <string name="staySignedIn">Stay signed in?</string>
     <string name="verificationMessage">Please enter the verification code that was sent to your Email Address.</string>
 </resources>
