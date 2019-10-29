@@ -2,22 +2,26 @@
     // App name (Tentative)
     <string name="app_name">TextHub</string>
 
-    //editText fields
-    <string name="et_name">First and Last Name</string>
-    <string name="et_nickname">Nickname</string>
-    <string name="et_email">Email Address</string>
-    <string name="et_password">Password</string>
-    <string name="et_confirmPass">Retype Password</string>
-    <string name="et_verification">Verification Code</string>
+    //login fragment strings
+    <string name="et_login_email">Email Address</string>
+    <string name="et_login_password">Password</string>
+    <string name="btn_login_register">Register</string>
+    <string name="btn_login_login">Login</string>
+    <string name="cb_login_staySignedIn">Stay signed in?</string>
 
-    //Button fields
-    <string name="btn_register">Register</string>
-    <string name="btn_login">Login</string>
-    <string name="btn_confirm">Confirm</string>
+    //register fragment strings
+    <string name="et_register_email">Email Address</string>
+    <string name="et_register_password">Password</string>
+    <string name="et_register_confirmPass">Retype Password</string>
+    <string name="et_register_firstName">First Name</string>
+    <string name="et_register_lastName">Last Name</string>
+    <string name="et_register_nickname">Nickname</string>
+    <string name="btn_register_register">Register</string>
 
-    //Various strings
-    <string name="chk_staySignedIn">Stay signed in?</string>
-    <string name="tv_verificationSent">Please enter the verification code.</string>
-    <string name="tv_verificationMessage">Please enter the verification code that was sent to your Email Address.</string>
+    //verification fragment strings
+    <string name="tv_verification_verificationMessage">Please enter the verification code.</string>
+    <string name="et_verification_verification">Verification Code</string>
+    <string name="tv_verification_verificationSent">A verification code was sent to your Email address.</string>
+    <string name="btn_verification_confirm">Confirm</string>
 
 </resources>
