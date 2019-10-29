@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/fragment_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginFragment" >
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/img_login_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -20,17 +20,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_login_appname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/img_login_header" />
 
     <EditText
-        android:id="@+id/email_editText"
+        android:id="@+id/et_register_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="280dp"
@@ -41,10 +41,10 @@
         android:text="@string/email_editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_appname" />
 
     <EditText
-        android:id="@+id/password_editText"
+        android:id="@+id/et_register_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -53,37 +53,37 @@
         android:text="@string/password_editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_editText"
+        app:layout_constraintTop_toBottomOf="@+id/et_register_email"
         android:autofillHints="" />
 
     <Button
-        android:id="@+id/register_button"
+        android:id="@+id/btn_register_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="99dp"
         android:layout_marginTop="16dp"
         android:text="@string/register_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_editText" />
+        app:layout_constraintTop_toBottomOf="@+id/et_register_password" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_login_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
         android:layout_marginTop="16dp"
         android:text="@string/login_button"
-        app:layout_constraintStart_toEndOf="@+id/register_button"
-        app:layout_constraintTop_toBottomOf="@+id/password_editText" />
+        app:layout_constraintStart_toEndOf="@+id/btn_register_register"
+        app:layout_constraintTop_toBottomOf="@+id/et_register_password" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/chk_login_stayloggedin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/stayLoggedIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_login_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
