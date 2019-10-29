@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class Credentials implements Serializable {
     private static final long serialVersionUID = -1634677417576883013L;
 
-    private final String mNickname;
+    private final String mUsername;
     private final String mPassword;
     private final String mFirstName;
     private final String mLastName;
@@ -36,7 +36,7 @@ public class Credentials implements Serializable {
 
         private String mFirstName = "";
         private String mLastName = "";
-        private String mNickname = "";
+        private String mUsername = "";
 
 
         /**
@@ -79,8 +79,8 @@ public class Credentials implements Serializable {
          * @param val an optional Uuername
          * @return
          */
-        public Builder addNickname(final String val) {
-            mNickname = val;
+        public Builder addUsername(final String val) {
+            mUsername = val;
             return this;
         }
 
@@ -95,7 +95,7 @@ public class Credentials implements Serializable {
      * @param builder the builder used to construct this object
      */
     private Credentials(final Builder builder) {
-        mNickname = builder.mNickname;
+        mUsername = builder.mUsername;
         mPassword = builder.mPassword;
         mFirstName = builder.mFirstName;
         mLastName = builder.mLastName;
@@ -106,8 +106,8 @@ public class Credentials implements Serializable {
      * Get the Username.
      * @return the username
      */
-    public String getNickname() {
-        return mNickname;
+    public String getUsername() {
+        return mUsername;
     }
 
     /**
@@ -155,8 +155,8 @@ public class Credentials implements Serializable {
         //build the JSONObject
         JSONObject msg = new JSONObject();
         try {
-            msg.put("username", getNickname());
-            msg.put("password", mPassword);
+            msg.put("username", getUsername());
+            msg.put("password", getPassword());
             msg.put("first", getFirstName());
             msg.put("last", getLastName());
             msg.put("email", getEmail());

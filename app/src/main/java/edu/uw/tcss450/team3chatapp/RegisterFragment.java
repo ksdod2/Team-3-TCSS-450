@@ -43,12 +43,12 @@ public class RegisterFragment extends Fragment {
     private void registerAttempt(final View tButton) {
         EditText etFirstName = getView().findViewById(R.id.et_register_firstName);
         EditText etLastName = getView().findViewById(R.id.et_register_lastName);
-        EditText etNickname = getView().findViewById(R.id.et_register_nickname);
+        EditText etUsername = getView().findViewById(R.id.et_register_nickname);
         EditText etEmail = getView().findViewById(R.id.et_register_email);
         EditText etPassword = getView().findViewById(R.id.et_register_password);
         EditText etConfPass = getView().findViewById(R.id.et_register_confpass);
 
-        boolean isValid = validateCredentials(etFirstName, etLastName, etNickname,
+        boolean isValid = validateCredentials(etFirstName, etLastName, etUsername,
                                                 etEmail, etPassword, etConfPass);
 
         if(isValid) {
@@ -56,7 +56,7 @@ public class RegisterFragment extends Fragment {
                     .Builder(etEmail.getText().toString().toLowerCase().trim(), etPassword.getText().toString())
                     .addFirstName(etFirstName.getText().toString().trim())
                     .addLastName(etLastName.getText().toString().trim())
-                    .addNickname(etNickname.getText().toString().trim())
+                    .addUsername(etUsername.getText().toString().trim())
                     .build();
 
             //TODO Send credentials to database
@@ -67,7 +67,7 @@ public class RegisterFragment extends Fragment {
 
     private boolean validateCredentials(EditText etFirstName,
                                         EditText etLastName,
-                                        EditText etNickname,
+                                        EditText etUsername,
                                         EditText etEmail,
                                         EditText etPassword,
                                         EditText etConfPass) {
@@ -75,7 +75,7 @@ public class RegisterFragment extends Fragment {
         boolean result = true;
         String firstName = etFirstName.getText().toString().trim();
         String lastName = etLastName.getText().toString().trim();
-        String nickname = etNickname.getText().toString().trim();
+        String nickname = etUsername.getText().toString().trim();
         String email = etEmail.getText().toString().toLowerCase().trim();
         String pass = etPassword.getText().toString();
         String conf = etConfPass.getText().toString();
@@ -97,7 +97,7 @@ public class RegisterFragment extends Fragment {
                     "- Must only contain letter characters");
         }else if(!nickname.matches(nicknamePattern) || nickname.length() < 4 || nickname.length() > 16) {
             result = false;
-            etNickname.setError("Nickname does not match criteria:\n" +
+            etUsername.setError("Nickname does not match criteria:\n" +
                     "- Must be at least 4 character\n" +
                     "- Must not exceed 16 characters\n" +
                     "- Must only contain alphanumeric characters\n" +
