@@ -21,5 +21,6 @@
     //verification fragment strings
     <string name="tv_verification_verificationMessage">A verification link has been sent to your Email address.
         Please check your inbox and follow the instructions to verify your account.</string>
+    <string name="btn_verification_conf">OK</string>
 
 </resources>
