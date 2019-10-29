@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">Team3ChatApp</string>
+    // App name (Tentative)
+    <string name="app_name">TextHub</string>
+
+    //editText fields
+    <string name="name_editText">First and Last Name</string>
+    <string name="nickname_editText">Nickname</string>
+    <string name="email_editText">Email</string>
+    <string name="password_editText">Password</string>
+    <string name="confirmPass_editText">Retype Password</string>
+    <string name="verification_editText">Verification Code</string>
+
+    //Button fields
+    <string name="register_button">Register</string>
+    <string name="login_button">Login</string>
+    <string name="confirm_button">Confirm</string>
+
+    //Various strings
+    <string name="stayLoggedIn">Stay Logged in</string>
+    <string name="verificationMessage">Please enter the verification code that was sent to your Email Address.</string>
 </resources>
