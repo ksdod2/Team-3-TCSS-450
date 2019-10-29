@@ -3,19 +3,20 @@
     <string name="app_name">TextHub</string>
 
     //editText fields
-    <string name="name_editText">First and Last Name</string>
-    <string name="nickname_editText">Nickname</string>
-    <string name="email_editText">Email Address</string>
-    <string name="password_editText">Password</string>
-    <string name="confirmPass_editText">Retype Password</string>
-    <string name="verification_editText">Verification Code</string>
+    <string name="et_name">First and Last Name</string>
+    <string name="et_nickname">Nickname</string>
+    <string name="et_email">Email Address</string>
+    <string name="et_password">Password</string>
+    <string name="et_confirmPass">Retype Password</string>
+    <string name="et_verification">Verification Code</string>
 
     //Button fields
-    <string name="register_button">Register</string>
-    <string name="login_button">Login</string>
-    <string name="confirm_button">Confirm</string>
+    <string name="btn_register">Register</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_confirm">Confirm</string>
 
     //Various strings
-    <string name="staySignedIn">Stay signed in?</string>
-    <string name="verificationMessage">Please enter the verification code that was sent to your Email Address.</string>
+    <string name="tv_staySignedIn">Stay signed in?</string>
+    <string name="tv_verificationMessage">Please enter the verification code that was sent to your Email Address.</string>
+
 </resources>
