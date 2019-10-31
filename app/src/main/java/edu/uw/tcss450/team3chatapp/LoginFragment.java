@@ -1,11 +1,9 @@
 /*General TODOs:
 TODO make layout "scroll" up as user clicks fields lower on screen so that they don't have to exit keyboard every time
-TODO Create wait layout (dim screen with loading bar) for logging in and registering
 TODO Add javadox on existing code so we don't have to document entire app at once
  */
 
 package edu.uw.tcss450.team3chatapp;
-
 
 import android.net.Uri;
 import android.os.Bundle;

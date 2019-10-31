@@ -1,6 +1,6 @@
 <resources>
     // App name (Tentative)
-    <string name="app_name">TextHub</string>
+    <string name="app_name">ChatHub</string>
 
     //login fragment strings
     <string name="et_login_email">Email Address</string>
