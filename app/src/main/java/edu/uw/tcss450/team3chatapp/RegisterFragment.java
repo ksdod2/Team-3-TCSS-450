@@ -1,6 +1,6 @@
 package edu.uw.tcss450.team3chatapp;
 
-
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,12 +8,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import edu.uw.tcss450.team3chatapp.model.Credentials;
+import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Objects;
 
 
 /**
@@ -60,8 +68,21 @@ public class RegisterFragment extends Fragment {
                     .build();
 
             //TODO Send credentials to database
+            Uri uri = new Uri.Builder()
+                    .scheme("https")
+                    .appendPath(getString(R.string.ep_base))
+                    .appendPath(getString(R.string.ep_register))
+                    .build();
 
-            Navigation.findNavController(getView()).navigate(R.id.nav_action_registerToVerification);
+            JSONObject msg = credentials.asJSONObject();
+
+            new SendPostAsyncTask
+                    .Builder(uri.toString(), msg)
+                    .onPreExecute(this::handleRegisterPre)
+                    .onPostExecute(this::handleRegisterPost)
+                    .onCancelled(this::handleRegisterCancelled)
+                    .build()
+                    .execute();
         }
     }
 
@@ -119,5 +140,45 @@ public class RegisterFragment extends Fragment {
         }
 
         return result;
+    }
+
+    private void handleRegisterCancelled(String result) {
+        Log.e("ASYNC_TASK_ERROR", result);
+    }
+
+    private void handleRegisterPre() {
+        //TODO enable wait layout
+    }
+
+    private void handleRegisterPost(String result) {
+        try {
+            JSONObject root = new JSONObject(result);
+            if(root.has(getString(R.string.keys_json_register_success_bool))) {
+                boolean success = root.getBoolean(getString(R.string.keys_json_register_success_bool));
+                if(success) {
+                    Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.nav_action_registerToVerification);
+                } else {
+                    //TODO if duplicate email/username, set the corresponding field in error and make error message prettier.
+                    Log.e("ERROR", "Unsuccessful");
+                    JSONObject error = root.getJSONObject(getString(R.string.keys_json_register_error_json));
+                    String detail = error.getString(getString(R.string.keys_json_register_detail_string));
+                    ((TextView) Objects
+                            .requireNonNull(getView())
+                            .findViewById(R.id.et_register_firstName))
+                            .setError(detail);
+                }
+                //TODO hide wait layout on success here
+            } else {
+                Log.e("ERROR", "No Success");
+            }
+        } catch(JSONException error) {
+            Log.e("JSON_PARSE_ERROR", result
+                    + System.lineSeparator()
+                    + error.getMessage());
+
+            //TODO hide wait layout on error here
+
+            ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_register_email)).setError("Unable to register, please try again later");
+        }
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources tools:ignore="ExtraTranslation" xmlns:tools="http://schemas.android.com/tools">
+    <string name="keys_shared_prefs">edu.uw.tcss450.teamchatapp.PREFS</string>
+    <string name="keys_prefs_username">username</string>
+    <string name="keys_prefs_stay_logged_in">loggedIn</string>
+
+    <!-- JSON response keys from "/register" end point -->
+    <string name="keys_json_register_success_bool">success</string>
+    <string name="keys_json_register_error_json">error</string>
+    <string name="keys_json_register_detail_string">detail</string>
+
+    <!-- JSON response keys from "/login" end point -->
+    <string name="keys_json_login_success_bool">success</string>
+    <string name="keys_json_login_message_str">message</string>
+    <string name="keys_json_login_username_str">username</string>
+    <string name="keys_json_login_memberid_int">memberid</string>
+    <string name="keys_json_login_jwt_str">jwt</string>
+
+</resources>
