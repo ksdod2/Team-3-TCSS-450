@@ -67,7 +67,6 @@ public class RegisterFragment extends Fragment {
                     .addUsername(etUsername.getText().toString().trim())
                     .build();
 
-            //TODO Send credentials to database
             Uri uri = new Uri.Builder()
                     .scheme("https")
                     .appendPath(getString(R.string.ep_base))

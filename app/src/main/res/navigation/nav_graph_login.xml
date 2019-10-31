@@ -13,6 +13,9 @@
         <action
             android:id="@+id/nav_action_loginToRegister"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/nav_action_loginToHome"
+            app:destination="@id/homeActivity" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -32,4 +35,9 @@
             android:id="@+id/nav_action_verificationToLogin"
             app:destination="@id/loginFragment" />
     </fragment>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="edu.uw.tcss450.team3chatapp.HomeActivity"
+        android:label="app_bar_home"
+        tools:layout="@layout/app_bar_home" />
 </navigation>
