@@ -1,3 +1,9 @@
+/*General TODOs:
+TODO make layout "scroll" up as user clicks fields lower on screen so that they don't have to exit keyboard every time
+TODO Create wait layout (dim screen with loading bar) for logging in and registering
+TODO Add javadox on existing code so we don't have to document entire app at once
+ */
+
 package edu.uw.tcss450.team3chatapp;
 
 
@@ -66,13 +72,12 @@ public class LoginFragment extends Fragment {
     }
 
     private void loginAttempt(final View tButton) {
-        EditText etEmail = getView().findViewById(R.id.et_login_email);
+        EditText etEmail = Objects.requireNonNull(getView()).findViewById(R.id.et_login_email);
         EditText etPass = getView().findViewById(R.id.et_login_password);
 
         boolean validated = validateLogin(etEmail, etPass);
 
         if (validated) {
-            //TODO Login good on app side
             Credentials credentials = new Credentials
                     .Builder(etEmail.getText().toString().toLowerCase().trim(), etPass.getText().toString())
                     .build();
@@ -115,13 +120,14 @@ public class LoginFragment extends Fragment {
                                    Toast.LENGTH_SHORT)
                             .show();
 
+                    //TODO send jwt with navigation or get it from server?
                     Navigation
                             .findNavController(Objects.requireNonNull(getView()))
                             .navigate(R.id.nav_action_loginToHome);
 
                     Objects.requireNonNull(getActivity()).finish();
                 } else {
-                    //TODO if duplicate email/username, set the corresponding field in error and make error message prettier.
+                    //TODO better error here too?
                     Log.e("ERROR_LOGIN", "Unsuccessful");
                     ((EditText) Objects
                             .requireNonNull(getView())
