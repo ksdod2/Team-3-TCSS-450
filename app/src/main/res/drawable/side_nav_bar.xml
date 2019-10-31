@@ -1,9 +1,19 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
+
+    // default gradient
+<!--    <gradient-->
+<!--        android:angle="135"-->
+<!--        android:centerColor="#009688"-->
+<!--        android:endColor="#00695C"-->
+<!--        android:startColor="#4DB6AC"-->
+<!--        android:type="linear" />-->
+
+    // Spooky Orange Gradient
     <gradient
         android:angle="135"
-        android:centerColor="#009688"
-        android:endColor="#00695C"
-        android:startColor="#4DB6AC"
+        android:centerColor="@color/spookyPrimaryColor"
+        android:endColor="@color/spookyPrimaryLightColor"
+        android:startColor="@color/spookySecondaryColor"
         android:type="linear" />
 </shape>
