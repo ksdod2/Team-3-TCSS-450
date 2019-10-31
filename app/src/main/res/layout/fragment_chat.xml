@@ -9,7 +9,10 @@
         android:id="@+id/card_chatlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardElevation="4dp">
+        android:layout_margin="2dp"
+        app:cardBackgroundColor="#DADADA"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2dp">
 
         <TextView
             android:id="@+id/tv_chatlist_name"

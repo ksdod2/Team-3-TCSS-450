@@ -105,7 +105,9 @@ public class LoginFragment extends Fragment {
     }
 
     private void handleRegisterPre() {
-        //TODO enable wait layout
+        getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.btn_login_login).setEnabled(false);
+        getActivity().findViewById(R.id.btn_login_register).setEnabled(false);
     }
 
     private void handleRegisterPost(String result) {
@@ -114,16 +116,18 @@ public class LoginFragment extends Fragment {
             if(root.has(getString(R.string.keys_json_login_success_bool))) {
                 boolean success = root.getBoolean(getString(R.string.keys_json_register_success_bool));
                 if(success) {
-                    //TODO replace toast with navigation to home (maybe?)
-                    Toast.makeText(getContext(),
-                                   root.getString(getString(R.string.keys_json_login_message_str)),
-                                   Toast.LENGTH_SHORT)
-                            .show();
 
-                    //TODO send jwt with navigation or get it from server?
+                    LoginFragmentDirections.NavActionLoginToHome homeActivity =
+                            LoginFragmentDirections.navActionLoginToHome(new Credentials.Builder(
+                                    getActivity().findViewById(R.id.et_login_email).toString(),
+                                    getActivity().findViewById(R.id.et_login_password).toString())
+                                    .addUsername(root.getString("username"))
+                                    .build());
+                    homeActivity.setJwt(root.getString("token"));
+                    homeActivity.setUserId((Integer) root.get("memberid"));
                     Navigation
                             .findNavController(Objects.requireNonNull(getView()))
-                            .navigate(R.id.nav_action_loginToHome);
+                            .navigate(homeActivity);
 
                     Objects.requireNonNull(getActivity()).finish();
                 } else {
@@ -134,7 +138,9 @@ public class LoginFragment extends Fragment {
                             .findViewById(R.id.et_login_email))
                             .setError("Unable to login.\nPlease check credentials and retry.");
                 }
-                //TODO hide wait layout on success here
+                getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
+                getActivity().findViewById(R.id.btn_login_register).setEnabled(true);
             } else {
                 Log.e("ERROR", "Unsuccessful");
             }
@@ -143,7 +149,9 @@ public class LoginFragment extends Fragment {
                     + System.lineSeparator()
                     + error.getMessage());
 
-            //TODO hide wait layout on error here
+            getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
+            getActivity().findViewById(R.id.btn_login_register).setEnabled(true);
 
             ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_login_email)).setError("Unable to login.\nPlease try again later");
         }

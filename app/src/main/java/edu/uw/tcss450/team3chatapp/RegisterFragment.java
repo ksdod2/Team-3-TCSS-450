@@ -100,7 +100,7 @@ public class RegisterFragment extends Fragment {
         String pass = etPassword.getText().toString();
         String conf = etConfPass.getText().toString();
         String namePattern = "[a-zA-Z]+";
-        String nicknamePattern = "[a-zA-Z_-]+";
+        String nicknamePattern = "[a-zA-Z0-9._-]+";
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if ("".equals(firstName) || !firstName.matches(namePattern) || firstName.length() > 16) {
@@ -146,7 +146,8 @@ public class RegisterFragment extends Fragment {
     }
 
     private void handleRegisterPre() {
-        //TODO enable wait layout
+        getActivity().findViewById(R.id.layout_register_wait).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.btn_register_register).setEnabled(false);
     }
 
     private void handleRegisterPost(String result) {
@@ -166,7 +167,8 @@ public class RegisterFragment extends Fragment {
                             .findViewById(R.id.et_register_firstName))
                             .setError(detail);
                 }
-                //TODO hide wait layout on success here
+                getActivity().findViewById(R.id.layout_register_wait).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.btn_register_register).setEnabled(true);
             } else {
                 Log.e("ERROR", "No Success");
             }
@@ -175,7 +177,8 @@ public class RegisterFragment extends Fragment {
                     + System.lineSeparator()
                     + error.getMessage());
 
-            //TODO hide wait layout on error here
+            getActivity().findViewById(R.id.layout_register_wait).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.btn_register_register).setEnabled(true);
 
             ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_register_email)).setError("Unable to register, please try again later");
         }

@@ -39,5 +39,17 @@
         android:id="@+id/homeActivity"
         android:name="edu.uw.tcss450.team3chatapp.HomeActivity"
         android:label="app_bar_home"
-        tools:layout="@layout/app_bar_home" />
+        tools:layout="@layout/app_bar_home" >
+        <argument
+            android:name="credentials"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Credentials" />
+        <argument
+            android:name="jwt"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </activity>
 </navigation>

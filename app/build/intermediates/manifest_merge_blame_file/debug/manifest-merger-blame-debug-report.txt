@@ -6,30 +6,68 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="24"
-8-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
+8-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="29" />
-9-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
+9-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
 10
-11    <application
-11-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:5:5-13:19
-12        android:allowBackup="true"
-12-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:6:9-35
-13        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-13-->[androidx.core:core:1.1.0] C:\Users\bleds\.gradle\caches\transforms-2\files-2.1\7f6c41cc2a14c0fbaa8d0166c17dc544\core-1.1.0\AndroidManifest.xml:24:18-86
-14        android:debuggable="true"
-15        android:icon="@mipmap/ic_launcher"
-15-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:7:9-43
-16        android:label="@string/app_name"
-16-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:8:9-41
-17        android:roundIcon="@mipmap/ic_launcher_round"
-17-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:9:9-54
-18        android:supportsRtl="true"
-18-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:10:9-35
-19        android:theme="@style/AppTheme" >
-19-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:11:9-40
-20        <activity android:name="edu.uw.tcss450.team3chatapp.MainActivity" />
-20-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:12:9-59
-20-->C:\Users\bleds\AndroidStudioProjects\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:12:19-47
-21    </application>
-22
-23</manifest>
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:5:5-67
+11-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:5:22-64
+12
+13    <application
+13-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:7:5-28:19
+14        android:allowBackup="true"
+14-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:8:9-35
+15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+15-->[androidx.core:core:1.1.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\5db5ccd571846797c828736ab35d3548\core-1.1.0\AndroidManifest.xml:24:18-86
+16        android:debuggable="true"
+17        android:icon="@mipmap/ic_launcher"
+17-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:9:9-43
+18        android:label="@string/app_name"
+18-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:10:9-41
+19        android:roundIcon="@mipmap/ic_launcher_round"
+19-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:11:9-54
+20        android:supportsRtl="true"
+20-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:12:9-35
+21        android:testOnly="true"
+22        android:theme="@style/AppTheme" >
+22-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:13:9-40
+23        <activity
+23-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:15:9-18:68
+24            android:name="edu.uw.tcss450.team3chatapp.HomeActivity"
+24-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:16:13-41
+25            android:label="@string/app_name"
+25-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:17:13-45
+26            android:theme="@style/AppTheme.NoActionBar" />
+26-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:18:13-56
+27        <activity
+27-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:19:9-27:20
+28            android:name="edu.uw.tcss450.team3chatapp.MainActivity"
+28-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:20:13-41
+29            android:label="@string/app_name" >
+29-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:21:13-45
+30            <intent-filter>
+30-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:22:13-26:29
+31                <action android:name="android.intent.action.MAIN" />
+31-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:23:17-69
+31-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:23:25-66
+32
+33                <category android:name="android.intent.category.LAUNCHER" />
+33-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:25:17-77
+33-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:25:27-74
+34            </intent-filter>
+35        </activity>
+36
+37        <provider
+37-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\95ab6cbdb961e0aac7123ca00960d87c\lifecycle-process-2.0.0\AndroidManifest.xml:23:9-27:43
+38            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+38-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\95ab6cbdb961e0aac7123ca00960d87c\lifecycle-process-2.0.0\AndroidManifest.xml:24:13-79
+39            android:authorities="edu.uw.tcss450.team3chatapp.lifecycle-process"
+39-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\95ab6cbdb961e0aac7123ca00960d87c\lifecycle-process-2.0.0\AndroidManifest.xml:25:13-69
+40            android:exported="false"
+40-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\95ab6cbdb961e0aac7123ca00960d87c\lifecycle-process-2.0.0\AndroidManifest.xml:26:13-37
+41            android:multiprocess="true" />
+41-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\95ab6cbdb961e0aac7123ca00960d87c\lifecycle-process-2.0.0\AndroidManifest.xml:27:13-40
+42    </application>
+43
+44</manifest>
