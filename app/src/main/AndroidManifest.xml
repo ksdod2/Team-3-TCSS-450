@@ -14,7 +14,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".HomeActivity"
-            android:label=""
+            android:label="@string/app_name"
             android:theme="@style/SpookyOrangeTheme.NoActionBar"></activity>
         <activity
             android:name=".MainActivity"
