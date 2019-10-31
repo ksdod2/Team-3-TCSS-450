@@ -2,9 +2,7 @@ package edu.uw.tcss450.team3chatapp;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -20,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -43,6 +42,12 @@ public class HomeActivity extends AppCompatActivity {
         navController.setGraph(R.navigation.nav_graph_home, getIntent().getExtras());
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
+
+        HomeActivityArgs args = HomeActivityArgs.fromBundle(getIntent().getExtras());
+        View header = navigationView.getHeaderView(0);
+        ((TextView) header.findViewById(R.id.tv_nav_header)).setText(args.getCredentials().getUsername());
+        ((TextView) header.findViewById(R.id.tv_nav_subheader)).setText(args.getCredentials().getEmail());
     }
 
     @Override
@@ -57,5 +62,22 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    // TODO: Implement needed async tasks to fetch actual data for fragments
+    private boolean onNavigationSelected(final MenuItem menuItem) {
+        NavController navController =
+                Navigation.findNavController(this, R.id.nav_host_fragment);
+        switch (menuItem.getItemId()) {
+            case R.id.nav_home:
+                navController.navigate(R.id.nav_home, getIntent().getExtras());
+                break;
+            case R.id.nav_chats:
+                navController.navigate(R.id.nav_chats);
+                break;
+        }
+        //Close the drawer
+        ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawers();
+        return true;
     }
 }

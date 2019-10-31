@@ -25,7 +25,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,8 +118,8 @@ public class LoginFragment extends Fragment {
 
                     LoginFragmentDirections.NavActionLoginToHome homeActivity =
                             LoginFragmentDirections.navActionLoginToHome(new Credentials.Builder(
-                                    getActivity().findViewById(R.id.et_login_email).toString(),
-                                    getActivity().findViewById(R.id.et_login_password).toString())
+                                    ((EditText) getActivity().findViewById(R.id.et_login_email)).getText().toString(),
+                                    ((EditText) getActivity().findViewById(R.id.et_login_password)).getText().toString())
                                     .addUsername(root.getString("username"))
                                     .build());
                     homeActivity.setJwt(root.getString("token"));

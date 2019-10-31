@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/img_verification_header" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_nav_subheader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
