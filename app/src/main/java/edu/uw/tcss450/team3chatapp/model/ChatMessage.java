@@ -1,5 +1,10 @@
 package edu.uw.tcss450.team3chatapp.model;
 
+/**
+ * Class to represent a single chat message.
+ * @author Kameron Dodd
+ * @version 10/30/19
+ */
 public class ChatMessage {
     private final String mSender;
     private final String mTimestamp;

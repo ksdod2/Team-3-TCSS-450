@@ -44,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
 
+        // Set navigation drawer header fields with user information
         HomeActivityArgs args = HomeActivityArgs.fromBundle(getIntent().getExtras());
         View header = navigationView.getHeaderView(0);
         ((TextView) header.findViewById(R.id.tv_nav_header)).setText(args.getCredentials().getUsername());
