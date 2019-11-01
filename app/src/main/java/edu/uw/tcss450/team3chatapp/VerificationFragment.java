@@ -50,7 +50,7 @@ public class VerificationFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
         //Set OK button to go back to login screen
-        Button btnOk = getView().findViewById(R.id.btn_verification_confirm);
+        Button btnOk = getView().findViewById(R.id.btn_verification_ok);
         btnOk.setOnClickListener(this::navigateToLogin);
     }
 

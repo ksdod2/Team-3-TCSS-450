@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".RegisterFragment">
 
+    // logo
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="150dp"
@@ -18,6 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    // nickname field
     <EditText
         android:id="@+id/et_register_nickname"
         android:layout_width="wrap_content"
@@ -30,6 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_register_lastName" />
 
+    // email field
     <EditText
         android:id="@+id/et_register_email"
         android:layout_width="wrap_content"
@@ -42,6 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_register_nickname" />
 
+    // password field
     <EditText
         android:id="@+id/et_register_password"
         android:layout_width="wrap_content"
@@ -54,6 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_register_email" />
 
+    // confirm password field (match)
     <EditText
         android:id="@+id/et_register_confpass"
         android:layout_width="wrap_content"
@@ -66,6 +71,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_register_password" />
 
+    // register button
     <Button
         android:id="@+id/btn_register_register"
         android:layout_width="wrap_content"
@@ -76,6 +82,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_register_confpass" />
 
+    // last name field
     <EditText
         android:id="@+id/et_register_lastName"
         android:layout_width="wrap_content"
@@ -88,6 +95,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_register_firstName" />
 
+    // first name field
     <EditText
         android:id="@+id/et_register_firstName"
         android:layout_width="wrap_content"
