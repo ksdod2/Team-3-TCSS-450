@@ -1,3 +1,39 @@
 <resources>
-    <string name="app_name">Team3ChatApp</string>
+    // App name (Tentative)
+    <string name="app_name">ChatHub</string>
+
+    //login fragment strings
+    <string name="et_login_email">Email Address</string>
+    <string name="et_login_password">Password</string>
+    <string name="btn_login_register">Register</string>
+    <string name="btn_login_login">Login</string>
+    <string name="cb_login_staySignedIn">Stay signed in</string>
+
+    //register fragment strings
+    <string name="et_register_email">Email Address</string>
+    <string name="et_register_password">Password</string>
+    <string name="et_register_confirmPass">Retype Password</string>
+    <string name="et_register_firstName">First Name</string>
+    <string name="et_register_lastName">Last Name</string>
+    <string name="et_register_nickname">Nickname</string>
+    <string name="btn_register_register">Register</string>
+
+    //verification fragment strings
+    <string name="tv_verification_verificationMessage">A verification link has been sent to your Email address.
+        Please check your inbox and follow the instructions to verify your account.</string>
+    <string name="btn_verification_ok">OK</string>
+
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_chats">My Chats</string>
+
+    <string name="btn_chatroom_send">Send</string>
+
 </resources>
