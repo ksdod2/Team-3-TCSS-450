@@ -24,5 +24,10 @@
         android:name="edu.uw.tcss450.team3chatapp.ui.ChatMessageFragment"
         android:label="Chatroom"
         tools:layout="@layout/fragment_chatmessage_list" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="edu.uw.tcss450.team3chatapp.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>

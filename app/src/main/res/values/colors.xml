@@ -8,7 +8,7 @@
     <color name="colorAccent">#D81B60</color>
 
     //spooky orange colors
-    <color name="spookyPrimaryColor">#ff9800</color>
+    <color name="spookyPrimaryColor">#FF9800</color>
     <color name="spookyPrimaryLightColor">#ffc947</color>
     <color name="spookyPrimaryDarkColor">#c66900</color>
     <color name="spookyPrimaryDarkTransparent">#A0c66900</color>

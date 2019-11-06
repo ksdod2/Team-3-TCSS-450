@@ -92,6 +92,7 @@ public class HomeActivity extends AppCompatActivity {
         switch (id) {
             // TODO: Implement theme changes and other potential options under settings option
             case R.id.action_settings:
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.nav_settings);
                 break;
             case R.id.action_logout:
                 logout();

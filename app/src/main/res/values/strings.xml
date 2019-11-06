@@ -1,15 +1,16 @@
 <resources>
-    // App name (Tentative)
+    <!--App name (Tentative)-->
     <string name="app_name">ChatHub</string>
+    <string name="PLACEHOLDER">PLACEHOLDER</string>
 
-    //login fragment strings
+    <!--login fragment strings-->
     <string name="et_login_email">Email Address</string>
     <string name="et_login_password">Password</string>
     <string name="btn_login_register">Register</string>
     <string name="btn_login_login">Login</string>
     <string name="cb_login_staySignedIn">Stay signed in</string>
 
-    //register fragment strings
+    <!--register fragment strings-->
     <string name="et_register_email">Email Address</string>
     <string name="et_register_password">Password</string>
     <string name="et_register_confirmPass">Retype Password</string>
@@ -18,7 +19,7 @@
     <string name="et_register_nickname">Nickname</string>
     <string name="btn_register_register">Register</string>
 
-    //verification fragment strings
+    <!--verification fragment strings-->
     <string name="tv_verification_verificationMessage">A verification link has been sent to your Email address.
         Please check your inbox and follow the instructions to verify your account.</string>
     <string name="btn_verification_ok">OK</string>
@@ -36,5 +37,13 @@
     <string name="menu_chats">My Chats</string>
 
     <string name="btn_chatroom_send">Send</string>
+
+    <!-- Settings menu strings -->
+    <string name="tv_settings_themechange">Change App Theme</string>
+    <string name="tv_settings_themecurrent">Current Theme</string>
+    <string name="tv_settings_temp">Change Temperature Units</string>
+    <string name="rb_settings_fahrenheit">F</string>
+    <string name="rb_settings_celcius">C</string>
+    
 
 </resources>
