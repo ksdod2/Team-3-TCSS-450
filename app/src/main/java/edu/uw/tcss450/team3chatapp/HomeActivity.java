@@ -1,10 +1,14 @@
 package edu.uw.tcss450.team3chatapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -80,5 +84,65 @@ public class HomeActivity extends AppCompatActivity {
         //Close the drawer
         ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawers();
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            // TODO: Implement theme changes and other potential options under settings option
+            case R.id.action_settings:
+                break;
+            case R.id.action_logout:
+                logout();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        new DeleteTokenAsyncTask().execute();
+    }
+
+    /**
+     * Performs asynchronous tasks associated with logging out of the application
+     */
+    class DeleteTokenAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            SharedPreferences prefs =
+                    getSharedPreferences(
+                            getString(R.string.keys_shared_prefs),
+                            Context.MODE_PRIVATE);
+
+            prefs.edit().remove(getString(R.string.keys_prefs_password)).apply();
+            prefs.edit().remove(getString(R.string.keys_prefs_email)).apply();
+            prefs.edit().remove(getString(R.string.keys_prefs_stay_logged_in)).apply();
+
+            //unregister the device from the Pushy servers
+//            Pushy.unregister(HomeActivity.this);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            // Close the app outright
+            finishAndRemoveTask();
+
+            // Alternatively, close current session and return to login fragments
+//            Intent i = new Intent(this, MainActivity.class);
+//            startActivity(i);
+//            //Ends this Activity and removes it from the Activity back stack.
+//            finish();
+        }
     }
 }
