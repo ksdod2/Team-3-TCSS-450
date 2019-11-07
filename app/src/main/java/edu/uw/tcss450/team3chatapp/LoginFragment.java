@@ -23,7 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -117,9 +116,9 @@ public class LoginFragment extends Fragment {
 
             new SendPostAsyncTask
                     .Builder(uri.toString(), msg)
-                    .onPreExecute(this::handleRegisterPre)
-                    .onPostExecute(this::handleRegisterPost)
-                    .onCancelled(this::handleRegisterCancelled)
+                    .onPreExecute(this::handleLoginPre)
+                    .onPostExecute(this::handleLoginPost)
+                    .onCancelled(this::handleLoginCancelled)
                     .build()
                     .execute();
         }
@@ -136,17 +135,17 @@ public class LoginFragment extends Fragment {
         prefs.edit().putString(getString(R.string.keys_prefs_stay_logged_in), "true").apply();
     }
 
-    private void handleRegisterCancelled(String result) {
+    private void handleLoginCancelled(String result) {
         Log.e("ASYNC_TASK_ERROR", result);
     }
 
-    private void handleRegisterPre() {
+    private void handleLoginPre() {
         getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
         getActivity().findViewById(R.id.btn_login_login).setEnabled(false);
         getActivity().findViewById(R.id.btn_login_register).setEnabled(false);
     }
 
-    private void handleRegisterPost(String result) {
+    private void handleLoginPost(String result) {
         try {
             JSONObject root = new JSONObject(result);
             if(root.has(getString(R.string.keys_json_login_success_bool))) {
@@ -155,6 +154,8 @@ public class LoginFragment extends Fragment {
                     Credentials userCreds = new Credentials.Builder(
                             ((EditText) getActivity().findViewById(R.id.et_login_email)).getText().toString(),
                             ((EditText) getActivity().findViewById(R.id.et_login_password)).getText().toString())
+                            .addFirstName(root.getString("firstname"))
+                            .addLastName(root.getString("lastname"))
                             .addUsername(root.getString("username"))
                             .build();
 
