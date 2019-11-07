@@ -18,4 +18,24 @@
     <color name="spookyPrimaryTextColor">#000000</color>
     <color name="spookySecondaryTextColor">#fb8c00</color>
 
+    //bashful blue colors
+    <color name="bluePrimaryColor">#64b5f6</color>
+    <color name="bluePrimaryLightColor">#9be7ff</color>
+    <color name="bluePrimaryDarkColor">#2286c3</color>
+    <color name="blueSecondaryColor">#81d4fa</color>
+    <color name="blueSecondaryLightColor">#b6ffff</color>
+    <color name="blueSecondaryDarkColor">#4ba3c7</color>
+    <color name="bluePrimaryTextColor">#000000</color>
+    <color name="blueSecondaryTextColor">#000000</color>
+
+    //husky pride colors
+    <color name="huskyPrimaryColor">#4b2e83</color>
+    <color name="huskyPrimaryLightColor">#7b59b3</color>
+    <color name="huskyPrimaryDarkColor">#1a0555</color>
+    <color name="huskySecondaryColor">#b7a57a</color>
+    <color name="huskySecondaryLightColor">#ead6a9</color>
+    <color name="huskySecondaryDarkColor">#86764e</color>
+    <color name="huskyPrimaryTextColor">#ffffff</color>
+    <color name="huskySecondaryTextColor">#000000</color>
 </resources>
+

@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         HomeActivityArgs args = HomeActivityArgs.fromBundle(getIntent().getExtras());
         View header = navigationView.getHeaderView(0);
         ((TextView) header.findViewById(R.id.tv_nav_header)).setText(args.getCredentials().getUsername());
-        ((TextView) header.findViewById(R.id.tv_nav_subheader)).setText(args.getCredentials().getEmail());
+        ((TextView) header.findViewById(R.id.tv_verification_message)).setText(args.getCredentials().getEmail());
     }
 
     @Override

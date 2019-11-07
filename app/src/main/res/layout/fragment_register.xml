@@ -9,7 +9,7 @@
 
     // logo
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/iv_register_logo"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="40dp"

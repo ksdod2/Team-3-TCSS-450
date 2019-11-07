@@ -9,7 +9,7 @@
 
     // logo
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/iv_verification_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -21,7 +21,7 @@
 
     // text view for verification message
     <TextView
-        android:id="@+id/tv_nav_subheader"
+        android:id="@+id/tv_verification_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

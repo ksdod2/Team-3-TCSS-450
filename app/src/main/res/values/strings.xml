@@ -24,6 +24,16 @@
         Please check your inbox and follow the instructions to verify your account.</string>
     <string name="btn_verification_ok">OK</string>
 
+    <!--home fragment strings-->
+    <string name="tv_home_weatherMessage">Weather Forecast:</string>
+    <string name="tv_home_currentCity">Tacoma</string>
+    <string name="tv_home_currentState">Washington</string>
+    <string name="tv_home_temperature">Temperature: </string>
+    <string name="tv_home_tempC">22</string>
+    <string name="tv_home_degree">°</string>
+    <string name="tv_home_tempF">72</string>
+    <string name="tv_home_forecast">Sunny</string>
+
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

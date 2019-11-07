@@ -16,6 +16,22 @@
         <item name="colorAccent">@color/spookySecondaryColor</item>
     </style>
 
+    <!-- Bashful Blue theme. -->
+    <style name="BashfulBlueTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/bluePrimaryColor</item>
+        <item name="colorPrimaryDark">@color/bluePrimaryDarkColor</item>
+        <item name="colorAccent">@color/blueSecondaryColor</item>
+    </style>
+
+    <!-- Husky Pride theme. -->
+    <style name="HuskyPrideTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/huskyPrimaryColor</item>
+        <item name="colorPrimaryDark">@color/huskyPrimaryDarkColor</item>
+        <item name="colorAccent">@color/huskySecondaryColor</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
