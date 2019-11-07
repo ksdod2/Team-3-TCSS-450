@@ -29,6 +29,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         HomeActivityArgs args = HomeActivityArgs.fromBundle(getArguments());
         TextView greeting = getView().findViewById(R.id.tv_home_greeting);
-        greeting.setText("Hello, " + args.getCredentials().getUsername() + "!");
+        greeting.setText("Welcome, " + args.getCredentials().getFirstName() + args.getCredentials().getLastName() + "!");
     }
 }

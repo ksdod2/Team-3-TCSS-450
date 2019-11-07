@@ -33,6 +33,10 @@
     <string name="tv_home_degree">°</string>
     <string name="tv_home_tempF">72</string>
     <string name="tv_home_forecast">Sunny</string>
+    <string name="tv_home_month">November</string>
+    <string name="tv_home_day">7</string>
+    <string name="tv_home_year">2019</string>
+    <string name="tv_home_dayOfWeek">Thursday</string>
 
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
