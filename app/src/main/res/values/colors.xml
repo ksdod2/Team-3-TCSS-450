@@ -11,7 +11,7 @@
     <color name="spookyPrimaryColor">#FF9800</color>
     <color name="spookyPrimaryLightColor">#ffc947</color>
     <color name="spookyPrimaryDarkColor">#c66900</color>
-    <color name="spookyPrimaryDarkTransparent">#A0c66900</color>
+    <color name="spookyPrimaryDarkTransparent">#A0C66900</color>
     <color name="spookySecondaryColor">#212121</color>
     <color name="spookySecondaryLightColor">#484848</color>
     <color name="spookySecondaryDarkColor">#000000</color>

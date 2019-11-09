@@ -25,18 +25,21 @@
     <string name="btn_verification_ok">OK</string>
 
     <!--home fragment strings-->
-    <string name="tv_home_weatherMessage">Weather Forecast:</string>
+    <string name="tv_home_weatherMessage">Weather Forecast</string>
     <string name="tv_home_currentCity">Tacoma</string>
     <string name="tv_home_currentState">Washington</string>
-    <string name="tv_home_temperature">Temperature: </string>
     <string name="tv_home_tempC">22</string>
-    <string name="tv_home_degree">°</string>
     <string name="tv_home_tempF">72</string>
-    <string name="tv_home_forecast">Sunny</string>
+    <string name="tv_home_status">Sunny</string>
     <string name="tv_home_month">November</string>
     <string name="tv_home_day">7</string>
     <string name="tv_home_year">2019</string>
     <string name="tv_home_dayOfWeek">Thursday</string>
+    <string name="tv_home_f">°F</string>
+    <string name="tv_home_c">°C</string>
+
+    <!--weather fragment strings-->
+
 
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -58,6 +61,6 @@
     <string name="tv_settings_temp">Change Temperature Units</string>
     <string name="rb_settings_fahrenheit">F</string>
     <string name="rb_settings_celcius">C</string>
-    
+
 
 </resources>
