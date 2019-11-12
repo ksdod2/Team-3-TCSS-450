@@ -2,9 +2,11 @@ package edu.uw.tcss450.team3chatapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -24,9 +26,20 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import edu.uw.tcss450.team3chatapp.model.Connection;
+import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
+import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
+
 public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private HomeActivityArgs mArgs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_chats)
+                R.id.nav_home, R.id.nav_chats, R.id.nav_connectionhome)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -49,10 +62,10 @@ public class HomeActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
 
         // Set navigation drawer header fields with user information
-        HomeActivityArgs args = HomeActivityArgs.fromBundle(getIntent().getExtras());
+        mArgs = HomeActivityArgs.fromBundle(getIntent().getExtras());
         View header = navigationView.getHeaderView(0);
-        ((TextView) header.findViewById(R.id.tv_nav_header)).setText(args.getCredentials().getUsername());
-        ((TextView) header.findViewById(R.id.tv_verification_message)).setText(args.getCredentials().getEmail());
+        ((TextView) header.findViewById(R.id.tv_nav_header)).setText(mArgs.getCredentials().getUsername());
+        ((TextView) header.findViewById(R.id.tv_verification_message)).setText(mArgs.getCredentials().getEmail());
     }
 
     @Override
@@ -80,10 +93,97 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.nav_chats:
                 navController.navigate(R.id.nav_chats);
                 break;
+            case R.id.nav_connectionhome:
+
+                Uri uri = new Uri.Builder()
+                        .scheme("https")
+                        .appendPath(getString(R.string.ep_base))
+                        .appendPath(getString(R.string.ep_connections))
+                        .appendPath(getString(R.string.ep_connections_get))
+                        .build();
+
+                JSONObject info = new JSONObject();
+                try {
+                    info.put("memberid", mArgs.getUserId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                new SendPostAsyncTask.Builder(uri.toString(), info)
+                        .onPostExecute(this::handleConnectionsOnPostExecute)
+                        .onCancelled(error -> Log.e("CONN_NAV", error))
+                        .addHeaderField("authorization", mArgs.getJwt())
+                        .build().execute();
+
+                break;
         }
         //Close the drawer
         ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawers();
         return true;
+    }
+
+    private void handleConnectionsOnPostExecute(final String result) {
+        //parse JSON
+
+        try {
+            JSONObject root = new JSONObject(result);
+            if (root.has(getString(R.string.keys_json_connections_rows))) {
+                JSONArray data = root.getJSONArray( getString(R.string.keys_json_connections_rows));
+
+                ArrayList<Connection> currentConns = new ArrayList<>();
+                ArrayList<Connection> incomingConns = new ArrayList<>();
+                ArrayList<Connection> pendingConns = new ArrayList<>();
+                    for(int i = 0; i < data.length(); i++) {
+                        JSONObject jsonConn = data.getJSONObject(i);
+
+                        if(jsonConn.getInt(getString(R.string.keys_json_connections_verified_int)) == 1) {
+                            // Verified connection, fill out information and add to that list
+                            currentConns.add(new Connection(jsonConn.getInt(getString(R.string.keys_json_connections_memberid_int)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_firstname_str)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_lastname_str)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_username_str)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_email_str)),
+                                    jsonConn.getInt(getString(R.string.keys_json_connections_verified_int)),
+                                    jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()));
+
+                        } else if(jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()) {
+                            // Connection request that was sent by user but has not been accepted
+                            pendingConns.add(new Connection(jsonConn.getInt(getString(R.string.keys_json_connections_memberid_int)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_firstname_str)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_lastname_str)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_username_str)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_email_str)),
+                                    jsonConn.getInt(getString(R.string.keys_json_connections_verified_int)),
+                                    jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()));
+                        } else {
+                            // Connection requests to this user
+                            incomingConns.add(new Connection(jsonConn.getInt(getString(R.string.keys_json_connections_memberid_int)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_firstname_str)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_lastname_str)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_username_str)),
+                                    jsonConn.getString(getString(R.string.keys_json_connections_email_str)),
+                                    jsonConn.getInt(getString(R.string.keys_json_connections_verified_int)),
+                                    jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()));
+                        }
+                    }
+
+                    MobileNavigationDirections.ActionGlobalNavConnectionhome directions
+                            = ConnectionHomeFragmentDirections.actionGlobalNavConnectionhome(
+                                currentConns.toArray(new Connection[0]),
+                                incomingConns.toArray(new Connection[0]),
+                                pendingConns.toArray(new Connection[0]),
+                            mArgs.getUserId(), mArgs.getJwt());
+
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                            .navigate(directions);
+            } else {
+                Log.e("ERROR!", "Database Error");
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("ERROR!", e.getMessage());
+        }
     }
 
     @Override

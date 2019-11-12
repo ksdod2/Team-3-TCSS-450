@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
@@ -29,5 +29,62 @@
         android:name="edu.uw.tcss450.team3chatapp.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/nav_connectionhome"
+        android:name="edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragment"
+        android:label="Your Connections"
+        tools:layout="@layout/fragment_connection_list" >
+        <argument
+            android:name="acceptedContacts"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Connection[]" />
+        <argument
+            android:name="incomingContacts"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Connection[]" />
+        <argument
+            android:name="pendingContacts"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Connection[]" />
+        <action
+            android:id="@+id/action_nav_connectionhome_to_nav_connectionview"
+            app:destination="@id/nav_connectionview" />
+        <argument
+            android:name="memberID"
+            app:argType="integer" />
+        <argument
+            android:name="JWT"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_nav_connectionhome_to_nav_connectionsearch"
+            app:destination="@id/nav_connectionsearch" />
+    </fragment><action android:id="@+id/action_global_nav_connectionhome" app:destination="@id/nav_connectionhome"/>
+    <fragment
+        android:id="@+id/nav_connectionview"
+        android:name="edu.uw.tcss450.team3chatapp.ui.ConnectionViewFragment"
+        android:label="Connection Details"
+        tools:layout="@layout/fragment_connection_view" >
+        <argument
+            android:name="ConnectionDetails"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Connection" />
+        <argument
+            android:name="memberID"
+            app:argType="integer" />
+        <argument
+            android:name="JWT"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_connectionsearch"
+        android:name="edu.uw.tcss450.team3chatapp.ui.ConnectionSearchFragment"
+        android:label="Search For Users"
+        tools:layout="@layout/fragment_connection_search">
+        <argument
+            android:name="memberID"
+            app:argType="integer" />
+        <argument
+            android:name="JWT"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_connectionSearchFragment_to_nav_connectionview"
+            app:destination="@id/nav_connectionview" />
+    </fragment>
 
 </navigation>

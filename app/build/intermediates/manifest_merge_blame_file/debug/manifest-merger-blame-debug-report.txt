@@ -15,7 +15,7 @@
 11-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:5:22-64
 12
 13    <application
-13-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:7:5-30:19
+13-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:7:5-34:19
 14        android:allowBackup="true"
 14-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:8:9-35
 15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -61,16 +61,23 @@
 36            </intent-filter>
 37        </activity>
 38
-39        <provider
-39-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:23:9-27:43
-40            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-40-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:24:13-79
-41            android:authorities="edu.uw.tcss450.team3chatapp.lifecycle-process"
-41-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:25:13-69
-42            android:exported="false"
-42-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:26:13-37
-43            android:multiprocess="true" />
-43-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:27:13-40
-44    </application>
-45
-46</manifest>
+39        <meta-data
+39-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:31:9-33:57
+40            android:name="preloaded_fonts"
+40-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:32:13-43
+41            android:resource="@array/preloaded_fonts" />
+41-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:33:13-54
+42
+43        <provider
+43-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:23:9-27:43
+44            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+44-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:24:13-79
+45            android:authorities="edu.uw.tcss450.team3chatapp.lifecycle-process"
+45-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:25:13-69
+46            android:exported="false"
+46-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:26:13-37
+47            android:multiprocess="true" />
+47-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:27:13-40
+48    </application>
+49
+50</manifest>
