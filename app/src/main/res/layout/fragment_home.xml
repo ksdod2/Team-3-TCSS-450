@@ -143,8 +143,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:contentDescription="@string/tv_home_weatherMessage"
-                app:srcCompat="@mipmap/weather_icon_01" />
+                android:contentDescription="@string/tv_home_weatherMessage" />
+<!--                app:srcCompat="@mipmap/weather_icon_01" /> -->
 
         </LinearLayout>
 

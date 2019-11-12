@@ -18,4 +18,20 @@
     <string name="keys_json_login_memberid_int">memberid</string>
     <string name="keys_json_login_jwt_str">jwt</string>
 
+    <!-- JSON response keys from "/connections" end points -->
+    <string name="keys_json_connections_rows">connections</string>
+    <string name="keys_json_connections_search_rows">users</string>
+    <string name="keys_json_connections_memberid_int">memberid</string>
+    <string name="keys_json_connections_firstname_str">firstname</string>
+    <string name="keys_json_connections_lastname_str">lastname</string>
+    <string name="keys_json_connections_email_str">email</string>
+    <string name="keys_json_connections_username_str">username</string>
+    <string name="keys_json_connections_verified_int">verified</string>
+    <string name="keys_json_connections_sender_int">sender</string>
+    <string name="keys_json_connections_receiver_int">receiver</string>
+    <string name="keys_json_connections_accepted_str">accepted</string>
+    <string name="keys_json_connections_accepted_yes_str">true</string>
+    <string name="keys_json_connections_accepted_no_str">false</string>
+
+
 </resources>

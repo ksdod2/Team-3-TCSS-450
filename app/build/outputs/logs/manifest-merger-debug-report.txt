@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-32:12
-INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-32:12
-INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-32:12
-INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-32:12
+ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-36:12
 MERGED from [androidx.navigation:navigation-ui:2.1.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\7261ba7fc8c71175c90a3e6a779b0655\jetified-navigation-ui-2.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.material:material:1.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\dfc68f71dcb5c694d33aee6088a52569\material-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\0f6535481192434497a735269d6a6818\appcompat-1.1.0\AndroidManifest.xml:17:1-24:12
@@ -47,22 +47,22 @@ MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradl
 MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\11a7252c37e2dbe07d6619672685d19e\lifecycle-service-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\d247d1c4230b8e0a43b4abc8496ae5f6\lifecycle-runtime-2.1.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\f2c66ddda8cb25f7e4e4be86e9c0695e\savedstate-1.0.0\AndroidManifest.xml:17:1-24:12
-INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-32:12
-INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-32:12
-INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-32:12
+INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-36:12
 	package
 		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:4:5-42
 		INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
 		INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
-		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-32:12
+		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-36:12
 		INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
 	xmlns:tools
 		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
-		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-32:12
+		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:1-36:12
 		INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:2:11-69
@@ -71,7 +71,7 @@ ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\m
 	android:name
 		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:5:22-64
 application
-ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:7:5-30:19
+ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:7:5-34:19
 MERGED from [com.google.android.material:material:1.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\dfc68f71dcb5c694d33aee6088a52569\material-1.0.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\dfc68f71dcb5c694d33aee6088a52569\material-1.0.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\448715bc5ac5efe7dfd10a6fc40d7d09\constraintlayout-1.1.3\AndroidManifest.xml:9:5-20
@@ -126,6 +126,12 @@ category#android.intent.category.LAUNCHER
 ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:27:17-77
 	android:name
 		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:27:27-74
+meta-data#preloaded_fonts
+ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:31:9-33:57
+	android:resource
+		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:33:13-54
+	android:name
+		ADDED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:32:13-43
 uses-sdk
 INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
