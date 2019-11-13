@@ -17,6 +17,7 @@
     <string name="keys_json_login_username_str">username</string>
     <string name="keys_json_login_memberid_int">memberid</string>
     <string name="keys_json_login_jwt_str">jwt</string>
+    <string name="keys_json_login_pushtoken_str">token</string>
 
     <!-- JSON response keys from "/connections" end points -->
     <string name="keys_json_connections_rows">connections</string>

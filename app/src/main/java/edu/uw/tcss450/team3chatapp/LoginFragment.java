@@ -8,6 +8,7 @@ package edu.uw.tcss450.team3chatapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import edu.uw.tcss450.team3chatapp.model.Credentials;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
+import me.pushy.sdk.Pushy;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +32,12 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Objects;
 
 /**
@@ -37,8 +45,16 @@ import java.util.Objects;
  */
 public class LoginFragment extends Fragment {
 
+    private Credentials mCredentials;
+
     public LoginFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Pushy.listen(this.getActivity());
     }
 
     @Override
@@ -102,7 +118,7 @@ public class LoginFragment extends Fragment {
         boolean validated = validateLogin(etEmail, etPass);
 
         if (validated) {
-            Credentials credentials = new Credentials
+            mCredentials = new Credentials
                     .Builder(etEmail.getText().toString().toLowerCase().trim(), etPass.getText().toString())
                     .build();
 
@@ -112,15 +128,7 @@ public class LoginFragment extends Fragment {
                     .appendPath(getString(R.string.ep_login))
                     .build();
 
-            JSONObject msg = credentials.asJSONObject();
-
-            new SendPostAsyncTask
-                    .Builder(uri.toString(), msg)
-                    .onPreExecute(this::handleLoginPre)
-                    .onPostExecute(this::handleLoginPost)
-                    .onCancelled(this::handleLoginCancelled)
-                    .build()
-                    .execute();
+            new AttemptLoginTask().execute(uri.toString());
         }
     }
 
@@ -135,69 +143,131 @@ public class LoginFragment extends Fragment {
         prefs.edit().putString(getString(R.string.keys_prefs_stay_logged_in), "true").apply();
     }
 
-    private void handleLoginCancelled(String result) {
-        Log.e("ASYNC_TASK_ERROR", result);
-    }
+    private class AttemptLoginTask extends AsyncTask<String, Void, String> {
 
-    private void handleLoginPre() {
-        getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.btn_login_login).setEnabled(false);
-        getActivity().findViewById(R.id.btn_login_register).setEnabled(false);
-    }
+        @Override
+        protected void onPreExecute() {
+            getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.btn_login_login).setEnabled(false);
+            getActivity().findViewById(R.id.btn_login_register).setEnabled(false);
+        }
 
-    private void handleLoginPost(String result) {
-        try {
-            JSONObject root = new JSONObject(result);
-            if(root.has(getString(R.string.keys_json_login_success_bool))) {
-                boolean success = root.getBoolean(getString(R.string.keys_json_register_success_bool));
-                if(success) {
-                    Credentials userCreds = new Credentials.Builder(
-                            ((EditText) getActivity().findViewById(R.id.et_login_email)).getText().toString(),
-                            ((EditText) getActivity().findViewById(R.id.et_login_password)).getText().toString())
-                            .addFirstName(root.getString("firstname"))
-                            .addLastName(root.getString("lastname"))
-                            .addUsername(root.getString("username"))
-                            .build();
-
-                    SharedPreferences prefs = getActivity().getSharedPreferences(
-                            getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
-                    if(((Switch) getActivity().findViewById(R.id.swt_login_stayloggedin)).isChecked()) {
-                        saveCredentials(userCreds);
-                    }
-
-                    LoginFragmentDirections.NavActionLoginToHome homeActivity =
-                            LoginFragmentDirections.navActionLoginToHome(userCreds);
-                    homeActivity.setJwt(root.getString("token"));
-                    homeActivity.setUserId((Integer) root.get("memberid"));
-                    Navigation
-                            .findNavController(Objects.requireNonNull(getView()))
-                            .navigate(homeActivity);
-
-                    Objects.requireNonNull(getActivity()).finish();
-                } else {
-                    //TODO better error here too?
-                    Log.e("ERROR_LOGIN", "Unsuccessful");
-                    ((EditText) Objects
-                            .requireNonNull(getView())
-                            .findViewById(R.id.et_login_email))
-                            .setError("Unable to login.\nPlease check credentials and retry.");
-                }
-                getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
-                getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
-                getActivity().findViewById(R.id.btn_login_register).setEnabled(true);
-            } else {
-                Log.e("ERROR", "Unsuccessful");
-            }
-        } catch(JSONException error) {
-            Log.e("JSON_PARSE_ERROR", result
-                    + System.lineSeparator()
-                    + error.getMessage());
-
+        @Override
+        protected void onCancelled(String result) {
+            Log.e("ASYNC_TASK_ERROR", result);
+            // Restore layout's appearance
             getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
             getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
             getActivity().findViewById(R.id.btn_login_register).setEnabled(true);
+        }
 
-            ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_login_email)).setError("Unable to login.\nPlease try again later");
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String deviceToken = "";
+            try {
+                // Assign a unique token to this device
+                deviceToken = Pushy.register(getActivity().getApplicationContext());
+            }
+            catch (Exception exc) {
+                cancel(true);
+                // Return exc to onCancelled
+                return exc.getMessage();
+            }
+
+            Log.d("LOGIN", "Pushy Token: " + deviceToken);
+
+            StringBuilder response = new StringBuilder();
+            HttpURLConnection urlConnection = null;
+
+            try {
+                URL urlObject = new URL(urls[0]);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                urlConnection.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream());
+
+                JSONObject message = mCredentials.asJSONObject();
+                message.put(getString(R.string.keys_json_login_pushtoken_str), deviceToken);
+
+                wr.write(message.toString());
+                wr.flush();
+                wr.close();
+
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while((s = buffer.readLine()) != null) {
+                    response.append(s);
+                }
+                publishProgress();
+            } catch (Exception e) {
+                response = new StringBuilder("Unable to connect, Reason: "
+                        + e.getMessage());
+                cancel(true);
+            } finally {
+                if(urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+            }
+            return response.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                JSONObject root = new JSONObject(result);
+                if(root.has(getString(R.string.keys_json_login_success_bool))) {
+                    boolean success = root.getBoolean(getString(R.string.keys_json_register_success_bool));
+                    if(success) {
+                        Credentials userCreds = new Credentials.Builder(
+                                ((EditText) getActivity().findViewById(R.id.et_login_email)).getText().toString(),
+                                ((EditText) getActivity().findViewById(R.id.et_login_password)).getText().toString())
+                                .addFirstName(root.getString("firstname"))
+                                .addLastName(root.getString("lastname"))
+                                .addUsername(root.getString("username"))
+                                .build();
+
+                        if(((Switch) getActivity().findViewById(R.id.swt_login_stayloggedin)).isChecked()) {
+                            saveCredentials(userCreds);
+                        }
+
+                        LoginFragmentDirections.NavActionLoginToHome homeActivity =
+                                LoginFragmentDirections.navActionLoginToHome(userCreds);
+                        homeActivity.setJwt(root.getString("token"));
+                        homeActivity.setUserId((Integer) root.get("memberid"));
+                        Navigation
+                                .findNavController(Objects.requireNonNull(getView()))
+                                .navigate(homeActivity);
+
+                        Objects.requireNonNull(getActivity()).finish();
+                    } else {
+                        //TODO better error here too?
+                        Log.e("ERROR_LOGIN", "Unsuccessful");
+                        ((EditText) Objects
+                                .requireNonNull(getView())
+                                .findViewById(R.id.et_login_email))
+                                .setError("Unable to login.\nPlease check credentials and retry.");
+                    }
+                    getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+                    getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
+                    getActivity().findViewById(R.id.btn_login_register).setEnabled(true);
+                } else {
+                    Log.e("ERROR", "Unsuccessful");
+                }
+            } catch(JSONException error) {
+                Log.e("JSON_PARSE_ERROR", result
+                        + System.lineSeparator()
+                        + error.getMessage());
+
+                getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
+                getActivity().findViewById(R.id.btn_login_register).setEnabled(true);
+
+                ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_login_email)).setError("Unable to login.\nPlease try again later");
+            }
         }
     }
 
