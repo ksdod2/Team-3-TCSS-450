@@ -39,6 +39,41 @@
     <string name="tv_home_c">°C</string>
 
     <!--weather fragment strings-->
+    <string name="tv_weather_weatherHub">WeatherHub</string>
+    <string name="tv_weather_currentLocation">Current Location: </string>
+    <string name="tv_weather_currentCity">Tacoma</string>
+    <string name="tv_weather_currentState">Washington</string>
+    <string name="et_weather_searchByZip">Search by Zip</string>
+    <string name="tv_weather_map"><u>Map View</u></string>
+    <string name="tv_weather_saveLocation"><u>Save Current Location</u></string>
+    <string name="tv_weather_savedLocations"><u>View Saved Locations</u></string>
+    <string name="tv_weather_currentConditions">Current Conditions</string>
+    <string name="tv_weather_24hourForecast">24-Hour Forecast</string>
+    <string name="tv_weather_10dayForecast">10-Day Forecast</string>
+    <string name="btn_weather_search">Search</string>
+    <!--current conditions strings-->
+    <string name="tv_weather_temperature">Temperature:</string>
+    <string name="tv_weather_tempMin">Minimum Temp:</string>
+    <string name="tv_weather_tempMax">Maximum Temp:</string>
+    <string name="tv_weather_wind">Wind:</string>
+    <string name="tv_weather_description">Description:</string>
+    <string name="tv_weather_precipitation">Precipitation:</string>
+    <string name="tv_weather_humidity">Humidity:</string>
+    <string name="tv_weather_sunrise">Sunrise:</string>
+    <string name="tv_weather_sunset">Sunset:</string>
+    <!--current conditions default strings-->
+    <string name="tv_weather_temperatureDefault">72</string>
+    <string name="tv_weather_tempMinDefault">60</string>
+    <string name="tv_weather_tempMaxDefault">80</string>
+    <string name="tv_weather_windDefault">5 MPH</string>
+    <string name="tv_weather_descriptionDefault">Sunny</string>
+    <string name="tv_weather_precipitationDefault">85%</string>
+    <string name="tv_weather_humidityDefault">50%</string>
+    <string name="tv_weather_sunriseDefault">8 AM</string>
+    <string name="tv_weather_sunsetDefault">6 PM</string>
+
+    <!--24-hour strings-->
+    <!--10 day strings-->
 
 
     <string name="title_activity_home">HomeActivity</string>

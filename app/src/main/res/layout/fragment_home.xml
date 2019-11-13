@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    // welcome message
+    <!--Welcome Message-->
+
     <TextView
         android:id="@+id/tv_home_greeting"
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    // the entire encasing layout for the weather related components
+    <!--The entire encasing layout for the weather related components-->
     <LinearLayout
         android:id="@+id/layout_home_weatherAll"
         android:layout_width="292dp"
@@ -143,7 +144,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:contentDescription="@string/tv_home_weatherMessage" />
+                android:contentDescription="@string/tv_home_weatherMessage"
+                app:srcCompat="@mipmap/weather_icon_01" />
 <!--                app:srcCompat="@mipmap/weather_icon_01" /> -->
 
         </LinearLayout>
