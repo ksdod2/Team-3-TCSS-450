@@ -109,5 +109,10 @@
             app:destination="@id/nav_connectionview" />
     </fragment>
     <action android:id="@+id/action_global_nav_chats" app:destination="@id/nav_chats" /><action android:id="@+id/action_global_nav_chatroom" app:destination="@id/nav_chatroom"/><action android:id="@+id/action_global_nav_connectionview" app:destination="@id/nav_connectionview"/>
+    <fragment
+        android:id="@+id/nav_weather"
+        android:name="edu.uw.tcss450.team3chatapp.ui.WeatherFragment"
+        android:label="fragment_weather"
+        tools:layout="@layout/fragment_weather" />
 
 </navigation>

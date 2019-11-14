@@ -59,7 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_chats, R.id.nav_connectionhome)
+                R.id.nav_home, R.id.nav_chats, R.id.nav_connectionhome, R.id.nav_weather)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -166,6 +166,9 @@ public class HomeActivity extends AppCompatActivity {
                         .addHeaderField("authorization", mArgs.getJwt())
                         .build().execute();
 
+                break;
+            case R.id.nav_weather:
+                navController.navigate(R.id.nav_weather);
                 break;
         }
         //Close the drawer
