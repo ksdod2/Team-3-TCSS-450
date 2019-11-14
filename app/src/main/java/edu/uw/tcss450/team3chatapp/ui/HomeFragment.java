@@ -77,8 +77,7 @@ public class HomeFragment extends Fragment {
             try {
                 JSONObject jsonObj = new JSONObject(result);
                 JSONObject main = jsonObj.getJSONObject("main");
-                JSONObject sys = jsonObj.getJSONObject("sys");
-                JSONObject wind = jsonObj.getJSONObject("wind");
+
                 JSONObject weather = jsonObj.getJSONArray("weather").getJSONObject(0);
 
                 String tempAsStr = main.getString("temp");
