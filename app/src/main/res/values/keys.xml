@@ -19,6 +19,19 @@
     <string name="keys_json_login_jwt_str">jwt</string>
     <string name="keys_json_login_pushtoken_str">token</string>
 
+    <!-- JSON response keys from "/chat" endpoints -->
+    <string name="keys_json_chats">chats</string>
+    <string name="keys_json_chats_id">chatid</string>
+    <string name="keys_json_chats_name">name</string>
+    <string name="keys_json_chats_description">description</string>
+    <string name="keys_json_chats_messages">messages</string>
+    <string name="keys_json_chatmessage_sender">username</string>
+    <string name="keys_json_chatmessage_message">message</string>
+    <string name="keys_json_chatmessage_timestamp">timestamp</string>
+    <string name="keys_json_push_chatmessage_room">room</string>
+    <string name="keys_json_push_chatmessage_text">text</string>
+    <string name="keys_json_push_chatmessage_time">stamp</string>
+
     <!-- JSON response keys from "/connections" end points -->
     <string name="keys_json_connections_rows">connections</string>
     <string name="keys_json_connections_search_rows">users</string>

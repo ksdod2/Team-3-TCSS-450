@@ -16,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import edu.uw.tcss450.team3chatapp.model.ChatMessage;
+import edu.uw.tcss450.team3chatapp.model.ChatMessageNotification;
 import edu.uw.tcss450.team3chatapp.model.Credentials;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 import me.pushy.sdk.Pushy;
@@ -54,7 +57,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Pushy.listen(this.getActivity());
     }
 
     @Override
@@ -238,6 +240,28 @@ public class LoginFragment extends Fragment {
                                 LoginFragmentDirections.navActionLoginToHome(userCreds);
                         homeActivity.setJwt(root.getString("token"));
                         homeActivity.setUserId((Integer) root.get("memberid"));
+
+                        if (getArguments() != null) {
+                            if (getArguments().containsKey("type")) {
+                                if (getArguments().getString("type").equals("msg")) {
+                                    try {
+                                        JSONObject msg = new JSONObject(getArguments().getString("message"));
+                                        ChatMessage pushed = new ChatMessage(getArguments().getString("sender"),
+                                                msg.getString(getString(R.string.keys_json_push_chatmessage_time)),
+                                                msg.getString(getString(R.string.keys_json_push_chatmessage_text)));
+                                        int room = msg.getInt(getString(R.string.keys_json_push_chatmessage_room));
+
+                                        ChatMessageNotification chat =
+                                                new ChatMessageNotification.Builder(pushed, room).build();
+                                        homeActivity.setChatMessage(chat);
+                                    } catch(JSONException e) {
+                                        // Couldn't get the notification properly, just give up
+                                        getActivity().finish();
+                                    }
+                                }
+                            }
+                        }
+
                         Navigation
                                 .findNavController(Objects.requireNonNull(getView()))
                                 .navigate(homeActivity);

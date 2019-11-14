@@ -1,23 +1,30 @@
 package edu.uw.tcss450.team3chatapp.ui;
 
-import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.uw.tcss450.team3chatapp.MyChatRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
-import edu.uw.tcss450.team3chatapp.dummy.DummyChatContent;
 import edu.uw.tcss450.team3chatapp.model.Chat;
+import edu.uw.tcss450.team3chatapp.model.ChatMessage;
+import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
 /**
  * A fragment representing a list of Items.
@@ -27,11 +34,9 @@ import edu.uw.tcss450.team3chatapp.model.Chat;
  */
 public class ChatFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private int mMemberID;
+    private String mJWT;
+    private int currentChat;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,50 +45,78 @@ public class ChatFragment extends Fragment {
     public ChatFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static ChatFragment newInstance(int columnCount) {
-        ChatFragment fragment = new ChatFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
 
+        ChatFragmentArgs args = ChatFragmentArgs.fromBundle(getArguments());
+        mMemberID = args.getMemberID();
+        mJWT = args.getJWT();
+
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyChatRecyclerViewAdapter(DummyChatContent.ITEMS, this::displayChat));
+            ArrayList<Chat> rooms = new ArrayList(Arrays.asList(args.getRooms()));
+            recyclerView.setAdapter(new MyChatRecyclerViewAdapter(rooms, this::displayChat));
         }
         return view;
     }
 
-    // TODO: 10/30/2019 Update this with async task to grab actual chat content
     private void displayChat(final Chat tChat) {
-        NavController nc = Navigation.findNavController(getView());
-        if (nc.getCurrentDestination().getId() != R.id.nav_chats) // Ensure back button doesn't break nav
-            nc.navigateUp();
-        nc.navigate(R.id.action_chatFragment_to_chatMessageFragment);
+        // Get all the prior messages of the chat asynchronously
+        Uri chatUri = new Uri.Builder()
+                .scheme("https")
+                .appendPath(getString(R.string.ep_base))
+                .appendPath(getString(R.string.ep_chat))
+                .appendPath(getString(R.string.ep_chat_getcontents))
+                .build();
+
+        JSONObject chatInfo = new JSONObject();
+        try {
+            chatInfo.put("chatid", tChat.getChatID());
+            currentChat = tChat.getChatID();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        new SendPostAsyncTask.Builder(chatUri.toString(), chatInfo)
+                .onPostExecute(this::handleDisplayChatOnPostExecute)
+                .onCancelled(error -> Log.e("CHAT_ROOM_NAV", error))
+                .addHeaderField("authorization", mJWT)
+                .build().execute();
+    }
+
+    private void handleDisplayChatOnPostExecute(final String result) {
+        //parse JSON
+        try {
+            JSONObject root = new JSONObject(result);
+            if (root.has(getString(R.string.keys_json_chats_messages))) {
+                JSONArray data = root.getJSONArray(getString(R.string.keys_json_chats_messages));
+                ChatMessage[] messages = new ChatMessage[data.length()];
+                for(int i = 0; i < data.length(); i++) {
+                    JSONObject message = data.getJSONObject(i);
+
+                    messages[i] = new ChatMessage(message.getString(getString(R.string.keys_json_chatmessage_sender)),
+                            message.getString(getString(R.string.keys_json_chatmessage_timestamp)),
+                            message.getString(getString(R.string.keys_json_chatmessage_message)));
+                }
+
+                ChatFragmentDirections.ActionChatFragmentToChatMessageFragment chatroom =
+                        ChatFragmentDirections.actionChatFragmentToChatMessageFragment(messages, mJWT, mMemberID, currentChat);
+
+                NavController nc = Navigation.findNavController(getView());
+                if (nc.getCurrentDestination().getId() != R.id.nav_chats) // Ensure back button doesn't break nav
+                    nc.navigateUp();
+                nc.navigate(chatroom);
+
+            } else {
+                Log.e("ERROR!", "Couldn't get messages from chat");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("ERROR!", e.getMessage());
+        }
     }
 
     /**
@@ -97,7 +130,6 @@ public class ChatFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(Chat item);
     }
 }

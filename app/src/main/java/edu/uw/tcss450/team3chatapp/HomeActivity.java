@@ -32,9 +32,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import edu.uw.tcss450.team3chatapp.model.Chat;
+import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
+import me.pushy.sdk.Pushy;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -49,6 +52,8 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        mArgs = HomeActivityArgs.fromBundle(getIntent().getExtras());
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -59,10 +64,31 @@ public class HomeActivity extends AppCompatActivity {
         navController.setGraph(R.navigation.nav_graph_home, getIntent().getExtras());
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        if(mArgs.getChatMessage() != null) { // Navigate immediately to chatroom of pushed message
+            Uri chatUri = new Uri.Builder()
+                    .scheme("https")
+                    .appendPath(getString(R.string.ep_base))
+                    .appendPath(getString(R.string.ep_chat))
+                    .appendPath(getString(R.string.ep_chat_getcontents))
+                    .build();
+
+            JSONObject chatInfo = new JSONObject();
+            try {
+                chatInfo.put("chatid", mArgs.getChatMessage().getRoom());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            new SendPostAsyncTask.Builder(chatUri.toString(), chatInfo)
+                    .onPostExecute(this::handleDisplayChatOnPostExecute)
+                    .onCancelled(error -> Log.e("CHAT_ROOM_NAV", error))
+                    .addHeaderField("authorization", mArgs.getJwt())
+                    .build().execute();
+
+        }
         navigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
 
         // Set navigation drawer header fields with user information
-        mArgs = HomeActivityArgs.fromBundle(getIntent().getExtras());
         View header = navigationView.getHeaderView(0);
         ((TextView) header.findViewById(R.id.tv_nav_header)).setText(mArgs.getCredentials().getUsername());
         ((TextView) header.findViewById(R.id.tv_verification_message)).setText(mArgs.getCredentials().getEmail());
@@ -82,7 +108,6 @@ public class HomeActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    // TODO: Implement needed async tasks to fetch actual data for fragments
     private boolean onNavigationSelected(final MenuItem menuItem) {
         NavController navController =
                 Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -91,25 +116,44 @@ public class HomeActivity extends AppCompatActivity {
                 navController.navigate(R.id.nav_home, getIntent().getExtras());
                 break;
             case R.id.nav_chats:
-                navController.navigate(R.id.nav_chats);
-                break;
-            case R.id.nav_connectionhome:
+                Uri chatUri = new Uri.Builder()
+                        .scheme("https")
+                        .appendPath(getString(R.string.ep_base))
+                        .appendPath(getString(R.string.ep_chat))
+                        .appendPath(getString(R.string.ep_chat_getchats))
+                        .build();
 
-                Uri uri = new Uri.Builder()
+                JSONObject chatInfo = new JSONObject();
+                try {
+                    chatInfo.put("memberid", mArgs.getUserId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                new SendPostAsyncTask.Builder(chatUri.toString(), chatInfo)
+                        .onPostExecute(this::handleChatsOnPostExecute)
+                        .onCancelled(error -> Log.e("CONN_NAV", error))
+                        .addHeaderField("authorization", mArgs.getJwt())
+                        .build().execute();
+
+                break;
+
+            case R.id.nav_connectionhome:
+                Uri connectionUri = new Uri.Builder()
                         .scheme("https")
                         .appendPath(getString(R.string.ep_base))
                         .appendPath(getString(R.string.ep_connections))
                         .appendPath(getString(R.string.ep_connections_get))
                         .build();
 
-                JSONObject info = new JSONObject();
+                JSONObject connInfo = new JSONObject();
                 try {
-                    info.put("memberid", mArgs.getUserId());
+                    connInfo.put("memberid", mArgs.getUserId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                new SendPostAsyncTask.Builder(uri.toString(), info)
+                new SendPostAsyncTask.Builder(connectionUri.toString(), connInfo)
                         .onPostExecute(this::handleConnectionsOnPostExecute)
                         .onCancelled(error -> Log.e("CONN_NAV", error))
                         .addHeaderField("authorization", mArgs.getJwt())
@@ -186,6 +230,63 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    private void handleChatsOnPostExecute(final String result) {
+        //parse JSON
+
+        try {
+            JSONObject root = new JSONObject(result);
+            if (root.has(getString(R.string.keys_json_chats))) {
+                JSONArray data = root.getJSONArray(getString(R.string.keys_json_chats));
+                Chat[] rooms = new Chat[data.length()];
+                for(int i = 0; i < data.length(); i++) {
+                    JSONObject room = data.getJSONObject(i);
+
+                    rooms[i] = new Chat(room.getInt(getString(R.string.keys_json_chats_id)),
+                            room.getString(getString(R.string.keys_json_chats_name)),
+                            room.getString(getString(R.string.keys_json_chats_description)));
+                }
+
+                MobileNavigationDirections.ActionGlobalNavChats chats =
+                        MobileNavigationDirections.actionGlobalNavChats(rooms, mArgs.getJwt(),
+                                mArgs.getUserId());
+                Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(chats);
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("ERROR!", e.getMessage());
+        }
+    }
+
+    private void handleDisplayChatOnPostExecute(final String result) {
+        //parse JSON
+        try {
+            JSONObject root = new JSONObject(result);
+            if (root.has(getString(R.string.keys_json_chats_messages))) {
+                JSONArray data = root.getJSONArray(getString(R.string.keys_json_chats_messages));
+                ChatMessage[] messages = new ChatMessage[data.length()];
+                for(int i = 0; i < data.length(); i++) {
+                    JSONObject message = data.getJSONObject(i);
+
+                    messages[i] = new ChatMessage(message.getString(getString(R.string.keys_json_chatmessage_sender)),
+                            message.getString(getString(R.string.keys_json_chatmessage_timestamp)),
+                            message.getString(getString(R.string.keys_json_chatmessage_message)));
+                }
+                MobileNavigationDirections.ActionGlobalNavChatroom chatroom =
+                        MobileNavigationDirections.actionGlobalNavChatroom(messages, mArgs.getJwt(),
+                                                mArgs.getUserId(), mArgs.getChatMessage().getRoom());
+                Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(chatroom);
+            } else {
+                Log.e("ERROR!", "Couldn't get messages from chat");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("ERROR!", e.getMessage());
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -228,7 +329,7 @@ public class HomeActivity extends AppCompatActivity {
             prefs.edit().remove(getString(R.string.keys_prefs_stay_logged_in)).apply();
 
             //unregister the device from the Pushy servers
-//            Pushy.unregister(HomeActivity.this);
+            Pushy.unregister(HomeActivity.this);
 
             return null;
         }
