@@ -86,7 +86,8 @@ public class HomeFragment extends Fragment {
                 String weatherDescription = weather.getString("description");
 
                 weatherTemp.setText(String.valueOf(tempAsInt));
-                weatherDecrip.setText(weatherDescription);
+                String captialized = weatherDescription.substring(0, 1).toUpperCase() + weatherDescription.substring(1);
+                weatherDecrip.setText(captialized);
 
 
             } catch (JSONException e) {

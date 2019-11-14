@@ -16,17 +16,17 @@
 12    <!-- Pushy Permissions -->
 13
 14    <uses-permission android:name="android.permission.WAKE_LOCK" />
-14-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:77:5-68
-14-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:77:22-65
+14-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:5-68
+14-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:22-65
 15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-15-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:5-79
-15-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:22-76
+15-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:5-79
+15-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:22-76
 16    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-16-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:5-81
-16-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:22-78
+16-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:80:5-81
+16-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:80:22-78
 17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-17-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:80:5-80
-17-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:80:22-78
+17-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:81:5-80
+17-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:81:22-78
 18
 19    <application
 19-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:7:5-73:19
