@@ -39,8 +39,8 @@ public class ConnectionSearchFragment extends Fragment {
     private EditText mUsernameField;
     private EditText mEmailField;
     private Button mSearchButton;
-    RecyclerView searchResults;
-    final ArrayList<Connection> results = new ArrayList<>();
+    private RecyclerView searchResults;
+    final private ArrayList<Connection> results = new ArrayList<>();
 
     private View mWaitScreen;
     private View mWaitBar;

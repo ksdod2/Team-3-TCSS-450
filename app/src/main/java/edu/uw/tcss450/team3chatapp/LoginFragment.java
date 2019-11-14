@@ -238,6 +238,7 @@ public class LoginFragment extends Fragment {
 
                         LoginFragmentDirections.NavActionLoginToHome homeActivity =
                                 LoginFragmentDirections.navActionLoginToHome(userCreds);
+                        Log.d("JWT", root.getString("token"));
                         homeActivity.setJwt(root.getString("token"));
                         homeActivity.setUserId((Integer) root.get("memberid"));
 

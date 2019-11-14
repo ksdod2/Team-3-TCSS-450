@@ -142,7 +142,6 @@ public class HomeActivity extends AppCompatActivity {
                         .onCancelled(error -> Log.e("CONN_NAV", error))
                         .addHeaderField("authorization", mArgs.getJwt())
                         .build().execute();
-
                 break;
 
             case R.id.nav_connectionhome:
