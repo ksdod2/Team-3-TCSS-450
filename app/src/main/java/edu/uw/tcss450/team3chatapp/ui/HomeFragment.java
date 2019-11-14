@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
             String response = "";
             HttpURLConnection urlConnection = null;
             try {
-                URL urlObject = new URL("http://openweathermap.org/data/2.5/weather?q=Tacoma&appid=b6907d289e10d714a6e88b30761fae22&units=imperial");
+                URL urlObject = new URL("https://openweathermap.org/data/2.5/weather?q=Tacoma&appid=b6907d289e10d714a6e88b30761fae22&units=imperial");
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
                 InputStream content = urlConnection.getInputStream();
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
