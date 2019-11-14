@@ -1,22 +1,34 @@
 package edu.uw.tcss450.team3chatapp.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import edu.uw.tcss450.team3chatapp.MyChatMessageRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
-import edu.uw.tcss450.team3chatapp.dummy.DummyMessageContent;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
+import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
+import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
 /**
  * A fragment representing a list of Items.
@@ -26,11 +38,16 @@ import edu.uw.tcss450.team3chatapp.model.ChatMessage;
  */
 public class ChatMessageFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private RecyclerView mChatWindow;
+    private ArrayList<ChatMessage> mMessages;
+    private int mMemberID;
+    private int mChatID;
+    private String mJWT;
+    private String mSendUrl;
+    private EditText mSendField;
+    private Button mSendButton;
+
+    private PushMessageReceiver mPushMessageReciever;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,22 +56,21 @@ public class ChatMessageFragment extends Fragment {
     public ChatMessageFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static ChatMessageFragment newInstance(int columnCount) {
-        ChatMessageFragment fragment = new ChatMessageFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mPushMessageReciever == null) {
+            mPushMessageReciever = new PushMessageReceiver();
+        }
+        IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
+        getActivity().registerReceiver(mPushMessageReciever, iFilter);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+    public void onPause() {
+        super.onPause();
+        if (mPushMessageReciever != null){
+            getActivity().unregisterReceiver(mPushMessageReciever);
         }
     }
 
@@ -63,17 +79,74 @@ public class ChatMessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chatmessage_list, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.list_chatroom);
-        // Set the adapter for the chat message RecyclerView
-        Context context = view.getContext();
-        if (mColumnCount <= 1) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-        }
-        recyclerView.setAdapter(new MyChatMessageRecyclerViewAdapter(DummyMessageContent.ITEMS, mListener));
+        ChatMessageFragmentArgs args = ChatMessageFragmentArgs.fromBundle(getArguments());
+        mMemberID = args.getMemberID();
+        mChatID = args.getChatID();
+        mJWT = args.getJWT();
+        mMessages = new ArrayList(Arrays.asList(args.getMessages()));
+        // MESSAGES APPEAR IN REVERSE, MAY BE FIXABLE IN SERVICE
+        Collections.reverse(mMessages);
+
+        mChatWindow = view.findViewById(R.id.list_chatroom);
+        // Clicking on an individual message does nothing
+        mChatWindow.setAdapter(new MyChatMessageRecyclerViewAdapter(mMessages, null));
+        // Automatically scroll to most recent messages
+        mChatWindow.scrollToPosition(mMessages.size() - 1);
+
+        mSendField = view.findViewById(R.id.et_chatroom_send);
+        mSendButton = view.findViewById(R.id.btn_chatroom_send);
+        mSendButton.setOnClickListener(this::sendMessage);
+
+        mSendUrl = new Uri.Builder()
+                .scheme("https")
+                .appendPath(getString(R.string.ep_base))
+                .appendPath(getString(R.string.ep_chat))
+                .appendPath(getString(R.string.ep_chat_send))
+                .build()
+                .toString();
 
         return view;
+    }
+
+    private void sendMessage(final View tView) {
+        String msg = mSendField.getText().toString();
+        if(msg.equals("")) { // Don't let users send blank messages and clog the room
+            return;
+        }
+        JSONObject body = new JSONObject();
+        try {
+            body.put(getString(R.string.keys_json_connections_memberid_int), mMemberID);
+            body.put(getString(R.string.keys_json_chatmessage_message), msg);
+            body.put(getString(R.string.keys_json_chats_id), mChatID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("ERROR!", e.getMessage());
+        }
+
+        new SendPostAsyncTask.Builder(mSendUrl, body)
+                .onPostExecute(this::handleSendOnPostExecute)
+                .onCancelled(error -> Log.e("CHAT_MESSAGE_NAV", error))
+                .addHeaderField("authorization", mJWT)
+                .build().execute();
+
+        mSendButton.setEnabled(false);
+    }
+
+    private void handleSendOnPostExecute(final String result) {
+        mSendButton.setEnabled(true);
+        try {
+            JSONObject root = new JSONObject(result);
+            if(root.has(getString(R.string.keys_json_login_success_bool)) && root.getBoolean(getString(R.string.keys_json_login_success_bool))) {
+                // Sending was successful, blank chat field
+                mSendField.setText("");
+            } else {
+                Log.e("CHAT_ERR", result);
+                mSendButton.setError("Could not send message, please try again");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("ERROR!", e.getMessage());
+        }
     }
 
     /**
@@ -87,7 +160,27 @@ public class ChatMessageFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(ChatMessage item);
+    }
+
+    private class PushMessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {
+                try {
+                    // Immediately build out new chat message to add to RecyclerView
+                    JSONObject body = new JSONObject(intent.getStringExtra("MESSAGE"));
+                    ChatMessage newMessage = new ChatMessage(intent.getStringExtra("SENDER"),
+                            body.getString("stamp"), body.getString("text"));
+                    mMessages.add(newMessage);
+                    // Update chat and scroll to newest message
+                    mChatWindow.getAdapter().notifyDataSetChanged();
+                    mChatWindow.scrollToPosition(mMessages.size() - 1);
+                } catch (JSONException e) {
+                    Log.e("CHAT_PUSH", e.getMessage());
+                }
+            }
+        }
     }
 }

@@ -18,12 +18,34 @@
         <action
             android:id="@+id/action_chatFragment_to_chatMessageFragment"
             app:destination="@id/nav_chatroom" />
+        <argument
+            android:name="rooms"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Chat[]" />
+        <argument
+            android:name="JWT"
+            app:argType="string" />
+        <argument
+            android:name="memberID"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/nav_chatroom"
         android:name="edu.uw.tcss450.team3chatapp.ui.ChatMessageFragment"
         android:label="Chatroom"
-        tools:layout="@layout/fragment_chatmessage_list" />
+        tools:layout="@layout/fragment_chatmessage_list" >
+        <argument
+            android:name="messages"
+            app:argType="edu.uw.tcss450.team3chatapp.model.ChatMessage[]" />
+        <argument
+            android:name="JWT"
+            app:argType="string" />
+        <argument
+            android:name="memberID"
+            app:argType="integer" />
+        <argument
+            android:name="chatID"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/nav_settings"
         android:name="edu.uw.tcss450.team3chatapp.SettingsFragment"
@@ -86,5 +108,6 @@
             android:id="@+id/action_connectionSearchFragment_to_nav_connectionview"
             app:destination="@id/nav_connectionview" />
     </fragment>
+    <action android:id="@+id/action_global_nav_chats" app:destination="@id/nav_chats" /><action android:id="@+id/action_global_nav_chatroom" app:destination="@id/nav_chatroom"/>
 
 </navigation>
