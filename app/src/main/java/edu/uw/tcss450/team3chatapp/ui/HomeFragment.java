@@ -131,6 +131,7 @@ public class HomeFragment extends Fragment {
 
         weatherIcon = getView().findViewById(R.id.iv_home_weatherIcon);
 
+        
         // format the date and day of week
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
         SimpleDateFormat dayOfWeekFormat = new SimpleDateFormat("EEEE");
