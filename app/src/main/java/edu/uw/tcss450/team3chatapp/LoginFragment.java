@@ -19,8 +19,8 @@ import androidx.navigation.Navigation;
 
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.ChatMessageNotification;
+import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.model.Credentials;
-import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 import me.pushy.sdk.Pushy;
 
 import android.util.Log;
@@ -244,6 +244,7 @@ public class LoginFragment extends Fragment {
                         if (getArguments() != null) {
                             if (getArguments().containsKey("type")) {
                                 if (getArguments().getString("type").equals("msg")) {
+                                    // Go to chat room using information from push notification
                                     try {
                                         JSONObject msg = new JSONObject(getArguments().getString("message"));
                                         ChatMessage pushed = new ChatMessage(getArguments().getString("sender"),
@@ -255,6 +256,22 @@ public class LoginFragment extends Fragment {
                                                 new ChatMessageNotification.Builder(pushed, room).build();
                                         homeActivity.setChatMessage(chat);
                                     } catch(JSONException e) {
+                                        // Couldn't get the notification properly, just give up
+                                        getActivity().finish();
+                                    }
+                                } else if (getArguments().get("type").equals("conn")) {
+                                    // Go to view connection using information from push notification
+                                    try {
+                                        JSONObject info = new JSONObject(getArguments().getString("message"));
+                                        Connection pushed =
+                                                new Connection(info.getInt(getString(R.string.keys_json_connections_memberid_int)),
+                                                        info.getString(getString(R.string.keys_json_connections_firstname_str)),
+                                                        info.getString(getString(R.string.keys_json_connections_lastname_str)),
+                                                        info.getString(getString(R.string.keys_json_connections_username_str)),
+                                                        info.getString(getString(R.string.keys_prefs_email)),
+                                                        0, false);
+                                        homeActivity.setConnection(pushed);
+                                    } catch (JSONException e) {
                                         // Couldn't get the notification properly, just give up
                                         getActivity().finish();
                                     }

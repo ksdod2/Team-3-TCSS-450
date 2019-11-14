@@ -84,7 +84,11 @@ public class HomeActivity extends AppCompatActivity {
                     .onCancelled(error -> Log.e("CHAT_ROOM_NAV", error))
                     .addHeaderField("authorization", mArgs.getJwt())
                     .build().execute();
-
+      } else if (mArgs.getConnection() != null) { // Navigate immediately to view new connection
+            NavController nc = Navigation.findNavController(this, R.id.nav_host_fragment);
+            MobileNavigationDirections.ActionGlobalNavConnectionview connection =
+                    MobileNavigationDirections.actionGlobalNavConnectionview(mArgs.getConnection(), mArgs.getUserId(), mArgs.getJwt());
+            nc.navigate(connection);
         }
         navigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
 

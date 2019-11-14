@@ -56,5 +56,10 @@
             app:argType="edu.uw.tcss450.team3chatapp.model.ChatMessageNotification"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="connection"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Connection"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </activity>
 </navigation>

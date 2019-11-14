@@ -41,11 +41,17 @@ public class Connection implements Serializable, Parcelable {
     }
 
     protected Connection(Parcel in) {
+        mMemberID =in.readByte();
         mFirstName = in.readString();
         mLastName = in.readString();
         mUsername = in.readString();
         mEmail = in.readString();
         mAmSender = in.readByte() != 0;
+        int relation = in.readByte();
+        if (relation == -1)
+            mIsAccepted = Relation.NONE;
+        else
+            mIsAccepted = (relation == 1) ? Relation.ACCEPTED : Relation.UNACCEPTED;
     }
 
     public int getMemberID() { return mMemberID; }
@@ -75,10 +81,13 @@ public class Connection implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mMemberID);
         dest.writeString(mFirstName);
         dest.writeString(mLastName);
         dest.writeString(mUsername);
         dest.writeString(mEmail);
+        dest.writeInt(mAmSender ? 1 : 0);
+        dest.writeInt(0);
     }
 
 }

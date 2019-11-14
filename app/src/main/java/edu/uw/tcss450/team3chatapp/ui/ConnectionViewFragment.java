@@ -53,6 +53,8 @@ public class ConnectionViewFragment extends Fragment {
         mConn = ConnectionViewFragmentArgs.fromBundle(getArguments()).getConnectionDetails();
         mMemberID = ConnectionViewFragmentArgs.fromBundle(getArguments()).getMemberID();
         mJWT = ConnectionViewFragmentArgs.fromBundle(getArguments()).getJWT();
+
+        // All buttons are GONE by default and made visible as needed
         mAccept = view.findViewById(R.id.btn_connection_view_accept);
         mAccept.setVisibility(View.GONE);
         mReject = view.findViewById(R.id.btn_connection_view_reject);
@@ -67,7 +69,7 @@ public class ConnectionViewFragment extends Fragment {
         ((TextView) view.findViewById(R.id.tv_connection_view_username)).setText(mConn.getUsername());
         ((TextView) view.findViewById(R.id.tv_connection_view_email)).setText(mConn.getEmail());
 
-        // Need to make certain buttons and fields be invisible based on connection details
+        // Make needed buttons visible based on connection details
         if(mConn.getIsAccepted() == Connection.Relation.ACCEPTED) { // Existing
             mRemove.setVisibility(View.VISIBLE);
             mRemove.setOnClickListener(this::removeConnection);
