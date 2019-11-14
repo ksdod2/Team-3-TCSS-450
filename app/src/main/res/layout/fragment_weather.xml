@@ -161,13 +161,13 @@
         android:id="@+id/tv_weather_10dayForecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="24dp"
         android:text="@string/tv_weather_10dayForecast"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_weather_24hourForecast" />
+        app:layout_constraintTop_toBottomOf="@+id/sv_weather_24hourForecast" />
 
     <ScrollView
         android:id="@+id/sv_weather_currentConditions"
@@ -432,20 +432,20 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_dayOne"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView24"
+                    android:id="@+id/tv_weather_10dayToday"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayToday"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/iv_weather_10dayToday"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -454,7 +454,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/tv_weather_10dayDescription1"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayOneDescriptionDefault"
@@ -462,7 +462,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tv_weather_10dayTemperatureOne"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayOneTemperatureDefault"
@@ -472,20 +472,20 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_dayTwo"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView25"
+                    android:id="@+id/tv_weather_10dayTwo"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayTwo"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/iv_weather_10dayTwo"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -494,7 +494,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/tv_weather_10dayDescriptionTwo"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daytwoDescriptionDefault"
@@ -502,7 +502,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/tv_weather_10DayTemperatureTwo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10daytwoTemperatureDefault"
@@ -512,20 +512,20 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_dayThree"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView26"
+                    android:id="@+id/tv_weather_10dayThree"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayThree"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/iv_weather_10dayThree"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -534,7 +534,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/tv_weather_10dayDescriptionThree"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayThreeDescriptionDefault"
@@ -542,7 +542,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/textView9Three"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayThreeTemperatureDefault"
@@ -552,22 +552,22 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_dayFour"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/textView27"
+                    android:id="@+id/tv_weather_10dayFour"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayFour"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/iv_weather_10dayFour"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -576,7 +576,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/tv_weather_10dayDescriptionFour"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayFourDescriptionDefault"
@@ -584,7 +584,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/tv_weather_10DayTemperatureFour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayFourTemperatureDefault"
@@ -594,20 +594,20 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_dayFive"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView28"
+                    android:id="@+id/tv_weather_10dayFive"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayFive"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/iv_weather_10dayFive"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -616,7 +616,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/tv_weather_10dayDescriptionFive"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayFiveDescriptionDefault"
@@ -624,7 +624,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/tv_weather_10DayTemperatureFive"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayFiveTemperatureDefault"
@@ -634,20 +634,20 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_daySix"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView29"
+                    android:id="@+id/tv_weather_10daySix"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daySix"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView7"
+                    android:id="@+id/iv_weather_10daySix"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -656,7 +656,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/tv_weather_10dayDescriptionSix"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daySixDescriptionDefault"
@@ -664,7 +664,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/tv_weather_10DayTemperatureSix"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10daySixTemperatureDefault"
@@ -674,20 +674,20 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_daySeven"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView30"
+                    android:id="@+id/tv_weather_10daySeven"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daySeven"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/iv_weather_10daySeven"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -696,7 +696,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView16"
+                    android:id="@+id/tv_weather_10dayDescriptionSeven"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daySevenDescriptionDefault"
@@ -704,7 +704,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView17"
+                    android:id="@+id/tv_weather_10DayTemperatureSeven"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10daySevenTemperatureDefault"
@@ -714,20 +714,20 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_dayEight"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView31"
+                    android:id="@+id/tv_weather_10dayEight"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayEight"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/iv_weather_10dayEight"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -736,7 +736,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView18"
+                    android:id="@+id/tv_weather_10dayDescriptionEight"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayEightDescriptionDefault"
@@ -744,7 +744,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/tv_weather_10DayTemperatureEight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayEightTemperatureDefault"
@@ -754,20 +754,20 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_dayNine"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView32"
+                    android:id="@+id/tv_weather_10dayNine"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayNine"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView10"
+                    android:id="@+id/iv_weather_10dayNine"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -776,7 +776,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView20"
+                    android:id="@+id/tv_weather_10dayDescriptionNine"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayNineDescriptionDefault"
@@ -784,7 +784,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/tv_weather_10DayTemperatureNine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayNineTemperatureDefault"
@@ -794,20 +794,20 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_dayTen"
-                android:layout_width="53dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView33"
+                    android:id="@+id/tv_weather_10dayTen"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayTen"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/imageView11"
+                    android:id="@+id/iv_weather_10dayTen"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -816,7 +816,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView22"
+                    android:id="@+id/tv_weather_10dayDescriptionTen"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayTenDescriptionDefault"
@@ -824,7 +824,7 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/textView23"
+                    android:id="@+id/tv_weather_10DayTemperatureTen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayTenTemperatureDefault"
@@ -835,7 +835,7 @@
     </HorizontalScrollView>
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+        android:id="@+id/sv_weather_24hourForecast"
         android:layout_width="310dp"
         android:layout_height="82dp"
         android:layout_marginTop="24dp"
@@ -845,8 +845,970 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_weather_24hourForecast">
 
         <LinearLayout
+            android:id="@+id/layout_weather_24hourForecast"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hourNow"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hourNow"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hourNowDescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hourNowTemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour2"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour2"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour2DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour2TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour3"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour3"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour3"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription3"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour3DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour3TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour4"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour4"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour4"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription4"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour4DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour4TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour5"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour5"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour5"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription5"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour5DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour5TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour6"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour6"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour6"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour6"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription6"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour6DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour6TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour7"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour7"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour7"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour7"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription7"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour7DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour7TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour8"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour8"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour8"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour8"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription8"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour8DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour8TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour9"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour9"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour9"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour9"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription9"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour9DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour9TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour10"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour10"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour10"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour10"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour10"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription10"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour10DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour10TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour11"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour11"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour11"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour11"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour11"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription11"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour11DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour11TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour12"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour12"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour12"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour12"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour12"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription12"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour12DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour12TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour13"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour13"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour13"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour13"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour13"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription13"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour13DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour13TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour14"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour14"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour14"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour14"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour14"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription14"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour14DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour14TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour15"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour15"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour15"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour15"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour15"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription15"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour15DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour15TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour16"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour16"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour16"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour16"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour16"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription16"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour16DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour16TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour17"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour17"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour17"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour17"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour17"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription17"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour17DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour17TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour18"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour18"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour18"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour18"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour18"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription18"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour18DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour18TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour19"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour19"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour19"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour19"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour19"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription19"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour19DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour19TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour20"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour20"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour20"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour20"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour20"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription20"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour20DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour20TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour21"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour21"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour21"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour21"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour21"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription21"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour21DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature21"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour21TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour22"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour22"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour22"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour22"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour22"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription22"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour22DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour22TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour23"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour23"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour23"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour23"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour23"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription23"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour23DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourTemperature23"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour23TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_weather_hour24"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_weather_24hour24"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour24"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weather_24hour24"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iv_weather_24hour24"
+                    android:src="@mipmap/weather_icon_01"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_24hourDescription24"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="@string/tv_weather_24hour24DescriptionDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_weather_24hour24TemperatureDefault"
+                    android:textAlignment="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+        </LinearLayout>
     </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
