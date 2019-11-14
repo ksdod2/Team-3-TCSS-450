@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-84:12
+ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-85:12
+INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-85:12
+INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-85:12
+INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-85:12
 MERGED from [androidx.navigation:navigation-ui:2.1.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/f0d9dab821b66086c50210254b03cad3/jetified-navigation-ui-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.material:material:1.0.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/dfc68f71dcb5c694d33aee6088a52569/material-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/0f6535481192434497a735269d6a6818/appcompat-1.1.0/AndroidManifest.xml:17:1-24:12
@@ -47,22 +47,22 @@ MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/johnnguyen/.grad
 MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/11a7252c37e2dbe07d6619672685d19e/lifecycle-service-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/d247d1c4230b8e0a43b4abc8496ae5f6/lifecycle-runtime-2.1.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.savedstate:savedstate:1.0.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/f2c66ddda8cb25f7e4e4be86e9c0695e/savedstate-1.0.0/AndroidManifest.xml:17:1-24:12
-INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-84:12
+INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-85:12
+INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-85:12
+INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-85:12
 	package
 		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:4:5-42
 		INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml
-		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-84:12
+		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-85:12
 		INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml
 	xmlns:tools
 		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml
-		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-84:12
+		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:1-85:12
 		INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:2:11-69
@@ -181,21 +181,21 @@ ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main
 	android:name
 		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:68:18-70
 uses-permission#android.permission.WAKE_LOCK
-ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:77:5-68
+ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:5-68
 	android:name
-		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:77:22-65
+		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:22-65
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:5-79
+ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:5-79
 	android:name
-		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:22-76
+		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:22-76
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:5-81
-	android:name
-		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:22-78
-uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:80:5-80
+ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:80:5-81
 	android:name
 		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:80:22-78
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:81:5-80
+	android:name
+		ADDED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:81:22-78
 uses-sdk
 INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml
