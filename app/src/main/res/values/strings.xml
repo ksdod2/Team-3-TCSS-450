@@ -73,8 +73,51 @@
     <string name="tv_weather_sunsetDefault">6 PM</string>
 
     <!--24-hour strings-->
-    <!--10 day strings-->
 
+    <!--10 day strings-->
+    <string name="tv_weather_10dayToday">Today</string>
+    <string name="tv_weather_10dayTwo">Day 2</string>
+    <string name="tv_weather_10dayThree">Day 3</string>
+    <string name="tv_weather_10dayFour">Day 4</string>
+    <string name="tv_weather_10dayFive">Day 5</string>
+    <string name="tv_weather_10daySix">Day 6</string>
+    <string name="tv_weather_10daySeven">Day 7</string>
+    <string name="tv_weather_10dayEight">Day 8</string>
+    <string name="tv_weather_10dayNine">Day 9</string>
+    <string name="tv_weather_10dayTen">Day 10</string>
+    <!--image strings-->
+    <string name="iv_weather_10dayOne">Day 1 Image</string>
+    <string name="iv_weather_10dayTwo">Day 2 Image</string>
+    <string name="iv_weather_10dayThree">Day 3 Image</string>
+    <string name="iv_weather_10dayFour">Day 4 Image</string>
+    <string name="iv_weather_10dayFive">Day 5 Image</string>
+    <string name="iv_weather_10daySix">Day 6 Image</string>
+    <string name="iv_weather_10daySeven">Day 7 Image</string>
+    <string name="iv_weather_10dayEight">Day 8 Image</string>
+    <string name="iv_weather_10dayNine">Day 9 Image</string>
+    <string name="iv_weather_10dayTen">Day 10 Image</string>
+    <!--description strings-->
+    <string name="tv_weather_10dayOneDescriptionDefault">Sunny</string>
+    <string name="tv_weather_10daytwoDescriptionDefault">Sunny</string>
+    <string name="tv_weather_10dayThreeDescriptionDefault">Sunny</string>
+    <string name="tv_weather_10dayFourDescriptionDefault">Sunny</string>
+    <string name="tv_weather_10dayFiveDescriptionDefault">Sunny</string>
+    <string name="tv_weather_10daySixDescriptionDefault">Sunny</string>
+    <string name="tv_weather_10daySevenDescriptionDefault">Sunny</string>
+    <string name="tv_weather_10dayEightDescriptionDefault">Sunny</string>
+    <string name="tv_weather_10dayNineDescriptionDefault">Sunny</string>
+    <string name="tv_weather_10dayTenDescriptionDefault">Sunny</string>
+    <!--temperature strings-->
+    <string name="tv_weather_10dayOneTemperatureDefault">72</string>
+    <string name="tv_weather_10daytwoTemperatureDefault">72</string>
+    <string name="tv_weather_10dayThreeTemperatureDefault">72</string>
+    <string name="tv_weather_10dayFourTemperatureDefault">72</string>
+    <string name="tv_weather_10dayFiveTemperatureDefault">72</string>
+    <string name="tv_weather_10daySixTemperatureDefault">72</string>
+    <string name="tv_weather_10daySevenTemperatureDefault">72</string>
+    <string name="tv_weather_10dayEightTemperatureDefault">72</string>
+    <string name="tv_weather_10dayNineTemperatureDefault">72</string>
+    <string name="tv_weather_10dayTenTemperatureDefault">72</string>
 
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
