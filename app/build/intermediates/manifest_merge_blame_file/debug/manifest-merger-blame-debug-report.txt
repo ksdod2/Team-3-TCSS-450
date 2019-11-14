@@ -5,82 +5,82 @@
 5    android:versionName="1.0" > <!-- End Pushy Permissions -->
 6    <uses-sdk
 7        android:minSdkVersion="24"
-7-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
+7-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml
 8        android:targetSdkVersion="29" />
-8-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml
+8-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml
 9
 10    <uses-permission android:name="android.permission.INTERNET" />
-10-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:5:5-67
-10-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:5:22-64
+10-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:5:5-67
+10-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:5:22-64
 11
 12    <!-- Pushy Permissions -->
 13
 14    <uses-permission android:name="android.permission.WAKE_LOCK" />
-14-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:77:5-68
-14-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:77:22-65
+14-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:77:5-68
+14-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:77:22-65
 15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-15-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:78:5-79
-15-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:78:22-76
+15-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:5-79
+15-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:78:22-76
 16    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-16-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:79:5-81
-16-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:79:22-78
+16-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:5-81
+16-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:79:22-78
 17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-17-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:80:5-80
-17-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:80:22-78
+17-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:80:5-80
+17-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:80:22-78
 18
 19    <application
-19-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:7:5-73:19
+19-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:7:5-73:19
 20        android:allowBackup="true"
-20-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:8:9-35
+20-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:8:9-35
 21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-21-->[androidx.core:core:1.1.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\7fcbd487418f54d1aaab6d8567c92640\core-1.1.0\AndroidManifest.xml:24:18-86
+21-->[androidx.core:core:1.1.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/7fcbd487418f54d1aaab6d8567c92640/core-1.1.0/AndroidManifest.xml:24:18-86
 22        android:debuggable="true"
 23        android:icon="@mipmap/ic_launcher"
-23-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:9:9-43
+23-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:9:9-43
 24        android:label="@string/app_name"
-24-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:10:9-41
+24-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:10:9-41
 25        android:roundIcon="@mipmap/ic_launcher_round"
-25-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:11:9-54
+25-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:11:9-54
 26        android:supportsRtl="true"
-26-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:12:9-35
+26-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:12:9-35
 27        android:testOnly="true"
 28        android:theme="@style/SpookyOrangeTheme" >
-28-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:13:9-49
+28-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:13:9-49
 29        <activity
-29-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:15:9-20:20
+29-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:15:9-20:20
 30            android:name="edu.uw.tcss450.team3chatapp.HomeActivity"
-30-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:16:13-41
+30-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:16:13-41
 31            android:label="@string/app_name"
-31-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:17:13-45
+31-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:17:13-45
 32            android:theme="@style/SpookyOrangeTheme.NoActionBar"
-32-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:18:13-65
+32-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:18:13-65
 33            android:windowSoftInputMode="adjustResize" >
-33-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:19:13-55
+33-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:19:13-55
 34        </activity>
 35        <activity
-35-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:21:9-29:20
+35-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:21:9-29:20
 36            android:name="edu.uw.tcss450.team3chatapp.MainActivity"
-36-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:22:13-41
+36-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:22:13-41
 37            android:label="" >
-37-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:23:13-29
+37-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:23:13-29
 38            <intent-filter>
-38-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:24:13-28:29
+38-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:24:13-28:29
 39                <action android:name="android.intent.action.MAIN" />
-39-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:25:17-69
-39-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:25:25-66
+39-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:25:17-69
+39-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:25:25-66
 40
 41                <category android:name="android.intent.category.LAUNCHER" />
-41-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:27:17-77
-41-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:27:27-74
+41-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:27:17-77
+41-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:27:27-74
 42            </intent-filter>
 43        </activity>
 44
 45        <meta-data
-45-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:31:9-33:57
+45-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:31:9-33:57
 46            android:name="preloaded_fonts"
-46-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:32:13-43
+46-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:32:13-43
 47            android:resource="@array/preloaded_fonts" />
-47-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:33:13-54
+47-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:33:13-54
 48
 49        <!-- Pushy Declarations -->
 50
@@ -88,81 +88,81 @@
 52        <!-- Pushy Notification Receiver -->
 53        <!-- Incoming push notifications will invoke the following BroadcastReceiver -->
 54        <receiver
-54-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:39:9-44:20
+54-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:39:9-44:20
 55            android:name="edu.uw.tcss450.team3chatapp.utils.PushReceiver"
-55-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:39:19-53
+55-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:39:19-53
 56            android:exported="false" >
-56-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:39:54-78
+56-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:39:54-78
 57            <intent-filter>
-57-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:40:13-43:29
+57-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:40:13-43:29
 58
 59                <!-- Do not modify this -->
 60                <action android:name="pushy.me" />
-60-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:42:17-51
-60-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:42:25-48
+60-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:42:17-51
+60-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:42:25-48
 61            </intent-filter>
 62        </receiver>
 63
 64        <!-- Pushy Update Receiver -->
 65        <!-- Do not modify - internal BroadcastReceiver that restarts the listener service -->
 66        <receiver
-66-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:48:9-52:20
+66-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:48:9-52:20
 67            android:name="me.pushy.sdk.receivers.PushyUpdateReceiver"
-67-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:48:19-76
+67-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:48:19-76
 68            android:exported="false" >
-68-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:48:77-101
+68-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:48:77-101
 69            <intent-filter>
-69-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:49:13-51:29
+69-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:49:13-51:29
 70                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-70-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:50:17-84
-70-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:50:25-81
+70-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:50:17-84
+70-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:50:25-81
 71            </intent-filter>
 72        </receiver>
 73
 74        <!-- Pushy Boot Receiver -->
 75        <!-- Do not modify - internal BroadcastReceiver that restarts the listener service -->
 76        <receiver
-76-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:56:9-60:20
+76-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:56:9-60:20
 77            android:name="me.pushy.sdk.receivers.PushyBootReceiver"
-77-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:56:19-74
+77-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:56:19-74
 78            android:exported="false" >
-78-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:56:75-99
+78-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:56:75-99
 79            <intent-filter>
-79-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:57:13-59:29
+79-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:57:13-59:29
 80                <action android:name="android.intent.action.BOOT_COMPLETED" />
-80-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:58:17-78
-80-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:58:25-76
+80-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:58:17-78
+80-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:58:25-76
 81            </intent-filter>
 82        </receiver>
 83
 84        <!-- Pushy Socket Service -->
 85        <!-- Do not modify - internal service -->
 86        <service android:name="me.pushy.sdk.services.PushySocketService" />
-86-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:64:9-75
-86-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:64:18-73
+86-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:64:9-75
+86-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:64:18-73
 87
 88        <!-- Pushy Job Service (added in Pushy SDK 1.0.35) -->
 89        <!-- Do not modify - internal service -->
 90        <service
-90-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:68:9-70:39
+90-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:68:9-70:39
 91            android:name="me.pushy.sdk.services.PushyJobService"
-91-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:68:18-70
+91-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:68:18-70
 92            android:exported="true"
-92-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:70:13-36
+92-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:70:13-36
 93            android:permission="android.permission.BIND_JOB_SERVICE" />
-93-->F:\HDD Documents\SchoolStuff\CompSci\css450\Team-3-TCSS-450\app\src\main\AndroidManifest.xml:69:13-69
+93-->/Users/johnnguyen/AndroidStudioProjects/Team-3-TCSS-4507/app/src/main/AndroidManifest.xml:69:13-69
 94
 95        <!-- End Pushy Declarations -->
 96        <provider
-96-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:23:9-27:43
+96-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/03fa1324d44012e94551a6beff7bbc1b/lifecycle-process-2.0.0/AndroidManifest.xml:23:9-27:43
 97            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-97-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:24:13-79
+97-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/03fa1324d44012e94551a6beff7bbc1b/lifecycle-process-2.0.0/AndroidManifest.xml:24:13-79
 98            android:authorities="edu.uw.tcss450.team3chatapp.lifecycle-process"
-98-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:25:13-69
+98-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/03fa1324d44012e94551a6beff7bbc1b/lifecycle-process-2.0.0/AndroidManifest.xml:25:13-69
 99            android:exported="false"
-99-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:26:13-37
+99-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/03fa1324d44012e94551a6beff7bbc1b/lifecycle-process-2.0.0/AndroidManifest.xml:26:13-37
 100            android:multiprocess="true" />
-100-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Kameron\.gradle\caches\transforms-2\files-2.1\03fa1324d44012e94551a6beff7bbc1b\lifecycle-process-2.0.0\AndroidManifest.xml:27:13-40
+100-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/johnnguyen/.gradle/caches/transforms-2/files-2.1/03fa1324d44012e94551a6beff7bbc1b/lifecycle-process-2.0.0/AndroidManifest.xml:27:13-40
 101    </application>
 102
 103</manifest>

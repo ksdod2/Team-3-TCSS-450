@@ -26,8 +26,8 @@ import edu.uw.tcss450.team3chatapp.R;
 
 public class HomeFragment extends Fragment {
 
-    private TextView weatherBar;
-    private String temp;
+    private TextView weatherTemp;
+    private TextView weatherDecrip;
 
     class Weather extends AsyncTask<String,Void,String> {
 
@@ -80,7 +80,10 @@ public class HomeFragment extends Fragment {
 
                 String temp = main.getString("temp");
                 Log.i("TEMP = ", temp);
-                weatherBar.setText(temp);
+                String weatherDescription = weather.getString("description");
+
+                weatherTemp.setText(temp);
+                weatherDecrip.setText(weatherDescription);
 
 
             } catch (JSONException e) {
@@ -110,8 +113,8 @@ public class HomeFragment extends Fragment {
         HomeActivityArgs args = HomeActivityArgs.fromBundle(getArguments());
         TextView greeting = getView().findViewById(R.id.tv_home_greeting);
 
-        weatherBar = getView().findViewById(R.id.tv_home_temperature);
-        weatherBar.setText(temp);
+        weatherDecrip = getView().findViewById(R.id.tv_home_status);
+        weatherTemp = getView().findViewById(R.id.tv_home_temperature);
         greeting.setText("Welcome, " + args.getCredentials().getFirstName() + " " + args.getCredentials().getLastName() + "!");
 
 //            weatherAPI = weather.execute("http://openweathermap.org/data/2.5/weather?q=Tacoma&appid=b6907d289e10d714a6e88b30761fae22&units=imperial").get();
