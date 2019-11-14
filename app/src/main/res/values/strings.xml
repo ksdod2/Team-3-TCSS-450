@@ -29,12 +29,10 @@
     <string name="tv_home_currentCity">Tacoma</string>
     <string name="tv_home_currentState">Washington</string>
     <string name="tv_home_tempC">22</string>
-    <string name="tv_home_tempF">72</string>
-    <string name="tv_home_status">Sunny</string>
-    <string name="tv_home_month">November</string>
-    <string name="tv_home_day">7</string>
-    <string name="tv_home_year">2019</string>
-    <string name="tv_home_dayOfWeek">Thursday</string>
+    <string name="tv_home_tempF"></string>
+    <string name="tv_home_status"></string>
+    <string name="tv_home_date"></string>
+    <string name="tv_home_dayOfWeek"></string>
     <string name="tv_home_f">°F</string>
     <string name="tv_home_c">°C</string>
 

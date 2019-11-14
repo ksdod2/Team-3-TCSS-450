@@ -60,33 +60,11 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/tv_home_month"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_home_date"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/tv_home_month"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="24sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/tv_home_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/tv_home_day"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="24sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/tv_home_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/tv_home_year"
+                    android:text="@string/tv_home_date"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="24sp"

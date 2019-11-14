@@ -20,6 +20,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import edu.uw.tcss450.team3chatapp.HomeActivityArgs;
 import edu.uw.tcss450.team3chatapp.R;
@@ -115,11 +117,30 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         HomeActivityArgs args = HomeActivityArgs.fromBundle(getArguments());
+
+        // calendar for current time
+        Calendar calendar = Calendar.getInstance();
+
         TextView greeting = getView().findViewById(R.id.tv_home_greeting);
+        TextView date = getView().findViewById((R.id.tv_home_date));
+        TextView dayOfWeek = getView().findViewById((R.id.tv_home_dayOfWeek));
 
         weatherDecrip = getView().findViewById(R.id.tv_home_status);
         weatherTemp = getView().findViewById(R.id.tv_home_temperature);
+
+        // format the date and day of week
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat dayOfWeekFormat = new SimpleDateFormat("EEEE");
+
+        String dateString = dateFormat.format(calendar.getTime());
+        String dayOfWeekString = dayOfWeekFormat.format((calendar.getTime()));
+
+        // set greeting message with credentials
         greeting.setText("Welcome, " + args.getCredentials().getFirstName() + " " + args.getCredentials().getLastName() + "!");
+
+        // set current date and day of week
+        date.setText(dateString);
+        dayOfWeek.setText(dayOfWeekString);
 
 //            weatherAPI = weather.execute("http://openweathermap.org/data/2.5/weather?q=Tacoma&appid=b6907d289e10d714a6e88b30761fae22&units=imperial").get();
 
