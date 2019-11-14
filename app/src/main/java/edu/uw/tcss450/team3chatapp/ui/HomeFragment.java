@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ public class HomeFragment extends Fragment {
 
     private TextView weatherTemp;
     private TextView weatherDecrip;
+    private ImageView weatherIcon;
 
     class Weather extends AsyncTask<String,Void,String> {
 
@@ -90,6 +92,8 @@ public class HomeFragment extends Fragment {
                 String captialized = weatherDescription.substring(0, 1).toUpperCase() + weatherDescription.substring(1);
                 weatherDecrip.setText(captialized);
 
+                weatherIcon.setImageResource(R.mipmap.weather_icon_08);
+
 
             } catch (JSONException e) {
                 Log.e("WRONG", "BAD API");
@@ -103,10 +107,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        //******NEW********
 
         new Weather().execute();
-        //******NEW*********
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -127,6 +129,8 @@ public class HomeFragment extends Fragment {
         weatherDecrip = getView().findViewById(R.id.tv_home_status);
         weatherTemp = getView().findViewById(R.id.tv_home_temperature);
 
+//        weatherIcon = getView().findViewById(R.id.iv_home_weatherIcon);
+
         // format the date and day of week
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
         SimpleDateFormat dayOfWeekFormat = new SimpleDateFormat("EEEE");
@@ -141,7 +145,6 @@ public class HomeFragment extends Fragment {
         date.setText(dateString);
         dayOfWeek.setText(dayOfWeekString);
 
-//            weatherAPI = weather.execute("http://openweathermap.org/data/2.5/weather?q=Tacoma&appid=b6907d289e10d714a6e88b30761fae22&units=imperial").get();
 
     }
 
