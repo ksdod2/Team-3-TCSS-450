@@ -161,13 +161,13 @@
         android:id="@+id/tv_weather_10dayForecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="120dp"
         android:text="@string/tv_weather_10dayForecast"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sv_weather_24hourForecast" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_weather_24hourForecast" />
 
     <ScrollView
         android:id="@+id/sv_weather_currentConditions"
@@ -412,22 +412,6 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
-
-    <ScrollView
-        android:id="@+id/sv_weather_24hourForecast"
-        android:layout_width="310dp"
-        android:layout_height="82dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_weather_24hourForecast">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
     </ScrollView>
 
     <HorizontalScrollView
@@ -848,6 +832,21 @@
                     android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="310dp"
+        android:layout_height="82dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_weather_24hourForecast">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
     </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
