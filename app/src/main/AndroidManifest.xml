@@ -72,6 +72,7 @@
         <!-- End Pushy Declarations -->
     </application>
 
+    
     <!-- Pushy Permissions -->
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
