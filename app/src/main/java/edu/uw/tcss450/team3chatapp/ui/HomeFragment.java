@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
             String response = "";
             HttpURLConnection urlConnection = null;
             try {
-                URL urlObject = new URL("http://openweathermap.org/data/2.5/weather?q=Tacoma&appid=b6907d289e10d714a6e88b30761fae22&units=imperial");
+                URL urlObject = new URL("https://openweathermap.org/data/2.5/weather?q=Tacoma&appid=b6907d289e10d714a6e88b30761fae22&units=imperial");
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
                 InputStream content = urlConnection.getInputStream();
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
@@ -79,11 +79,13 @@ public class HomeFragment extends Fragment {
                 JSONObject wind = jsonObj.getJSONObject("wind");
                 JSONObject weather = jsonObj.getJSONArray("weather").getJSONObject(0);
 
-                String temp = main.getString("temp");
-                Log.i("TEMP = ", temp);
+                String tempAsStr = main.getString("temp");
+                double tempAsDouble = Double.parseDouble(tempAsStr);
+                int tempAsInt = (int) tempAsDouble;
+                Log.i("TEMP = ", tempAsStr);
                 String weatherDescription = weather.getString("description");
 
-                weatherTemp.setText(temp);
+                weatherTemp.setText(String.valueOf(tempAsInt));
                 weatherDecrip.setText(weatherDescription);
 
 
