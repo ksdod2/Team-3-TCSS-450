@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
 
+            
             String response = "";
             HttpURLConnection urlConnection = null;
             try {
