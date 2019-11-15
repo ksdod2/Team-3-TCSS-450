@@ -2,7 +2,6 @@ package edu.uw.tcss450.team3chatapp.ui;
 
 
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,13 +16,9 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.net.URI;
 
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Connection;
-import edu.uw.tcss450.team3chatapp.model.Credentials;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
 /**
@@ -70,15 +65,15 @@ public class ConnectionViewFragment extends Fragment {
         ((TextView) view.findViewById(R.id.tv_connection_view_email)).setText(mConn.getEmail());
 
         // Make needed buttons visible based on connection details
-        if(mConn.getIsAccepted() == Connection.Relation.ACCEPTED) { // Existing
+        if(mConn.getRelation() == Connection.Relation.ACCEPTED) { // Existing
             mRemove.setVisibility(View.VISIBLE);
             mRemove.setOnClickListener(this::removeConnection);
             mStatus.setText(R.string.tv_status_accepted);
-        } else if (mConn.getIsAccepted() == Connection.Relation.UNACCEPTED && mConn.amSender()) { // Sent
+        } else if (mConn.getRelation() == Connection.Relation.UNACCEPTED && mConn.amSender()) { // Sent
             mRemove.setVisibility(View.VISIBLE);
             mRemove.setOnClickListener(this::removeConnection);
             mStatus.setText(R.string.tv_status_sent);
-        } else if(mConn.getIsAccepted() == Connection.Relation.UNACCEPTED && !mConn.amSender()) { // Received
+        } else if(mConn.getRelation() == Connection.Relation.UNACCEPTED && !mConn.amSender()) { // Received
             mAccept.setVisibility(View.VISIBLE);
             mReject.setVisibility(View.VISIBLE);
             mAccept.setOnClickListener(this::acceptConnection);

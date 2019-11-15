@@ -15,9 +15,10 @@ import java.util.List;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Connection} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
  */
-public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<MyConnectionRecyclerViewAdapter.ViewHolder> {
+public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int SEARCH_RESULT = 0;
+    private static final int EXISTING_CONTACT = 1;
 
     private final List<Connection> mConnections;
     private final OnListFragmentInteractionListener mListener;
@@ -28,26 +29,35 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<MyConn
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_connection, parent, false);
-        return new ViewHolder(view);
+    public int getItemViewType(int position) {
+        if(mConnections.get(position).getRelation() == Connection.Relation.NONE)
+            return SEARCH_RESULT;
+        else return EXISTING_CONTACT;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mConnections.get(position);
-        holder.mNameView.setText(mConnections.get(position).getFirstName() + " " + mConnections.get(position).getLastName());
-        holder.mUsername.setText(mConnections.get(position).getUsername());
-        holder.mEmail.setText(mConnections.get(position).getEmail());
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        if(viewType == EXISTING_CONTACT) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_connection, parent, false);
+            return new ExistingViewHolder(view);
+        }
+        else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_connection_search_result, parent, false);
+            return new SearchViewHolder(view);
+        }
 
-        holder.mView.setOnClickListener(v -> {
-            if (null != mListener) {
-                // Notify the active callbacks interface (the activity, if the
-                // fragment is attached to one) that an item has been selected.
-                mListener.onListFragmentInteraction(holder.mItem);
-            }
-        });
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == EXISTING_CONTACT) {
+            ((ExistingViewHolder) holder).setInfo(mConnections.get(position));
+        } else {
+            ((SearchViewHolder) holder).setInfo(mConnections.get(position));
+        }
     }
 
     @Override
@@ -55,14 +65,14 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<MyConn
         return mConnections.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ExistingViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mNameView;
         public final TextView mUsername;
         public final TextView mEmail;
         public Connection mItem;
 
-        public ViewHolder(View view) {
+        public ExistingViewHolder(View view) {
             super(view);
             mView = view;
             mNameView = view.findViewById(R.id.tv_connection_list_name);
@@ -74,5 +84,58 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<MyConn
         public String toString() {
             return super.toString() + " '" + mUsername.getText() + "'";
         }
+
+        public void setInfo(Connection item) {
+            mItem = item;
+            mNameView.setText(item.getFirstName() + " " + item.getLastName());
+            mUsername.setText(item.getUsername());
+            mEmail.setText(item.getEmail());
+
+            mView.setOnClickListener(v -> {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onListFragmentInteraction(mItem);
+                }
+            });
+        }
+    }
+
+    public class SearchViewHolder extends RecyclerView.ViewHolder {
+        public final View mView;
+        public final TextView mNameView;
+        public final TextView mUsername;
+        public final TextView mEmail;
+        public Connection mItem;
+
+        public SearchViewHolder(View view) {
+            super(view);
+            mView = view;
+            mNameView = view.findViewById(R.id.tv_connectionsearch_list_name);
+            mUsername = view.findViewById(R.id.tv_connectionsearch_list_username);
+            mEmail = view.findViewById(R.id.tv_connectionsearch_list_email);
+        }
+
+
+        @Override
+        public String toString() {
+            return super.toString() + " '" + mUsername.getText() + "'";
+        }
+
+        public void setInfo(Connection item) {
+            mItem = item;
+            mNameView.setText(item.getFirstName() + " " + item.getLastName());
+            mUsername.setText(item.getUsername());
+            mEmail.setText(item.getEmail());
+
+            mView.setOnClickListener(v -> {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onListFragmentInteraction(mItem);
+                }
+            });
+        }
+
     }
 }

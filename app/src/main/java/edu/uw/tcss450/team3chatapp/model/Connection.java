@@ -59,7 +59,7 @@ public class Connection implements Serializable, Parcelable {
     public String getLastName() { return mLastName; }
     public String getUsername() { return mUsername; }
     public String getEmail() { return mEmail; }
-    public Relation getIsAccepted() { return mIsAccepted; }
+    public Relation getRelation() { return mIsAccepted; }
     public boolean amSender() { return mAmSender; }
 
     public static final Creator<Connection> CREATOR = new Creator<Connection>() {

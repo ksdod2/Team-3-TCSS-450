@@ -144,7 +144,7 @@ public class ConnectionSearchFragment extends Fragment {
                             jsonConn.getString(getString(R.string.keys_json_connections_username_str)),
                             jsonConn.getString(getString(R.string.keys_json_connections_email_str)),
                             jsonConn.optInt(getString(R.string.keys_json_connections_verified_int), -1),
-                            jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mMemberID));
+                            false));
                 }
                 searchResults.getAdapter().notifyDataSetChanged();
 
