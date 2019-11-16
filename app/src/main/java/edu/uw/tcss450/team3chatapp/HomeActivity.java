@@ -1,5 +1,6 @@
 package edu.uw.tcss450.team3chatapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
@@ -48,7 +50,6 @@ public class HomeActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private HomeActivityArgs mArgs;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,16 +63,14 @@ public class HomeActivity extends AppCompatActivity {
             mPrefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.AppTheme).apply();
             ThemeChanger.setThemeOnActivityCreation(this, R.style.AppTheme);
         }
-
         setContentView(R.layout.activity_home);
+
+        // Setup Navigation Elements
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        mArgs = HomeActivityArgs.fromBundle(getIntent().getExtras());
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        // Passing each menu ID as a set of Ids because each menu should be considered as top level destination.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_chats, R.id.nav_connectionhome, R.id.nav_weather)
                 .setDrawerLayout(drawer)
@@ -80,7 +79,10 @@ public class HomeActivity extends AppCompatActivity {
         navController.setGraph(R.navigation.nav_graph_home, getIntent().getExtras());
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        if(mArgs.getChatMessage() != null) { // Navigate immediately to chatroom of pushed message
+
+        mArgs = HomeActivityArgs.fromBundle(Objects.requireNonNull(getIntent().getExtras()));
+        // Check for unread messages; Navigate immediately to chatroom of pushed message
+        if(mArgs.getChatMessage() != null) {
             Uri chatUri = new Uri.Builder()
                     .scheme("https")
                     .appendPath(getString(R.string.ep_base))
@@ -100,7 +102,9 @@ public class HomeActivity extends AppCompatActivity {
                     .onCancelled(error -> Log.e("CHAT_ROOM_NAV", error))
                     .addHeaderField("authorization", mArgs.getJwt())
                     .build().execute();
-      } else if (mArgs.getConnection() != null) { // Navigate immediately to view new connection
+
+        // Check for new connections; Navigate immediately to view new connection
+        } else if (mArgs.getConnection() != null) {
             NavController nc = Navigation.findNavController(this, R.id.nav_host_fragment);
             MobileNavigationDirections.ActionGlobalNavConnectionview connection =
                     MobileNavigationDirections.actionGlobalNavConnectionview(mArgs.getConnection(), mArgs.getUserId(), mArgs.getJwt());
@@ -124,8 +128,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
     private boolean onNavigationSelected(final MenuItem menuItem) {
@@ -248,7 +251,7 @@ public class HomeActivity extends AppCompatActivity {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR!", e.getMessage());
+            Log.e("ERROR!", Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -277,7 +280,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR!", e.getMessage());
+            Log.e("ERROR!", Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -297,7 +300,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 MobileNavigationDirections.ActionGlobalNavChatroom chatroom =
                         MobileNavigationDirections.actionGlobalNavChatroom(messages, mArgs.getJwt(),
-                                                mArgs.getUserId(), mArgs.getChatMessage().getRoom());
+                                                mArgs.getUserId(), Objects.requireNonNull(mArgs.getChatMessage()).getRoom());
                 Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(chatroom);
             } else {
@@ -305,7 +308,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR!", e.getMessage());
+            Log.e("ERROR!", Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -313,7 +316,6 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            // TODO: Implement theme changes and other potential options under settings option
             case R.id.action_settings:
                 Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.nav_settings);
                 break;
@@ -331,6 +333,7 @@ public class HomeActivity extends AppCompatActivity {
     /**
      * Performs asynchronous tasks associated with logging out of the application
      */
+    @SuppressLint("StaticFieldLeak")
     class DeleteTokenAsyncTask extends AsyncTask<Void, Void, Void> {
 
         @Override

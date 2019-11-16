@@ -150,22 +150,11 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/tv_home_city"
+                android:id="@+id/tv_home_citycountry"
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/tv_home_currentCity"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:textStyle="italic" />
-
-            <TextView
-                android:id="@+id/tv_home_state"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/tv_home_currentState"
+                android:text="@string/tv_home_current_citycountry"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"

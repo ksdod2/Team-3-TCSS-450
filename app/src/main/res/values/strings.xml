@@ -26,8 +26,7 @@
 
     <!--home fragment strings-->
     <string name="tv_home_weatherMessage">Weather Forecast</string>
-    <string name="tv_home_currentCity">Tacoma</string>
-    <string name="tv_home_currentState">Washington</string>
+    <string name="tv_home_current_citycountry">London, GB</string>
     <string name="tv_home_tempC">22</string>
     <string name="tv_home_tempF"></string>
     <string name="tv_home_status"></string>
@@ -269,6 +268,9 @@
     <string name="et_connectionsearch_email">Email</string>
     <string name="et_connectionsearch_name_error">Please input both a first and last name.</string>
     <string name="et_connectionsearch_general_error">Please input a valid search term.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

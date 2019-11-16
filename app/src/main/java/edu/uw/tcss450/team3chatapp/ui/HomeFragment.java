@@ -1,5 +1,6 @@
 package edu.uw.tcss450.team3chatapp.ui;
 
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,7 @@ import java.util.Objects;
 import edu.uw.tcss450.team3chatapp.HomeActivityArgs;
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Credentials;
+import edu.uw.tcss450.team3chatapp.model.LocationViewModel;
 import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
 
 public class HomeFragment extends Fragment {
@@ -31,11 +33,11 @@ public class HomeFragment extends Fragment {
     private TextView mWeatherTemp;
     private TextView mWeatherDescription;
     private ImageView mWeatherIcon;
+    private TextView mCityCountry;
+    private Location mLocation;
 
     //TODO remove hard coding for Tacoma when ready
-    private String mLat = "47.25288"; //for header param "lat"
-    private String mLon = "-122.44429"; //for header param "lon"
-    private String mCityID = "5812944"; //for header param "id"
+    private int mCityID; //for header param "id"
     private String mCityName = "Tacoma"; //for header param "q"
     private String mUnits = "imperial"; //for header param "units" (metric | imperial)
     private String mAPIkey; //for header param "appid"
@@ -63,12 +65,17 @@ public class HomeFragment extends Fragment {
         // Get credentials from HomeActivityArgs
         Credentials credentials = HomeActivityArgs.fromBundle(Objects.requireNonNull(getArguments())).getCredentials();
 
+        // Get last known device location
+        LocationViewModel model = LocationViewModel.getFactory().create(LocationViewModel.class);
+        mLocation = model.getCurrentLocation().getValue();
+
         // calendar for current time
         Calendar calendar = Calendar.getInstance();
 
         mWeatherDescription = Objects.requireNonNull(getView()).findViewById(R.id.tv_home_status);
         mWeatherTemp = getView().findViewById(R.id.tv_home_temperature);
         mWeatherIcon = getView().findViewById(R.id.iv_home_weatherIcon);
+        mCityCountry = getView().findViewById(R.id.tv_home_citycountry);
 
         TextView greeting = Objects.requireNonNull(getView()).findViewById(R.id.tv_home_greeting);
         TextView date = getView().findViewById((R.id.tv_home_date));
@@ -94,29 +101,34 @@ public class HomeFragment extends Fragment {
     }
 
     private void populateWeatherData() {
-        Uri uri = new Uri.Builder()
-                .scheme("https")
-                .authority(getString(R.string.ep_weather_base))
-                .appendPath(getString(R.string.ep_weather_data))
-                .appendPath(getString(R.string.ep_weather_ver))
-                .appendPath(getString(R.string.ep_weather_weather))
-                //Location can be passed in 3 ways:
-                //1. City Name (query param "q"):
-                .appendQueryParameter("q", mCityName)
-                //2. City ID (query param "id"):
-                //.appendQueryParameter("id", mCityID)
-                //3. Lat & Lon (query params "lat" & "lon"):
-                //.appendQueryParameter("lat", mLat)
-                //.appendQueryParameter("lon", mLon)
-                .appendQueryParameter("appid", getString(R.string.api_key_openweathermap))
-                .appendQueryParameter("units", mUnits)
-                .build();
 
-        new GetAsyncTask.Builder(uri.toString())
-                .onPreExecute(this::weatherOnPre)
-                .onCancelled(this::weatherOnCancel)
-                .onPostExecute(this::weatherOnPost)
-                .build().execute();
+        if(mLocation != null) {
+            Uri uri = new Uri.Builder()
+                    .scheme("https")
+                    .authority(getString(R.string.ep_weather_base))
+                    .appendPath(getString(R.string.ep_weather_data))
+                    .appendPath(getString(R.string.ep_weather_ver))
+                    .appendPath(getString(R.string.ep_weather_weather))
+                    //Location can be passed in 3 ways:
+                    //1. City Name (query param "q"):
+                    //.appendQueryParameter("q", mCityName)
+                    //2. City ID (query param "id"):
+                    //.appendQueryParameter("id", mCityID)
+                    //3. Lat & Lon (query params "lat" & "lon"):
+                    .appendQueryParameter("lat", Double.toString(mLocation.getLatitude()))
+                    .appendQueryParameter("lon", Double.toString(mLocation.getLongitude()))
+                    .appendQueryParameter("appid", getString(R.string.api_key_openweathermap))
+                    .appendQueryParameter("units", mUnits)
+                    .build();
+
+            new GetAsyncTask.Builder(uri.toString())
+                    .onPreExecute(this::weatherOnPre)
+                    .onCancelled(this::weatherOnCancel)
+                    .onPostExecute(this::weatherOnPost)
+                    .build().execute();
+        } else {
+            Log.d("WEATHER_URI", "location is null");
+        }
     }
 
     private void weatherOnPre() {
@@ -136,17 +148,20 @@ public class HomeFragment extends Fragment {
         //parse JSON
         try {
             JSONObject root = new JSONObject(theResult);
-            if(root.has("main") && root.has("weather")) {
+            if(root.has("main") && root.has("weather") && root.has("sys") && root.has("name")) {
+                JSONObject sys = root.getJSONObject("sys");
                 JSONObject main = root.getJSONObject("main");
                 JSONObject weather = root.getJSONArray("weather").getJSONObject(0);
 
                 int temp = (int) Double.parseDouble(main.getString("temp"));
                 String weatherDesc = weather.getString("description").substring(0, 1).toUpperCase() +
                                      weather.getString("description").substring(1);
+                String cityPlusCountry = root.getString("name") + ", " + sys.getString("country");
 
                 mWeatherTemp.setText(String.valueOf(temp));
                 mWeatherDescription.setText(weatherDesc);
                 mWeatherIcon.setImageResource(R.mipmap.weather_icon_08);
+                mCityCountry.setText(cityPlusCountry);
             } else {
                 Log.d("WEATHER_POST", "main or weather missing in response: " + root.toString());
             }
