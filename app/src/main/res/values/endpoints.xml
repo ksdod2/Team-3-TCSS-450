@@ -21,4 +21,11 @@
     <string name="ep_connections_confirm">confirm</string>
     <string name="ep_connections_get">get</string>
     <string name="ep_connections_search">search</string>
+
+    <!-- Openweathermap.org endpoints -->
+    <string name="ep_weather_base">openweathermap.org</string>
+    <string name="ep_weather_data">data</string>
+    <string name="ep_weather_ver">2.5</string>
+    <string name="ep_weather_weather">weather</string>
+    <string name="ep_weather_forecast">forecast</string>
 </resources>
