@@ -1,6 +1,5 @@
 package edu.uw.tcss450.team3chatapp;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.PopupMenu;
+import android.widget.RadioGroup;
 
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
 
@@ -46,6 +46,19 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
 
         FrameLayout themeOption = getView().findViewById(R.id.frame_settings_theme);
         themeOption.setOnClickListener(this::showThemeChangePopup);
+
+        RadioGroup tempUnitOptions = getView().findViewById(R.id.rg_settings_temp);
+        if(!mPrefs.contains(getString(R.string.keys_prefs_tempunit))) {
+            tempUnitOptions.check(R.id.rb_settings_f);
+            mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "imperial").apply();
+        } else {
+            if("imperial".equals(mPrefs.getString(getString(R.string.keys_prefs_tempunit), ""))) {
+                tempUnitOptions.check(R.id.rb_settings_f);
+            } else {
+                tempUnitOptions.check(R.id.rb_settings_c);
+            }
+        }
+        tempUnitOptions.setOnCheckedChangeListener(this::changeTempUnits);
     }
 
     private void showThemeChangePopup(final View theView) {
@@ -79,5 +92,16 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
     private void updateTheme(int theThemeId) {
         mPrefs.edit().putInt(getString(R.string.keys_prefs_theme), theThemeId).apply();
         ThemeChanger.applyChange(getActivity());
+    }
+
+    private void changeTempUnits(RadioGroup radioGroup, int newlyCheckedButton) {
+        switch(newlyCheckedButton) {
+            case R.id.rb_settings_f:
+                mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "imperial").apply();
+                break;
+            case R.id.rb_settings_c:
+                mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "metric").apply();
+                break;
+        }
     }
 }

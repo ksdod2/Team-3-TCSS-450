@@ -26,14 +26,7 @@
 
     <!--home fragment strings-->
     <string name="tv_home_weatherMessage">Weather Forecast</string>
-    <string name="tv_home_current_citycountry">London, GB</string>
-    <string name="tv_home_tempC">22</string>
-    <string name="tv_home_tempF"></string>
-    <string name="tv_home_status"></string>
-    <string name="tv_home_date"></string>
-    <string name="tv_home_dayOfWeek"></string>
-    <string name="tv_home_f">°F</string>
-    <string name="tv_home_c">°C</string>
+    <string name="tv_home_degree">°</string>
 
     <!--weather fragment strings-->
     <string name="tv_weather_weatherHub">WeatherHub</string>
@@ -271,6 +264,4 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
 </resources>

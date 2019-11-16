@@ -64,7 +64,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/tv_home_date"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="24sp"
@@ -76,7 +75,6 @@
                 android:id="@+id/tv_home_dayOfWeek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/tv_home_dayOfWeek"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="22sp"
@@ -100,7 +98,6 @@
                 android:layout_width="51dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/tv_home_tempF"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="72sp"
@@ -108,11 +105,20 @@
 
             <TextView
                 android:id="@+id/tv_home_degree"
-                android:layout_width="45dp"
+                android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/tv_home_f"
-                android:textAlignment="center"
+                android:text="@string/tv_home_degree"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="72sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tv_home_unit"
+                android:layout_width="16dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:textColor="@android:color/black"
                 android:textSize="72sp"
                 android:textStyle="italic" />
@@ -122,8 +128,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:contentDescription="@string/tv_home_weatherMessage"
-                app:srcCompat="@mipmap/weather_icon_01" />
+                android:contentDescription="@string/tv_home_weatherMessage" />
 <!--                app:srcCompat="@mipmap/weather_icon_01" /> -->
 
         </LinearLayout>
@@ -132,7 +137,6 @@
             android:id="@+id/tv_home_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tv_home_status"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="22sp"
@@ -154,7 +158,6 @@
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/tv_home_current_citycountry"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"

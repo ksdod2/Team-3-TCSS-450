@@ -1,5 +1,7 @@
 package edu.uw.tcss450.team3chatapp.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,11 +37,11 @@ public class HomeFragment extends Fragment {
     private ImageView mWeatherIcon;
     private TextView mCityCountry;
     private Location mLocation;
+    private String mUnits; //for header param "units" (metric | imperial)
 
-    //TODO remove hard coding for Tacoma when ready
+    //MIGHT need once custom locations are enabled
     private int mCityID; //for header param "id"
-    private String mCityName = "Tacoma"; //for header param "q"
-    private String mUnits = "imperial"; //for header param "units" (metric | imperial)
+    private String mCityName; //for header param "q"
     private String mAPIkey; //for header param "appid"
 
     @Override
@@ -62,24 +64,43 @@ public class HomeFragment extends Fragment {
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
+        //Get shared preferences for preferred temperature units
+        SharedPreferences prefs = Objects.requireNonNull(getActivity())
+                .getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+        if(prefs.contains(getString(R.string.keys_prefs_tempunit))) {
+            mUnits = prefs.getString(getString(R.string.keys_prefs_tempunit), "imperial");
+        } else { //Otherwise set units to default (imperial)
+            mUnits = "imperial";
+            prefs.edit().putString(getString(R.string.keys_prefs_tempunit), "imperial").apply();
+        }
+
         // Get credentials from HomeActivityArgs
         Credentials credentials = HomeActivityArgs.fromBundle(Objects.requireNonNull(getArguments())).getCredentials();
+
+        // calendar for current time
+        Calendar calendar = Calendar.getInstance();
 
         // Get last known device location
         LocationViewModel model = LocationViewModel.getFactory().create(LocationViewModel.class);
         mLocation = model.getCurrentLocation().getValue();
 
-        // calendar for current time
-        Calendar calendar = Calendar.getInstance();
-
+        // Get UI elements
         mWeatherDescription = Objects.requireNonNull(getView()).findViewById(R.id.tv_home_status);
         mWeatherTemp = getView().findViewById(R.id.tv_home_temperature);
         mWeatherIcon = getView().findViewById(R.id.iv_home_weatherIcon);
         mCityCountry = getView().findViewById(R.id.tv_home_citycountry);
 
+        TextView units = getView().findViewById(R.id.tv_home_unit);
         TextView greeting = Objects.requireNonNull(getView()).findViewById(R.id.tv_home_greeting);
         TextView date = getView().findViewById((R.id.tv_home_date));
         TextView dayOfWeek = getView().findViewById((R.id.tv_home_dayOfWeek));
+
+        // Set preferred unit of measurement
+        if("imperial".equals(mUnits)) {
+            units.setText("F");
+        } else {
+            units.setText("C");
+        }
 
         // format the date and day of week
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
