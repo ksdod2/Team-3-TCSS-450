@@ -33,9 +33,9 @@ public class HomeFragment extends Fragment {
     private ImageView mWeatherIcon;
 
     //TODO remove hard coding for Tacoma when ready
-    private double mLat = 47.25288; //for header param "lat"
-    private double mLon = -122.44429; //for header param "lon"
-    private int mCityID = 5812944; //for header param "id"
+    private String mLat = "47.25288"; //for header param "lat"
+    private String mLon = "-122.44429"; //for header param "lon"
+    private String mCityID = "5812944"; //for header param "id"
     private String mCityName = "Tacoma"; //for header param "q"
     private String mUnits = "imperial"; //for header param "units" (metric | imperial)
     private String mAPIkey; //for header param "appid"
@@ -100,7 +100,14 @@ public class HomeFragment extends Fragment {
                 .appendPath(getString(R.string.ep_weather_data))
                 .appendPath(getString(R.string.ep_weather_ver))
                 .appendPath(getString(R.string.ep_weather_weather))
+                //Location can be passed in 3 ways:
+                //1. City Name (query param "q"):
                 .appendQueryParameter("q", mCityName)
+                //2. City ID (query param "id"):
+                //.appendQueryParameter("id", mCityID)
+                //3. Lat & Lon (query params "lat" & "lon"):
+                //.appendQueryParameter("lat", mLat)
+                //.appendQueryParameter("lon", mLon)
                 .appendQueryParameter("appid", getString(R.string.api_key_openweathermap))
                 .appendQueryParameter("units", mUnits)
                 .build();
