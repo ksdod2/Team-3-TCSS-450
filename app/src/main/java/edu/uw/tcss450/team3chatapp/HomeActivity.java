@@ -1,6 +1,7 @@
 package edu.uw.tcss450.team3chatapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -38,10 +39,12 @@ import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
+import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
 import me.pushy.sdk.Pushy;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private SharedPreferences mPrefs;
     private AppBarConfiguration mAppBarConfiguration;
     private HomeActivityArgs mArgs;
 
@@ -49,6 +52,17 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Apply user-preferred theme from shared preferences
+        mPrefs = getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+        if(mPrefs.contains(getString(R.string.keys_prefs_theme))) {
+            int themeId = mPrefs.getInt(getString(R.string.keys_prefs_theme), R.style.AppTheme);
+            ThemeChanger.setThemeOnActivityCreation(this, themeId);
+        } else {
+            mPrefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.AppTheme).apply();
+            ThemeChanger.setThemeOnActivityCreation(this, R.style.AppTheme);
+        }
+
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,7 +112,6 @@ public class HomeActivity extends AppCompatActivity {
         View header = navigationView.getHeaderView(0);
         ((TextView) header.findViewById(R.id.tv_nav_header)).setText(mArgs.getCredentials().getUsername());
         ((TextView) header.findViewById(R.id.tv_verification_message)).setText(mArgs.getCredentials().getEmail());
-
     }
 
     @Override
@@ -327,15 +340,9 @@ public class HomeActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
-            SharedPreferences prefs =
-                    getSharedPreferences(
-                            getString(R.string.keys_shared_prefs),
-                            Context.MODE_PRIVATE);
-
-            prefs.edit().remove(getString(R.string.keys_prefs_password)).apply();
-            prefs.edit().remove(getString(R.string.keys_prefs_email)).apply();
-            prefs.edit().remove(getString(R.string.keys_prefs_stay_logged_in)).apply();
+            mPrefs.edit().remove(getString(R.string.keys_prefs_password)).apply();
+            mPrefs.edit().remove(getString(R.string.keys_prefs_email)).apply();
+            mPrefs.edit().remove(getString(R.string.keys_prefs_stay_logged_in)).apply();
 
             //unregister the device from the Pushy servers
             Pushy.unregister(HomeActivity.this);
@@ -344,16 +351,14 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            // Close the app outright
-            finishAndRemoveTask();
+        protected void onPostExecute(Void theVoid) {
+            super.onPostExecute(theVoid);
 
             // Alternatively, close current session and return to login fragments
-//            Intent i = new Intent(this, MainActivity.class);
-//            startActivity(i);
-//            //Ends this Activity and removes it from the Activity back stack.
-//            finish();
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+            //Ends this Activity and removes it from the Activity back stack.
+            finish();
         }
     }
 }

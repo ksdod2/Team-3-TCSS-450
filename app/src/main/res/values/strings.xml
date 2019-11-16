@@ -233,9 +233,15 @@
     <string name="btn_chatroom_send">Send</string>
 
     <!-- Settings menu strings -->
+    <!-- Theme settings strings -->
     <string name="tv_settings_themechange">Change App Theme</string>
     <string name="tv_settings_themecurrent">Current Theme</string>
     <string name="tv_settings_temp">Change Temperature Units</string>
+    <string name="theme_option_default">Default Android</string>
+    <string name="theme_option_spookyorange">Spooky Orange</string>
+    <string name="theme_option_bashfulblue">Bashful Blue</string>
+    <string name="theme_option_huskypride">Husky Pride</string>
+    <!-- Temperature unit strings -->
     <string name="rb_settings_fahrenheit">F</string>
     <string name="rb_settings_celcius">C</string>
 

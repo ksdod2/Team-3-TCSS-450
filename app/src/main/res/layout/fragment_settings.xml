@@ -39,8 +39,7 @@
                         android:maxHeight="45dp"
                         android:minWidth="45dp"
                         android:minHeight="45dp"
-                        android:src="?attr/colorPrimary"
-                        app:srcCompat="@color/spookyPrimaryColor" />
+                        android:src="?attr/colorPrimary"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"

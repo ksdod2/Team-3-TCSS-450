@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/theme1"
-        android:title="Theme 1" />
-    <item android:id="@+id/theme2"
-        android:title="Theme 2" />
-    <item android:id="@+id/theme3"
-        android:title="Theme 3" />
+    <item
+        android:id="@+id/settings_themeoption_default"
+        android:title="@string/theme_option_default" />
+    <item
+        android:id="@+id/settings_themeoption_spookyorange"
+        android:title="@string/theme_option_spookyorange" />
+    <item
+        android:id="@+id/settings_themeoption_bashfulblue"
+        android:title="@string/theme_option_bashfulblue" />
+    <item
+        android:id="@+id/settings_themeoption_huskypride"
+        android:title="@string/theme_option_huskypride" />
 </menu>

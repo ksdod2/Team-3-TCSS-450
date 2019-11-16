@@ -1,13 +1,14 @@
 package edu.uw.tcss450.team3chatapp;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -16,9 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
+import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
 
 
 /**
@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
  */
 public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemClickListener {
 
+    SharedPreferences mPrefs;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -40,6 +41,8 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mPrefs = getActivity().getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
 
         FrameLayout themeOption = getView().findViewById(R.id.frame_settings_theme);
         themeOption.setOnClickListener(this::showThemeChangePopup);
@@ -56,17 +59,25 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.theme1:
-                Log.d("SETTINGS_MENU", "THEME 1 PRESSED");
+            case R.id.settings_themeoption_default:
+                updateTheme(R.style.AppTheme);
                 return true;
-            case R.id.theme2:
-                Log.d("SETTINGS_MENU", "THEME 2 PRESSED");
+            case R.id.settings_themeoption_spookyorange:
+                updateTheme(R.style.SpookyOrangeTheme);
                 return true;
-            case R.id.theme3:
-                Log.d("SETTINGS_MENU", "THEME 3 PRESSED");
+            case R.id.settings_themeoption_bashfulblue:
+                updateTheme(R.style.BashfulBlueTheme);
+                return true;
+            case R.id.settings_themeoption_huskypride:
+                updateTheme(R.style.HuskyPrideTheme);
                 return true;
             default:
                 return false;
         }
+    }
+
+    private void updateTheme(int theThemeId) {
+        mPrefs.edit().putInt(getString(R.string.keys_prefs_theme), theThemeId).apply();
+        ThemeChanger.applyChange(getActivity());
     }
 }

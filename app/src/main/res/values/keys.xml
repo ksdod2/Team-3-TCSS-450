@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources tools:ignore="ExtraTranslation" xmlns:tools="http://schemas.android.com/tools">
     <string name="keys_shared_prefs">edu.uw.tcss450.teamchatapp.PREFS</string>
+    <string name="keys_prefs_theme">theme</string>
     <string name="keys_prefs_email">email</string>
     <string name="keys_prefs_password">password</string>
     <string name="keys_prefs_username">username</string>

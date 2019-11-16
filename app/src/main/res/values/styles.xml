@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <!-- Spooky Orange theme. -->
@@ -14,6 +16,8 @@
         <item name="colorPrimary">@color/spookyPrimaryColor</item>
         <item name="colorPrimaryDark">@color/spookyPrimaryDarkColor</item>
         <item name="colorAccent">@color/spookySecondaryColor</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <!-- Bashful Blue theme. -->
@@ -22,6 +26,8 @@
         <item name="colorPrimary">@color/bluePrimaryColor</item>
         <item name="colorPrimaryDark">@color/bluePrimaryDarkColor</item>
         <item name="colorAccent">@color/blueSecondaryColor</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <!-- Husky Pride theme. -->
@@ -30,9 +36,6 @@
         <item name="colorPrimary">@color/huskyPrimaryColor</item>
         <item name="colorPrimaryDark">@color/huskyPrimaryDarkColor</item>
         <item name="colorAccent">@color/huskySecondaryColor</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
