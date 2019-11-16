@@ -11,6 +11,7 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/frame_settings_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
@@ -20,11 +21,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/border_settings_item"
                     android:clickable="false"
                     android:duplicateParentState="true"
                     android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:background="@drawable/border_settings_item">
+                    android:padding="16dp">
 
                     <ImageView
                         android:id="@+id/img_settings_currenttheme"
