@@ -35,14 +35,9 @@ public class HomeFragment extends Fragment {
     private TextView mWeatherTemp;
     private TextView mWeatherDescription;
     private ImageView mWeatherIcon;
-    private TextView mCityCountry;
+    private TextView mCityState;
     private Location mLocation;
-    private String mUnits; //for header param "units" (metric | imperial)
-
-    //MIGHT need once custom locations are enabled
-    private int mCityID; //for header param "id"
-    private String mCityName; //for header param "q"
-    private String mAPIkey; //for header param "appid"
+    private String mUnits;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,10 +63,10 @@ public class HomeFragment extends Fragment {
         SharedPreferences prefs = Objects.requireNonNull(getActivity())
                 .getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         if(prefs.contains(getString(R.string.keys_prefs_tempunit))) {
-            mUnits = prefs.getString(getString(R.string.keys_prefs_tempunit), "imperial");
+            mUnits = prefs.getString(getString(R.string.keys_prefs_tempunit), "F");
         } else { //Otherwise set units to default (imperial)
-            mUnits = "imperial";
-            prefs.edit().putString(getString(R.string.keys_prefs_tempunit), "imperial").apply();
+            mUnits = "F";
+            prefs.edit().putString(getString(R.string.keys_prefs_tempunit), "F").apply();
         }
 
         // Get credentials from HomeActivityArgs
@@ -88,7 +83,7 @@ public class HomeFragment extends Fragment {
         mWeatherDescription = Objects.requireNonNull(getView()).findViewById(R.id.tv_home_status);
         mWeatherTemp = getView().findViewById(R.id.tv_home_temperature);
         mWeatherIcon = getView().findViewById(R.id.iv_home_weatherIcon);
-        mCityCountry = getView().findViewById(R.id.tv_home_citycountry);
+        mCityState = getView().findViewById(R.id.tv_home_citystate);
 
         TextView units = getView().findViewById(R.id.tv_home_unit);
         TextView greeting = Objects.requireNonNull(getView()).findViewById(R.id.tv_home_greeting);
@@ -96,7 +91,7 @@ public class HomeFragment extends Fragment {
         TextView dayOfWeek = getView().findViewById((R.id.tv_home_dayOfWeek));
 
         // Set preferred unit of measurement
-        if("imperial".equals(mUnits)) {
+        if("F".equals(mUnits)) {
             units.setText("F");
         } else {
             units.setText("C");
@@ -122,24 +117,17 @@ public class HomeFragment extends Fragment {
     }
 
     private void populateWeatherData() {
-
         if(mLocation != null) {
+            String fields = "place.name,place.state,ob.tempC,ob.tempF,ob.weather,ob.icon";
+            String action = mLocation.getLatitude() + "," + mLocation.getLongitude();
+
             Uri uri = new Uri.Builder()
                     .scheme("https")
-                    .authority(getString(R.string.ep_weather_base))
-                    .appendPath(getString(R.string.ep_weather_data))
-                    .appendPath(getString(R.string.ep_weather_ver))
+                    .authority(getString(R.string.ep_base))
                     .appendPath(getString(R.string.ep_weather_weather))
-                    //Location can be passed in 3 ways:
-                    //1. City Name (query param "q"):
-                    //.appendQueryParameter("q", mCityName)
-                    //2. City ID (query param "id"):
-                    //.appendQueryParameter("id", mCityID)
-                    //3. Lat & Lon (query params "lat" & "lon"):
-                    .appendQueryParameter("lat", Double.toString(mLocation.getLatitude()))
-                    .appendQueryParameter("lon", Double.toString(mLocation.getLongitude()))
-                    .appendQueryParameter("appid", getString(R.string.api_key_openweathermap))
-                    .appendQueryParameter("units", mUnits)
+                    .appendPath(getString(R.string.ep_weather_observations))
+                    .appendPath(action)
+                    .appendQueryParameter("fields", fields)
                     .build();
 
             new GetAsyncTask.Builder(uri.toString())
@@ -166,29 +154,55 @@ public class HomeFragment extends Fragment {
     }
 
     private void weatherOnPost(final String theResult) {
+        String logTag = "WEATHER_POST";
         //parse JSON
         try {
             JSONObject root = new JSONObject(theResult);
-            if(root.has("main") && root.has("weather") && root.has("sys") && root.has("name")) {
-                JSONObject sys = root.getJSONObject("sys");
-                JSONObject main = root.getJSONObject("main");
-                JSONObject weather = root.getJSONArray("weather").getJSONObject(0);
+            if(root.has("response")) {
+                JSONObject response = root.getJSONObject("response");
+                if(response.has("place") && response.has("ob")) {
+                    JSONObject place = response.getJSONObject("place");
+                    JSONObject ob = response.getJSONObject("ob");
 
-                int temp = (int) Double.parseDouble(main.getString("temp"));
-                String weatherDesc = weather.getString("description").substring(0, 1).toUpperCase() +
-                                     weather.getString("description").substring(1);
-                String cityPlusCountry = root.getString("name") + ", " + sys.getString("country");
 
-                mWeatherTemp.setText(String.valueOf(temp));
-                mWeatherDescription.setText(weatherDesc);
-                mWeatherIcon.setImageResource(R.mipmap.weather_icon_08);
-                mCityCountry.setText(cityPlusCountry);
+                    String cityState = formatCityState(place.getString("name"),
+                                                        place.getString("state").toUpperCase());
+
+                    String icFile = ob.getString("icon").substring(0, ob.getString("icon").length()-4);
+
+                    int id = getResources().getIdentifier(icFile, "mipmap", getContext().getPackageName());
+
+                    mWeatherDescription.setText(ob.getString("weather"));
+                    mWeatherTemp.setText("F".equals(mUnits) ? ob.getString("tempF") : ob.getString("tempC"));
+                    mCityState.setText(cityState);
+                    mWeatherIcon.setImageResource(id);
+                } else {
+                    Log.d(logTag, "Either Place or Ob missing form Response: " + root.toString());
+                }
             } else {
-                Log.d("WEATHER_POST", "main or weather missing in response: " + root.toString());
+                Log.d(logTag, "Response Missing: " + root.toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("WEATHER_POST", Objects.requireNonNull(e.getMessage()));
+            Log.e(logTag, Objects.requireNonNull(e.getMessage()));
         }
+    }
+
+    private String formatCityState(String name, String state) {
+
+        StringBuilder city = new StringBuilder();
+
+        String split[];
+        if(name.contains(" ")) {
+            split = name.split(" ");
+            for(String s : split) {
+                city.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
+            }
+        } else {
+            city.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" ");
+        }
+        city.trimToSize();
+
+        return city.append(", ").append(state).toString();
     }
 }

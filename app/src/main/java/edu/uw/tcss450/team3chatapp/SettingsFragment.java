@@ -50,9 +50,9 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
         RadioGroup tempUnitOptions = getView().findViewById(R.id.rg_settings_temp);
         if(!mPrefs.contains(getString(R.string.keys_prefs_tempunit))) {
             tempUnitOptions.check(R.id.rb_settings_f);
-            mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "imperial").apply();
+            mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "F").apply();
         } else {
-            if("imperial".equals(mPrefs.getString(getString(R.string.keys_prefs_tempunit), ""))) {
+            if("F".equals(mPrefs.getString(getString(R.string.keys_prefs_tempunit), ""))) {
                 tempUnitOptions.check(R.id.rb_settings_f);
             } else {
                 tempUnitOptions.check(R.id.rb_settings_c);
@@ -97,10 +97,10 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
     private void changeTempUnits(RadioGroup radioGroup, int newlyCheckedButton) {
         switch(newlyCheckedButton) {
             case R.id.rb_settings_f:
-                mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "imperial").apply();
+                mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "F").apply();
                 break;
             case R.id.rb_settings_c:
-                mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "metric").apply();
+                mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "C").apply();
                 break;
         }
     }

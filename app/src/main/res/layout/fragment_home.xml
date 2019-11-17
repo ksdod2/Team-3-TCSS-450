@@ -129,7 +129,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/tv_home_weatherMessage" />
-<!--                app:srcCompat="@mipmap/weather_icon_01" /> -->
+<!--                app:srcCompat="@mipmap/cloudy" /> -->
 
         </LinearLayout>
 
@@ -154,7 +154,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/tv_home_citycountry"
+                android:id="@+id/tv_home_citystate"
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
