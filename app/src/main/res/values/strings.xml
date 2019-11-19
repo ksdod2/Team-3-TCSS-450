@@ -1,6 +1,6 @@
 <resources>
     <!--App name (Tentative)-->
-    <string name="app_name">ChatHub</string>
+    <string name="app_name">Current</string>
     <string name="PLACEHOLDER">PLACEHOLDER</string>
 
     <!--login fragment strings-->

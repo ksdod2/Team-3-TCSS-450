@@ -16,4 +16,11 @@
         android:endColor="@color/spookyPrimaryLightColor"
         android:startColor="@color/spookySecondaryColor"
         android:type="linear" />
+
+    <gradient
+        android:angle="135"
+        android:centerColor="@color/primaryColor"
+        android:endColor="@color/spookyPrimaryLightColor"
+        android:startColor="@color/spookySecondaryColor"
+        android:type="linear" />
 </shape>

@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -39,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
             prefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.AppTheme).apply();
             ThemeChanger.setThemeOnActivityCreation(this, R.style.AppTheme);
         }
+
+//        View decorView = getWindow().getDecorView();
+//        int uiOptions = View.INVISIBLE;
+//        decorView.setSystemUiVisibility(uiOptions);
+
         setContentView(R.layout.activity_main);
 
         // Get device location
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         } // Add other request permissions to listen to here as else (or convert to switch statement)
     }
 
-        private void requestLocation() {
+    private void requestLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
