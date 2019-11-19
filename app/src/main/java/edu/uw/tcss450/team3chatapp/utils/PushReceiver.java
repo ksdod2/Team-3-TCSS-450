@@ -24,6 +24,7 @@ import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIB
 public class PushReceiver extends BroadcastReceiver {
 
     public static final String RECEIVED_NEW_MESSAGE = "new message from pushy";
+    public static final String RECEIVED_NEW_CONN = "new connection from pushy";
 
     private static final String CHANNEL_ID = "1";
 
@@ -98,7 +99,7 @@ public class PushReceiver extends BroadcastReceiver {
                     Log.d("PUSHY", "Message received in foreground: " + message.toString());
 
                     //create an Intent to broadcast a message to other parts of the app.
-                    Intent i = new Intent(RECEIVED_NEW_MESSAGE);
+                    Intent i = new Intent(RECEIVED_NEW_CONN);
                     i.putExtra("SENDER", sender);
                     i.putExtra("MESSAGE", message.toString());
                     i.putExtras(intent.getExtras());
@@ -108,31 +109,34 @@ public class PushReceiver extends BroadcastReceiver {
                 } else {
                     //app is in the background so create and post a notification
                     Log.d("PUSHY", "Message received in background: " + message.toString());
+                    // Updates to all sorts of connections will be received, only notify for invitations
+                    if(message.getBoolean("new") && message.getInt("relation") == 0) {
 
-                    Intent i = new Intent(context, MainActivity.class);
-                    i.putExtras(intent.getExtras());
+                        Intent i = new Intent(context, MainActivity.class);
+                        i.putExtras(intent.getExtras());
 
-                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                            i, PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                                i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                    //research more on notifications the how to display them
-                    //https://developer.android.com/guide/topics/ui/notifiers/notifications
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                            .setAutoCancel(true)
-                            .setSmallIcon(R.drawable.ic_menu_chats)
-                            .setContentTitle("Connection request from: " + sender)
-                            .setContentText("You have received a new connection request.")
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .setContentIntent(pendingIntent);
+                        //research more on notifications the how to display them
+                        //https://developer.android.com/guide/topics/ui/notifiers/notifications
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                                .setAutoCancel(true)
+                                .setSmallIcon(R.drawable.ic_menu_chats)
+                                .setContentTitle("Connection request from: " + sender)
+                                .setContentText("You have received a new connection request.")
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                .setContentIntent(pendingIntent);
 
-                    // Automatically configure a ChatMessageNotification Channel for devices running Android O+
-                    Pushy.setNotificationChannel(builder, context);
+                        // Automatically configure a ChatMessageNotification Channel for devices running Android O+
+                        Pushy.setNotificationChannel(builder, context);
 
-                    // Get an instance of the NotificationManager service
-                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+                        // Get an instance of the NotificationManager service
+                        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
-                    // Build the notification and display it
-                    notificationManager.notify(1, builder.build());
+                        // Build the notification and display it
+                        notificationManager.notify(1, builder.build());
+                    }
                 }
             } catch (JSONException e) {
                 Log.e("PUSH ERROR", e.getMessage());

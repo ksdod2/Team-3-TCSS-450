@@ -22,7 +22,10 @@ import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment for displaying all a user's connections, with ability to move to searching for users
+ * and viewing information about a given contact.
+ * @author Kameron Dodd
+ * @version 11/18/19
  */
 public class ConnectionViewFragment extends Fragment {
     private int mMemberID;

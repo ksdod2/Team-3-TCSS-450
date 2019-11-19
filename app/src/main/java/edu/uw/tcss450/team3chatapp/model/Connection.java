@@ -3,12 +3,14 @@ package edu.uw.tcss450.team3chatapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 
 /**
  * Class to represent a user information related to a connection.
  * @author Kameron Dodd
- * @version 11/7/19
+ * @version 11/18/19
  */
 public class Connection implements Serializable, Parcelable {
 
@@ -61,6 +63,15 @@ public class Connection implements Serializable, Parcelable {
     public String getEmail() { return mEmail; }
     public Relation getRelation() { return mIsAccepted; }
     public boolean amSender() { return mAmSender; }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (!(obj instanceof Connection))
+            return false;
+        return mMemberID == ((Connection) obj).mMemberID && mFirstName.equals(((Connection) obj).mFirstName)
+                && mLastName.equals(((Connection) obj).mLastName) && mUsername.equals(((Connection) obj).mUsername)
+                && mEmail.equals(((Connection) obj).mEmail);
+    }
 
     public static final Creator<Connection> CREATOR = new Creator<Connection>() {
         @Override

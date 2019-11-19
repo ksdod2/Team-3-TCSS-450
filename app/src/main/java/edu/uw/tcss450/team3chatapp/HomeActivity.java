@@ -1,8 +1,10 @@
 package edu.uw.tcss450.team3chatapp;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,6 +16,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -39,7 +42,9 @@ import java.util.Objects;
 import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.Connection;
+import edu.uw.tcss450.team3chatapp.model.ConnectionListViewModel;
 import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
+import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
 import me.pushy.sdk.Pushy;
@@ -49,6 +54,8 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences mPrefs;
     private AppBarConfiguration mAppBarConfiguration;
     private HomeActivityArgs mArgs;
+
+    private HomePushMessageReceiver mPushMessageReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +117,35 @@ public class HomeActivity extends AppCompatActivity {
                     MobileNavigationDirections.actionGlobalNavConnectionview(mArgs.getConnection(), mArgs.getUserId(), mArgs.getJwt());
             nc.navigate(connection);
         }
+        // Get information to populate ViewModels
+        fetchConnections();
+
         navigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
 
         // Set navigation drawer header fields with user information
         View header = navigationView.getHeaderView(0);
         ((TextView) header.findViewById(R.id.tv_nav_header)).setText(mArgs.getCredentials().getUsername());
         ((TextView) header.findViewById(R.id.tv_verification_message)).setText(mArgs.getCredentials().getEmail());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mPushMessageReceiver == null) {
+            mPushMessageReceiver = new HomePushMessageReceiver();
+        }
+        IntentFilter iFilter = new IntentFilter();
+        iFilter.addAction(PushReceiver.RECEIVED_NEW_MESSAGE);
+        iFilter.addAction(PushReceiver.RECEIVED_NEW_CONN);
+        registerReceiver(mPushMessageReceiver, iFilter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mPushMessageReceiver != null){
+            unregisterReceiver(mPushMessageReceiver);
+        }
     }
 
     @Override
@@ -161,25 +191,11 @@ public class HomeActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_connectionhome:
-                Uri connectionUri = new Uri.Builder()
-                        .scheme("https")
-                        .appendPath(getString(R.string.ep_base))
-                        .appendPath(getString(R.string.ep_connections))
-                        .appendPath(getString(R.string.ep_connections_get))
-                        .build();
+                MobileNavigationDirections.ActionGlobalNavConnectionhome directions
+                        = ConnectionHomeFragmentDirections.actionGlobalNavConnectionhome(mArgs.getUserId(), mArgs.getJwt());
 
-                JSONObject connInfo = new JSONObject();
-                try {
-                    connInfo.put("memberid", mArgs.getUserId());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                new SendPostAsyncTask.Builder(connectionUri.toString(), connInfo)
-                        .onPostExecute(this::handleConnectionsOnPostExecute)
-                        .onCancelled(error -> Log.e("CONN_NAV", error))
-                        .addHeaderField("authorization", mArgs.getJwt())
-                        .build().execute();
+                Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(directions);
 
                 break;
             case R.id.nav_weather:
@@ -191,60 +207,47 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+    private void fetchConnections() {
+        Uri connectionUri = new Uri.Builder()
+                .scheme("https")
+                .appendPath(getString(R.string.ep_base))
+                .appendPath(getString(R.string.ep_connections))
+                .appendPath(getString(R.string.ep_connections_get))
+                .build();
+
+        JSONObject connInfo = new JSONObject();
+        try {
+            connInfo.put("memberid", mArgs.getUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        new SendPostAsyncTask.Builder(connectionUri.toString(), connInfo)
+                .onPostExecute(this::handleConnectionsOnPostExecute)
+                .onCancelled(error -> Log.e("CONN_NAV", error))
+                .addHeaderField("authorization", mArgs.getJwt())
+                .build().execute();
+    }
+
     private void handleConnectionsOnPostExecute(final String result) {
         //parse JSON
-
         try {
             JSONObject root = new JSONObject(result);
             if (root.has(getString(R.string.keys_json_connections_rows))) {
+                ArrayList<Connection> connections = new ArrayList<>();
                 JSONArray data = root.getJSONArray( getString(R.string.keys_json_connections_rows));
-
-                ArrayList<Connection> currentConns = new ArrayList<>();
-                ArrayList<Connection> incomingConns = new ArrayList<>();
-                ArrayList<Connection> pendingConns = new ArrayList<>();
-                    for(int i = 0; i < data.length(); i++) {
-                        JSONObject jsonConn = data.getJSONObject(i);
-
-                        if(jsonConn.getInt(getString(R.string.keys_json_connections_verified_int)) == 1) {
-                            // Verified connection, fill out information and add to that list
-                            currentConns.add(new Connection(jsonConn.getInt(getString(R.string.keys_json_connections_memberid_int)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_firstname_str)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_lastname_str)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_username_str)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_email_str)),
-                                    jsonConn.getInt(getString(R.string.keys_json_connections_verified_int)),
-                                    jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()));
-
-                        } else if(jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()) {
-                            // Connection request that was sent by user but has not been accepted
-                            pendingConns.add(new Connection(jsonConn.getInt(getString(R.string.keys_json_connections_memberid_int)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_firstname_str)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_lastname_str)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_username_str)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_email_str)),
-                                    jsonConn.getInt(getString(R.string.keys_json_connections_verified_int)),
-                                    jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()));
-                        } else {
-                            // Connection requests to this user
-                            incomingConns.add(new Connection(jsonConn.getInt(getString(R.string.keys_json_connections_memberid_int)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_firstname_str)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_lastname_str)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_username_str)),
-                                    jsonConn.getString(getString(R.string.keys_json_connections_email_str)),
-                                    jsonConn.getInt(getString(R.string.keys_json_connections_verified_int)),
-                                    jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()));
-                        }
-                    }
-
-                    MobileNavigationDirections.ActionGlobalNavConnectionhome directions
-                            = ConnectionHomeFragmentDirections.actionGlobalNavConnectionhome(
-                                currentConns.toArray(new Connection[0]),
-                                incomingConns.toArray(new Connection[0]),
-                                pendingConns.toArray(new Connection[0]),
-                            mArgs.getUserId(), mArgs.getJwt());
-
-                    Navigation.findNavController(this, R.id.nav_host_fragment)
-                            .navigate(directions);
+                for(int i = 0; i < data.length(); i++) {
+                    JSONObject jsonConn = data.getJSONObject(i);
+                    connections.add(new Connection(jsonConn.getInt(getString(R.string.keys_json_connections_memberid_int)),
+                            jsonConn.getString(getString(R.string.keys_json_connections_firstname_str)),
+                            jsonConn.getString(getString(R.string.keys_json_connections_lastname_str)),
+                            jsonConn.getString(getString(R.string.keys_json_connections_username_str)),
+                            jsonConn.getString(getString(R.string.keys_json_connections_email_str)),
+                            jsonConn.getInt(getString(R.string.keys_json_connections_verified_int)),
+                            jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()));
+                }
+                // Set the list of connections in the ViewModel to the full set of user connections
+                ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).setConnections(connections);
             } else {
                 Log.e("ERROR!", "Database Error");
             }
@@ -362,6 +365,51 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(i);
             //Ends this Activity and removes it from the Activity back stack.
             finish();
+        }
+    }
+
+    /**
+     * A BroadcastReceiver that listens for messages sent from PushReceiver.
+     */
+    private class HomePushMessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            NavController nc =
+                    Navigation.findNavController(HomeActivity.this, R.id.nav_host_fragment);
+            NavDestination nd = nc.getCurrentDestination();
+            if (Objects.requireNonNull(intent.getAction()).equals(PushReceiver.RECEIVED_NEW_CONN)
+                    && intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {
+
+                try {
+                    JSONObject info = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
+                    boolean sender = info.getInt(getString(R.string.keys_json_connections_memberid_int)) == mArgs.getUserId();
+                    Connection pushed =
+                            new Connection(info.getInt(getString(R.string.keys_json_connections_memberid_int)),
+                                    info.getString(getString(R.string.keys_json_connections_firstname_str)),
+                                    info.getString(getString(R.string.keys_json_connections_lastname_str)),
+                                    info.getString(getString(R.string.keys_json_connections_username_str)),
+                                    info.getString(getString(R.string.keys_prefs_email)),
+                                    info.getInt("relation"), sender);
+                    // Update ViewModel of connections with change based on connection
+                    if (info.getBoolean("new")) {
+                        ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).addConnection(pushed);
+                        if(pushed.getRelation() == Connection.Relation.UNACCEPTED && !pushed.amSender()
+                            && Objects.requireNonNull(nd).getId() != R.id.nav_connectionhome) {
+                            // TODO: Something to notify users in-app of a new connection invitation
+                            Log.i("PUSH CONNECTION", info.toString());
+                        }
+                    }
+                    else
+                        ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).removeConnection(pushed);
+
+                } catch (JSONException e) {
+                    // Couldn't get the notification properly, just give up
+                    Log.e("PUSH CONNECTION", Objects.requireNonNull(e.getMessage()));
+                }
+
+            }
         }
     }
 }

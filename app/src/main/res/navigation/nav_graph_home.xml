@@ -56,15 +56,6 @@
         android:name="edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragment"
         android:label="Your Connections"
         tools:layout="@layout/fragment_connection_list" >
-        <argument
-            android:name="acceptedContacts"
-            app:argType="edu.uw.tcss450.team3chatapp.model.Connection[]" />
-        <argument
-            android:name="incomingContacts"
-            app:argType="edu.uw.tcss450.team3chatapp.model.Connection[]" />
-        <argument
-            android:name="pendingContacts"
-            app:argType="edu.uw.tcss450.team3chatapp.model.Connection[]" />
         <action
             android:id="@+id/action_nav_connectionhome_to_nav_connectionview"
             app:destination="@id/nav_connectionview" />
