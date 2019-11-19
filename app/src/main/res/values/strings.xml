@@ -222,6 +222,11 @@
     <string name="menu_chats">My Chats</string>
     <string name="menu_connections">My Connections</string>
 
+    <!-- Chat strings -->
+    <string name="btn_sheet_invite">Invite From Contacts</string>
+    <string name="btn_sheet_leave">Leave Chat</string>
+    <string name="btn_chat_create">Create New Chat</string>
+    <string name="btn_chat_pending">View Invitations</string>
     <string name="btn_chatroom_send">Send</string>
 
     <!-- Settings menu strings -->
@@ -262,6 +267,4 @@
     <string name="et_connectionsearch_name_error">Please input both a first and last name.</string>
     <string name="et_connectionsearch_general_error">Please input a valid search term.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

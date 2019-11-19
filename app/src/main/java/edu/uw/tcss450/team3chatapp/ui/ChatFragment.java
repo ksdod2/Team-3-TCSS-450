@@ -54,15 +54,17 @@ public class ChatFragment extends Fragment {
         mMemberID = args.getMemberID();
         mJWT = args.getJWT();
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            RecyclerView recyclerView = (RecyclerView) view;
-            ArrayList<Chat> rooms = new ArrayList(Arrays.asList(args.getRooms()));
-            recyclerView.setAdapter(new MyChatRecyclerViewAdapter(rooms, this::displayChat));
-        }
+        RecyclerView recyclerView = view.findViewById(R.id.list_chatroom);
+        ArrayList<Chat> rooms = new ArrayList(Arrays.asList(args.getRooms()));
+        recyclerView.setAdapter(new MyChatRecyclerViewAdapter(rooms, this::displayChat, this::displayMenu));
+
         return view;
     }
 
+    /**
+     * Moves to the appropriate fragment to display a chatroom.
+     * @param tChat the chat to display content from
+     */
     private void displayChat(final Chat tChat) {
         // Get all the prior messages of the chat asynchronously
         Uri chatUri = new Uri.Builder()
@@ -85,6 +87,20 @@ public class ChatFragment extends Fragment {
                 .onCancelled(error -> Log.e("CHAT_ROOM_NAV", error))
                 .addHeaderField("authorization", mJWT)
                 .build().execute();
+    }
+
+    /**
+     * Displays the bottom modal menu to use with chat options.
+     * @param tChat the chat for which options should apply to
+     */
+    private void displayMenu(final Chat tChat) {
+        ChatBottomSheetFragment dialog = new ChatBottomSheetFragment();
+        Bundle chatArg = new Bundle();
+        chatArg.putSerializable("chat", tChat);
+        chatArg.putInt("memberid", mMemberID);
+        chatArg.putString("jwt", mJWT);
+        dialog.setArguments(chatArg);
+        dialog.show(getFragmentManager(), null);
     }
 
     private void handleDisplayChatOnPostExecute(final String result) {

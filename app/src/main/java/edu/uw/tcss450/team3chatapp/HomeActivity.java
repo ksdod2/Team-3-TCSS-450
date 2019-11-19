@@ -271,7 +271,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     rooms[i] = new Chat(room.getInt(getString(R.string.keys_json_chats_id)),
                             room.getString(getString(R.string.keys_json_chats_name)),
-                            room.getString(getString(R.string.keys_json_chats_description)));
+                            room.getString(getString(R.string.keys_json_chats_description)), true);
                 }
 
                 MobileNavigationDirections.ActionGlobalNavChats chats =

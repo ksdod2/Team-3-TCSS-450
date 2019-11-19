@@ -11,6 +11,7 @@
     <string name="ep_chat_getchats">getchats</string>
     <string name="ep_chat_create">create</string>
     <string name="ep_chat_invite">invite</string>
+    <string name="ep_chat_confirm">confirm</string>
     <string name="ep_chat_getcontents">getchatcontent</string>
     <string name="ep_chat_send">send</string>
 

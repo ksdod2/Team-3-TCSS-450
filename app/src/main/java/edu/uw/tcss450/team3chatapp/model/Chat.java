@@ -14,17 +14,20 @@ public class Chat implements Serializable, Parcelable {
     private final int mChatID;
     private final String mName;
     private final String mDesc;
+    private final boolean mConfirmation;
 
-    public Chat(final int tChatID, final String tName, final String tDesc) {
+    public Chat(final int tChatID, final String tName, final String tDesc, final boolean tConf) {
         mChatID = tChatID;
         mName = tName;
         mDesc = tDesc;
+        mConfirmation = tConf;
     }
 
     protected Chat(Parcel in) {
         mChatID = in.readInt();
         mName = in.readString();
         mDesc = in.readString();
+        mConfirmation = (in.readByte() != 0);
     }
 
     public static final Creator<Chat> CREATOR = new Creator<Chat>() {
@@ -42,6 +45,7 @@ public class Chat implements Serializable, Parcelable {
     public int getChatID() { return  mChatID; }
     public String getName() { return mName; }
     public String getDescription() { return mDesc; }
+    public boolean getConfirmation() { return mConfirmation; }
 
     @Override
     public int describeContents() {
@@ -53,5 +57,6 @@ public class Chat implements Serializable, Parcelable {
         parcel.writeString(mName);
         parcel.writeString(mDesc);
         parcel.writeInt(mChatID);
+        parcel.writeInt(mConfirmation ? 1 : 0);
     }
 }

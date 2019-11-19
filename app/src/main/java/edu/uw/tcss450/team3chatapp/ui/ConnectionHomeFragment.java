@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.MyConnectionRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
@@ -54,19 +54,17 @@ public class ConnectionHomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_connection_list, container, false);
 
-        ConnectionHomeFragmentArgs args = ConnectionHomeFragmentArgs.fromBundle(getArguments());
+        ConnectionHomeFragmentArgs args = ConnectionHomeFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
 
         mMemberID = args.getMemberID();
         mJWT = args.getJWT();
 
         // Add this fragment as an observer to the connection ViewModel
         ConnectionListViewModel model = ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class);
-        model.getCurrentConnections().observe(this, connections ->{
-            updateRecyclerViews(connections);
-        });
+        model.getCurrentConnections().observe(this, this::updateRecyclerViews);
 
         // Build out initial RecyclerViews
-        for(Connection connection : model.getCurrentConnections().getValue()) {
+        for(Connection connection : Objects.requireNonNull(model.getCurrentConnections().getValue())) {
             if(connection.getRelation() == Connection.Relation.ACCEPTED)
                 mCurrent.add(connection);
             else if(connection.amSender())
