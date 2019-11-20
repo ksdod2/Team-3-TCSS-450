@@ -105,11 +105,11 @@ public class LoginFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
         //Set onClickListener for Login Button:
-        Button btnLogin = view.findViewById(R.id.btn_login_login);
+        TextView btnLogin = view.findViewById(R.id.btn_login_login);
         btnLogin.setOnClickListener(this::loginAttempt);
 
-        Button btnRegister = view.findViewById(R.id.btn_login_register);
-        btnRegister.setOnClickListener(v -> Navigation.findNavController(v)
+        TextView tvRegister = view.findViewById(R.id.tv_login_register);
+        tvRegister.setOnClickListener(v -> Navigation.findNavController(v)
                 .navigate(R.id.nav_action_loginToRegister));
     }
 
@@ -151,7 +151,7 @@ public class LoginFragment extends Fragment {
         protected void onPreExecute() {
             getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
             getActivity().findViewById(R.id.btn_login_login).setEnabled(false);
-            getActivity().findViewById(R.id.btn_login_register).setEnabled(false);
+            getActivity().findViewById(R.id.tv_login_register).setEnabled(false);
         }
 
         @Override
@@ -160,7 +160,7 @@ public class LoginFragment extends Fragment {
             // Restore layout's appearance
             getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
             getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
-            getActivity().findViewById(R.id.btn_login_register).setEnabled(true);
+            getActivity().findViewById(R.id.tv_login_register).setEnabled(true);
         }
 
         @Override
@@ -295,7 +295,7 @@ public class LoginFragment extends Fragment {
                     }
                     getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
                     getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
-                    getActivity().findViewById(R.id.btn_login_register).setEnabled(true);
+                    getActivity().findViewById(R.id.tv_login_register).setEnabled(true);
                 } else {
                     Log.e("ERROR", "Unsuccessful");
                 }
@@ -306,7 +306,7 @@ public class LoginFragment extends Fragment {
 
                 getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
                 getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
-                getActivity().findViewById(R.id.btn_login_register).setEnabled(true);
+                getActivity().findViewById(R.id.tv_login_register).setEnabled(true);
 
                 ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_login_email)).setError("Unable to login.\nPlease try again later");
             }

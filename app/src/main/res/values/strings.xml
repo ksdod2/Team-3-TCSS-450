@@ -6,10 +6,11 @@
     <!--login fragment strings-->
     <string name="et_login_email">Email Address</string>
     <string name="et_login_password">Password</string>
-    <string name="btn_login_register">Register</string>
+    <string name="tv_login_register"><u>Create Account</u></string>
     <string name="btn_login_login">Login</string>
     <string name="cb_login_staySignedIn">Stay signed in</string>
     <string name="iv_login_logo">Main Logo</string>
+    <string name="iv_login_bg">Background Image</string>
 
     <!--register fragment strings-->
     <string name="et_register_email">Email Address</string>

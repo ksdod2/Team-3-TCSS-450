@@ -8,21 +8,25 @@
     tools:context=".LoginFragment">
 
     <ImageView
-        android:id="@+id/img_bg"
+        android:id="@+id/iv_login_bg"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/bg_main_v1"
+        android:contentDescription="@string/iv_login_logo"
         android:scaleType="fitXY"
+        android:src="@drawable/bg_main_v1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/ic_login_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="265dp"
+        android:layout_height="265dp"
         android:layout_marginTop="64dp"
+        android:contentDescription="@string/iv_login_bg"
         android:src="@drawable/logo_gradient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -33,11 +37,13 @@
         android:id="@+id/et_login_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="240dp"
+        android:backgroundTint="@color/primaryTextColor"
         android:ems="10"
         android:hint="@string/btn_login_login"
         android:importantForAutofill="no"
         android:inputType="textWebEmailAddress"
+        android:textAlignment="center"
         android:textColor="@color/primaryTextColor"
         android:textColorHint="@color/primaryHintColor"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -48,63 +54,77 @@
         android:id="@+id/et_login_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:autofillHints=""
+        android:backgroundTint="@color/primaryTextColor"
         android:ems="10"
         android:hint="@string/et_login_password"
         android:inputType="textPassword"
+        android:textAlignment="center"
         android:textColor="@color/primaryTextColor"
         android:textColorHint="@color/primaryHintColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_login_email" />
+        app:layout_constraintTop_toBottomOf="@+id/et_login_email"
+        tools:targetApi="o" />
 
     <Button
         android:id="@+id/btn_login_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/secondaryColor"
         android:text="@string/btn_login_login"
-        android:background="@color/secondaryColor"
         android:textColor="@color/secondaryTextColor"
-        app:layout_constraintStart_toEndOf="@+id/btn_login_register"
-        app:layout_constraintTop_toBottomOf="@+id/et_login_password" />
-
-    <Button
-        android:id="@+id/btn_login_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/btn_login_register"
-        android:background="@color/secondaryColor"
-        android:textColor="@color/secondaryTextColor"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_login_password" />
+
+    <TextView
+        android:id="@+id/tv_login_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:clickable="true"
+        android:text="@string/tv_login_register"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintBottom_toTopOf="@+id/swt_login_stayloggedin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true" />
 
     <Switch
         android:id="@+id/swt_login_stayloggedin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:showText="false"
         android:text="@string/cb_login_staySignedIn"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login_login" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_login_wait"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primaryLightColor"
+        android:background="@drawable/bg_main_v1"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ic_login_loadingBackground"
+            android:layout_width="265dp"
+            android:layout_height="265dp"
+            android:layout_marginTop="64dp"
+            android:contentDescription="@string/iv_login_bg"
+            android:src="@drawable/logo_gradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/pb_login"
