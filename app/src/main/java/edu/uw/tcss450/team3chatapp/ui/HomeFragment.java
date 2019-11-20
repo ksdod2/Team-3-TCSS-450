@@ -92,9 +92,9 @@ public class HomeFragment extends Fragment {
 
         // Set preferred unit of measurement
         if("F".equals(mUnits)) {
-            units.setText("F");
+            units.setText("°F");
         } else {
-            units.setText("C");
+            units.setText("°C");
         }
 
         // format the date and day of week

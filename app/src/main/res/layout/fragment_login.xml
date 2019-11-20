@@ -8,18 +8,22 @@
     tools:context=".LoginFragment">
 
     // logo
+
+    // email field
+
     <ImageView
-        android:id="@+id/iv_login_logo"
+        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:src="@mipmap/ic_chathub"
+        android:background="@mipmap/logo_gradient"
+        android:src="@mipmap/logo_gradient"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
-    // email field
     <EditText
         android:id="@+id/et_login_email"
         android:layout_width="wrap_content"

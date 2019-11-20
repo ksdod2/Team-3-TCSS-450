@@ -5,7 +5,7 @@
     android:id="@+id/tv_weather_weatherHub"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.WeatherFragment" >
+    tools:context=".ui.WeatherFragment">
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +24,7 @@
         android:id="@+id/layout_weather_upperLayout"
         android:layout_width="360dp"
         android:layout_height="86dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -77,12 +77,12 @@
                 android:layout_width="226dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/et_weather_searchByZip"
-                android:inputType="textPersonName"
-                android:text="@string/et_weather_searchByZip"
+                android:inputType="number"
                 android:textColor="@android:color/darker_gray"
-                android:autofillHints="" tools:targetApi="o" />
+                tools:targetApi="o" />
 
             <Button
                 android:id="@+id/btn_weather_search"
@@ -137,48 +137,48 @@
         android:id="@+id/tv_weather_currentConditions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/tv_weather_currentConditions"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/sv_weather_currentConditions"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_weather_upperLayout" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_weather_24hourForecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/tv_weather_24hourForecast"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/sv_weather_24hourForecast"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sv_weather_currentConditions" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_weather_10dayForecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/tv_weather_10dayForecast"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/sv_weather_10dayForecast"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sv_weather_24hourForecast" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
         android:id="@+id/sv_weather_currentConditions"
         style="@android:style/Widget.DeviceDefault.Light.ScrollView"
         android:layout_width="310dp"
         android:layout_height="82dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_weather_24hourForecast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_weather_currentConditions">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/layout_weather_currentConditions"
@@ -417,12 +417,12 @@
     <HorizontalScrollView
         android:id="@+id/sv_weather_10dayForecast"
         android:layout_width="310dp"
-        android:layout_height="82dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_weather_10dayForecast">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/layout_weather_10dayForecast"
@@ -442,12 +442,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayToday"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10dayToday"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10dayOne"
                     android:src="@mipmap/cloudy"
@@ -459,7 +459,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayOneDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_10dayTemperatureOne"
@@ -467,7 +467,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayOneTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -482,12 +482,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayTwo"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10dayTwo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10dayTwo"
                     android:src="@mipmap/cloudy"
@@ -499,7 +499,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daytwoDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_10DayTemperatureTwo"
@@ -507,7 +507,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10daytwoTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -522,12 +522,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayThree"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10dayThree"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10dayThree"
                     android:src="@mipmap/cloudy"
@@ -539,7 +539,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayThreeDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/textView9Three"
@@ -547,7 +547,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayThreeTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -564,12 +564,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayFour"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10dayFour"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10dayFour"
                     android:src="@mipmap/cloudy"
@@ -581,7 +581,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayFourDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_10DayTemperatureFour"
@@ -589,7 +589,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayFourTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -604,12 +604,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayFive"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10dayFive"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10dayFive"
                     android:src="@mipmap/cloudy"
@@ -621,7 +621,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayFiveDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_10DayTemperatureFive"
@@ -629,7 +629,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayFiveTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -644,12 +644,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daySix"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10daySix"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10daySix"
                     android:src="@mipmap/cloudy"
@@ -661,7 +661,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daySixDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_10DayTemperatureSix"
@@ -669,7 +669,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10daySixTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -684,12 +684,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daySeven"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10daySeven"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10daySeven"
                     android:src="@mipmap/cloudy"
@@ -701,7 +701,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10daySevenDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_10DayTemperatureSeven"
@@ -709,7 +709,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10daySevenTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -724,12 +724,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayEight"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10dayEight"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10dayEight"
                     android:src="@mipmap/cloudy"
@@ -741,7 +741,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayEightDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_10DayTemperatureEight"
@@ -749,7 +749,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayEightTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -764,12 +764,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayNine"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10dayNine"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10dayNine"
                     android:src="@mipmap/cloudy"
@@ -781,7 +781,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayNineDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_10DayTemperatureNine"
@@ -789,7 +789,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayNineTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -804,12 +804,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayTen"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_10dayTen"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_10dayTen"
                     android:src="@mipmap/cloudy"
@@ -821,7 +821,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_10dayTenDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_10DayTemperatureTen"
@@ -829,7 +829,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_10dayTenTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </HorizontalScrollView>
@@ -837,12 +837,12 @@
     <HorizontalScrollView
         android:id="@+id/sv_weather_24hourForecast"
         android:layout_width="310dp"
-        android:layout_height="82dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_weather_10dayForecast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_weather_24hourForecast">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/layout_weather_24hourForecast"
@@ -852,7 +852,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour1"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -862,12 +862,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hourNow"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour1"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hourNow"
                     android:src="@mipmap/cloudy"
@@ -879,7 +879,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hourNowDescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature1"
@@ -887,12 +887,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hourNowTemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour2"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -902,12 +902,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour2"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour2"
                     android:src="@mipmap/cloudy"
@@ -919,7 +919,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour2DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature2"
@@ -927,12 +927,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour2TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour3"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -942,12 +942,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour3"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour3"
                     android:src="@mipmap/cloudy"
@@ -959,7 +959,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour3DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature3"
@@ -967,12 +967,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour3TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour4"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -982,12 +982,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour4"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour4"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour4"
                     android:src="@mipmap/cloudy"
@@ -999,7 +999,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour4DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature4"
@@ -1007,12 +1007,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour4TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour5"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1022,12 +1022,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour5"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour5"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour5"
                     android:src="@mipmap/cloudy"
@@ -1039,7 +1039,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour5DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature5"
@@ -1047,12 +1047,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour5TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour6"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1062,12 +1062,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour6"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour6"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour6"
                     android:src="@mipmap/cloudy"
@@ -1079,7 +1079,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour6DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature6"
@@ -1087,12 +1087,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour6TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour7"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1102,12 +1102,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour7"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour7"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour7"
                     android:src="@mipmap/cloudy"
@@ -1119,7 +1119,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour7DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature7"
@@ -1127,12 +1127,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour7TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour8"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1142,12 +1142,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour8"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour8"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour8"
                     android:src="@mipmap/cloudy"
@@ -1159,7 +1159,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour8DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature8"
@@ -1167,12 +1167,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour8TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour9"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1182,12 +1182,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour9"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour9"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour9"
                     android:src="@mipmap/cloudy"
@@ -1199,7 +1199,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour9DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature9"
@@ -1207,12 +1207,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour9TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour10"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1222,12 +1222,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour10"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour10"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour10"
                     android:src="@mipmap/cloudy"
@@ -1239,7 +1239,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour10DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature10"
@@ -1247,12 +1247,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour10TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour11"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1262,12 +1262,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour11"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour11"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour11"
                     android:src="@mipmap/cloudy"
@@ -1279,7 +1279,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour11DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature11"
@@ -1287,12 +1287,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour11TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour12"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1302,12 +1302,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour12"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour12"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour12"
                     android:src="@mipmap/cloudy"
@@ -1319,7 +1319,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour12DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature12"
@@ -1327,12 +1327,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour12TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour13"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1342,12 +1342,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour13"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour13"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour13"
                     android:src="@mipmap/cloudy"
@@ -1359,7 +1359,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour13DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature13"
@@ -1367,12 +1367,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour13TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour14"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1382,12 +1382,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour14"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour14"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour14"
                     android:src="@mipmap/cloudy"
@@ -1399,7 +1399,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour14DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature14"
@@ -1407,12 +1407,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour14TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour15"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1422,12 +1422,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour15"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour15"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour15"
                     android:src="@mipmap/cloudy"
@@ -1439,19 +1439,19 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour15DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour15TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour16"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1461,12 +1461,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour16"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour16"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour16"
                     android:src="@mipmap/cloudy"
@@ -1478,7 +1478,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour16DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature16"
@@ -1486,12 +1486,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour16TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour17"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1501,12 +1501,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour17"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour17"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour17"
                     android:src="@mipmap/cloudy"
@@ -1518,7 +1518,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour17DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature17"
@@ -1526,12 +1526,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour17TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour18"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1541,12 +1541,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour18"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour18"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour18"
                     android:src="@mipmap/cloudy"
@@ -1558,7 +1558,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour18DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature18"
@@ -1566,12 +1566,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour18TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour19"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1581,12 +1581,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour19"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour19"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour19"
                     android:src="@mipmap/cloudy"
@@ -1598,7 +1598,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour19DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature19"
@@ -1606,12 +1606,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour19TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour20"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1621,12 +1621,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour20"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour20"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour20"
                     android:src="@mipmap/cloudy"
@@ -1638,7 +1638,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour20DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature20"
@@ -1646,12 +1646,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour20TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour21"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1661,12 +1661,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour21"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour21"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour21"
                     android:src="@mipmap/cloudy"
@@ -1678,7 +1678,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour21DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature21"
@@ -1686,12 +1686,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour21TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour22"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1701,12 +1701,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour22"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour22"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour22"
                     android:src="@mipmap/cloudy"
@@ -1718,7 +1718,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour22DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature22"
@@ -1726,12 +1726,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour22TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour23"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1741,12 +1741,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour23"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour23"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour23"
                     android:src="@mipmap/cloudy"
@@ -1758,7 +1758,7 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour23DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_weather_24hourTemperature23"
@@ -1766,12 +1766,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour23TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_hour24"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -1781,12 +1781,12 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour24"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/iv_weather_24hour24"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hour24"
                     android:src="@mipmap/cloudy"
@@ -1798,14 +1798,14 @@
                     android:layout_height="15dp"
                     android:text="@string/tv_weather_24hour24DescriptionDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_24hour24TemperatureDefault"
                     android:textAlignment="center"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
         </LinearLayout>

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textColor="@android:color/black"
@@ -104,17 +104,6 @@
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/tv_home_degree"
-                android:layout_width="5dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/tv_home_degree"
-                android:textAlignment="textEnd"
-                android:textColor="@android:color/black"
-                android:textSize="72sp"
-                android:textStyle="italic" />
-
-            <TextView
                 android:id="@+id/tv_home_unit"
                 android:layout_width="16dp"
                 android:layout_height="match_parent"
@@ -125,8 +114,8 @@
 
             <ImageView
                 android:id="@+id/iv_home_weatherIcon"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/tv_home_weatherMessage" />
 <!--                app:srcCompat="@mipmap/cloudy" /> -->
@@ -155,7 +144,7 @@
 
             <TextView
                 android:id="@+id/tv_home_citystate"
-                android:layout_width="4dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textAlignment="center"

@@ -1,6 +1,6 @@
 <resources>
     <!--App name (Tentative)-->
-    <string name="app_name">ChatHub</string>
+    <string name="app_name">Current</string>
     <string name="PLACEHOLDER">PLACEHOLDER</string>
 
     <!--login fragment strings-->
@@ -9,6 +9,7 @@
     <string name="btn_login_register">Register</string>
     <string name="btn_login_login">Login</string>
     <string name="cb_login_staySignedIn">Stay signed in</string>
+    <string name="iv_login_logo">Main Logo</string>
 
     <!--register fragment strings-->
     <string name="et_register_email">Email Address</string>
@@ -26,7 +27,6 @@
 
     <!--home fragment strings-->
     <string name="tv_home_weatherMessage">Weather Forecast</string>
-    <string name="tv_home_degree">°</string>
 
     <!--weather fragment strings-->
     <string name="tv_weather_weatherHub">WeatherHub</string>
