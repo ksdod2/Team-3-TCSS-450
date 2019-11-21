@@ -10,7 +10,7 @@
     <color name="secondaryDarkColor">#4bacb8</color>
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#000000</color>
-    <color name="primaryHintColor">#9f9f9f</color>
+    <color name="primaryHintColor">#9F9F9F</color>
 
     //spooky orange colors
     <color name="spookyPrimaryColor">#FF9800</color>

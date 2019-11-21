@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/tv_weather_weatherHub"
-        android:textColor="@android:color/black"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/tv_weather_currentLocation"
-                android:textColor="@android:color/black"
                 android:textStyle="bold" />
 
             <TextView
@@ -53,7 +51,6 @@
                 android:layout_weight="1"
                 android:text="@string/tv_weather_currentCity"
                 android:textAlignment="viewStart"
-                android:textColor="@android:color/black"
                 android:textStyle="italic" />
 
             <TextView
@@ -62,7 +59,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/tv_weather_currentState"
-                android:textColor="@android:color/black"
                 android:textStyle="italic" />
         </LinearLayout>
 
@@ -81,7 +77,6 @@
                 android:ems="10"
                 android:hint="@string/et_weather_searchByZip"
                 android:inputType="number"
-                android:textColor="@android:color/darker_gray"
                 tools:targetApi="o" />
 
             <Button

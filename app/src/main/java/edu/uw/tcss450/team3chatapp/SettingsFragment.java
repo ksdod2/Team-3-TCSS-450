@@ -2,6 +2,7 @@ package edu.uw.tcss450.team3chatapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,8 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
 
@@ -48,16 +51,31 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
         themeOption.setOnClickListener(this::showThemeChangePopup);
 
         RadioGroup tempUnitOptions = getView().findViewById(R.id.rg_settings_temp);
-        if(!mPrefs.contains(getString(R.string.keys_prefs_tempunit))) {
+        if (!mPrefs.contains(getString(R.string.keys_prefs_tempunit))) {
             tempUnitOptions.check(R.id.rb_settings_f);
             mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "F").apply();
         } else {
-            if("F".equals(mPrefs.getString(getString(R.string.keys_prefs_tempunit), ""))) {
+            if ("F".equals(mPrefs.getString(getString(R.string.keys_prefs_tempunit), ""))) {
                 tempUnitOptions.check(R.id.rb_settings_f);
             } else {
                 tempUnitOptions.check(R.id.rb_settings_c);
             }
         }
+
+        // live update current theme on settings
+        int currentThemeID = mPrefs.getInt("theme", 0);
+
+        TextView tv_settings_currentTheme = getView().findViewById(R.id.tv_settings_themeCurrent);
+        ImageView iv_settings_currentThemeIcon = getView().findViewById(R.id.iv_settings_currentTheme);
+
+        if (currentThemeID == R.style.DarkMode) {
+            tv_settings_currentTheme.setText("Current Theme: Dark Mode");
+            iv_settings_currentThemeIcon.setImageResource(R.mipmap.ic_logo_dark);
+        } else {
+            tv_settings_currentTheme.setText("Current Theme: Light Mode");
+            iv_settings_currentThemeIcon.setImageResource(R.mipmap.ic_logo_light);
+        }
+
         tempUnitOptions.setOnCheckedChangeListener(this::changeTempUnits);
     }
 
@@ -66,6 +84,7 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
         popup.setOnMenuItemClickListener(this);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.settings_theme, popup.getMenu());
+
         popup.show();
     }
 
@@ -73,16 +92,10 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings_themeoption_default:
-                updateTheme(R.style.AppTheme);
+                updateTheme(R.style.DarkMode);
                 return true;
             case R.id.settings_themeoption_spookyorange:
-                updateTheme(R.style.SpookyOrangeTheme);
-                return true;
-            case R.id.settings_themeoption_bashfulblue:
-                updateTheme(R.style.BashfulBlueTheme);
-                return true;
-            case R.id.settings_themeoption_huskypride:
-                updateTheme(R.style.HuskyPrideTheme);
+                updateTheme(R.style.LightMode);
                 return true;
             default:
                 return false;

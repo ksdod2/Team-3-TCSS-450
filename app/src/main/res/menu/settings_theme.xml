@@ -2,14 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/settings_themeoption_default"
-        android:title="@string/theme_option_default" />
+        android:title="Dark Mode" />
     <item
         android:id="@+id/settings_themeoption_spookyorange"
-        android:title="@string/theme_option_spookyorange" />
-    <item
-        android:id="@+id/settings_themeoption_bashfulblue"
-        android:title="@string/theme_option_bashfulblue" />
-    <item
-        android:id="@+id/settings_themeoption_huskypride"
-        android:title="@string/theme_option_huskypride" />
+        android:title="Light Mode" />
 </menu>
