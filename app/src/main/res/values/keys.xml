@@ -7,6 +7,7 @@
     <string name="keys_prefs_password">password</string>
     <string name="keys_prefs_username">username</string>
     <string name="keys_prefs_stay_logged_in">loggedIn</string>
+    <string name="keys_prefs_savedlocations">savedLocations</string>
 
     <!-- JSON response keys from "/register" end point -->
     <string name="keys_json_register_success_bool">success</string>
@@ -48,6 +49,28 @@
     <string name="keys_json_connections_accepted_str">accepted</string>
     <string name="keys_json_connections_accepted_yes_str">true</string>
     <string name="keys_json_connections_accepted_no_str">false</string>
+
+    <!-- JSON response keys from "/weather" endpoint -->
+    <string name="keys_json_weather_response">response</string>
+    <string name="keys_json_weather_response_array">responses</string>
+    <string name="keys_json_weather_weather">weather</string>
+    <string name="keys_json_weather_icon">icon</string>
+    <string name="keys_json_weather_periods_array">periods</string>
+    <!-- for current weather -->
+    <string name="keys_json_weather_place">place</string>
+    <string name="keys_json_weather_name">name</string>
+    <string name="keys_json_weather_state">state</string>
+    <string name="keys_json_weather_ob">ob</string>
+    <string name="keys_json_weather_tempc">tempC</string>
+    <string name="keys_json_weather_tempf">tempF</string>
+    <!-- for 10day forecast -->
+    <string name="keys_json_weather_mintempc">minTempC</string>
+    <string name="keys_json_weather_mintempf">minTempF</string>
+    <string name="keys_json_weather_maxtempc">macTempC</string>
+    <string name="keys_json_weather_maxtempf">maxTempF</string>
+    <!-- for 24hr forecast -->
+    <string name="keys_json_weather_avgtempc">avgTempC</string>
+    <string name="keys_json_weather_avgtempf">avgTempF</string>
 
 
 </resources>

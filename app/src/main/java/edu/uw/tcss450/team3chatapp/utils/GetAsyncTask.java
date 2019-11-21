@@ -1,6 +1,7 @@
 package edu.uw.tcss450.team3chatapp.utils;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -189,6 +190,7 @@ public class GetAsyncTask extends AsyncTask<Void, String, String> {
                 urlConnection.disconnect();
             }
         }
+        Log.d("TEST", "got to end of doInBackground");
         return response.toString();
     }
 

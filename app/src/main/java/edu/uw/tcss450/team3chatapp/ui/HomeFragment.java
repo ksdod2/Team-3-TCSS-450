@@ -17,18 +17,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.HomeActivityArgs;
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Credentials;
 import edu.uw.tcss450.team3chatapp.model.LocationViewModel;
+import edu.uw.tcss450.team3chatapp.model.WeatherProfile;
+import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
+import edu.uw.tcss450.team3chatapp.utils.Utils;
 
 public class HomeFragment extends Fragment {
 
@@ -76,8 +85,11 @@ public class HomeFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
 
         // Get last known device location
-        LocationViewModel model = LocationViewModel.getFactory().create(LocationViewModel.class);
-        mLocation = model.getCurrentLocation().getValue();
+        LocationViewModel locVM = LocationViewModel.getFactory().create(LocationViewModel.class);
+        mLocation = locVM.getCurrentLocation().getValue();
+
+        //Get weather ViewModel and update if necessary
+        Utils.updateWeatherIfNecessary(prefs);
 
         // Get UI elements
         mWeatherDescription = Objects.requireNonNull(getView()).findViewById(R.id.tv_home_status);
@@ -117,53 +129,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void populateWeatherData() {
-        if(mLocation != null) {
-            String fields = "place.name,place.state,ob.tempC,ob.tempF,ob.weather,ob.icon";
-            String action = mLocation.getLatitude() + "," + mLocation.getLongitude();
-
-            Uri uri = new Uri.Builder()
-                    .scheme("https")
-                    .authority(getString(R.string.ep_base))
-                    .appendPath(getString(R.string.ep_weather_weather))
-                    .appendPath(getString(R.string.ep_weather_observations))
-                    .appendPath(action)
-                    .appendQueryParameter("fields", fields)
-                    .build();
-
-            new GetAsyncTask.Builder(uri.toString())
-                    .onPreExecute(this::weatherOnPre)
-                    .onCancelled(this::weatherOnCancel)
-                    .onPostExecute(this::weatherOnPost)
-                    .build().execute();
-        } else {
-            Log.d("WEATHER_URI", "location is null");
-        }
-    }
-
-    private void weatherOnPre() {
-        //TODO show progressbar layout to hide blank details
-    }
-
-    private void weatherOnCancel(final String theResult) {
-        try {
-            JSONObject jsonObj = new JSONObject(theResult);
-            Log.d("WEATHER_CANCEL", jsonObj.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void weatherOnPost(final String theResult) {
+        WeatherProfileViewModel model = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
+        WeatherProfile curLocWP = model.getWeatherProfileForLocation(mLocation);
         String logTag = "WEATHER_POST";
-        //parse JSON
+
         try {
-            JSONObject root = new JSONObject(theResult);
-            if(root.has("response")) {
-                JSONObject response = root.getJSONObject("response");
-                if(response.has("place") && response.has("ob")) {
+            JSONObject currentWeatherRoot = curLocWP.getCurrentWeather();
+            if (currentWeatherRoot.has(getString(R.string.keys_json_weather_response))) {
+                JSONObject response = currentWeatherRoot.getJSONObject(getString(R.string.keys_json_weather_response));
+                if(response.has(getString(R.string.keys_json_weather_place))
+                        && response.has(getString(R.string.keys_json_weather_ob))) {
+
                     JSONObject place = response.getJSONObject("place");
                     JSONObject ob = response.getJSONObject("ob");
-
 
                     String cityState = formatCityState(place.getString("name"),
                                                         place.getString("state").toUpperCase());
@@ -177,14 +155,11 @@ public class HomeFragment extends Fragment {
                     mCityState.setText(cityState);
                     mWeatherIcon.setImageResource(id);
                 } else {
-                    Log.d(logTag, "Either Place or Ob missing form Response: " + root.toString());
+                    Log.d(logTag, "Either Place or Ob missing form Response: " + response.toString());
                 }
-            } else {
-                Log.d(logTag, "Response Missing: " + root.toString());
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e(logTag, Objects.requireNonNull(e.getMessage()));
+        } catch(JSONException e) {
+
         }
     }
 
@@ -192,7 +167,7 @@ public class HomeFragment extends Fragment {
 
         StringBuilder city = new StringBuilder();
 
-        String split[];
+        String[] split;
         if(name.contains(" ")) {
             split = name.split(" ");
             for(String s : split) {
@@ -205,4 +180,76 @@ public class HomeFragment extends Fragment {
 
         return city.append(", ").append(state).toString();
     }
+
+//            if(mLocation != null) {
+//            String fields = "place.name,place.state,ob.tempC,ob.tempF,ob.weather,ob.icon";
+//            String action = mLocation.getLatitude() + "," + mLocation.getLongitude();
+//
+//            Uri uri = new Uri.Builder()
+//                    .scheme("https")
+//                    .authority(getString(R.string.ep_base))
+//                    .appendPath(getString(R.string.ep_weather_weather))
+//                    .appendPath(getString(R.string.ep_weather_observations))
+//                    .appendPath(action)
+//                    .appendQueryParameter("fields", fields)
+//                    .build();
+//
+//            new GetAsyncTask.Builder(uri.toString())
+//                    .onPreExecute(this::weatherOnPre)
+//                    .onCancelled(this::weatherOnCancel)
+//                    .onPostExecute(this::weatherOnPost)
+//                    .build().execute();
+//        } else {
+//            Log.d("WEATHER_URI", "location is null");
+//        }
+
+
+//    private void weatherOnPre() {
+//        //TODO show progressbar layout to hide blank details
+//    }
+//
+//    private void weatherOnCancel(final String theResult) {
+//        try {
+//            JSONObject jsonObj = new JSONObject(theResult);
+//            Log.d("WEATHER_CANCEL", jsonObj.toString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void weatherOnPost(final String theResult) {
+//        String logTag = "WEATHER_POST";
+//        //parse JSON
+//        try {
+//            JSONObject root = new JSONObject(theResult);
+//            if(root.has("response")) {
+//                JSONObject response = root.getJSONObject("response");
+//                if(response.has("place") && response.has("ob")) {
+//                    JSONObject place = response.getJSONObject("place");
+//                    JSONObject ob = response.getJSONObject("ob");
+//
+//
+//                    String cityState = formatCityState(place.getString("name"),
+//                                                        place.getString("state").toUpperCase());
+//
+//                    String icFile = ob.getString("icon").substring(0, ob.getString("icon").length()-4);
+//
+//                    int id = getResources().getIdentifier(icFile, "mipmap", getContext().getPackageName());
+//
+//                    mWeatherDescription.setText(ob.getString("weather"));
+//                    mWeatherTemp.setText("F".equals(mUnits) ? ob.getString("tempF") : ob.getString("tempC"));
+//                    mCityState.setText(cityState);
+//                    mWeatherIcon.setImageResource(id);
+//                } else {
+//                    Log.d(logTag, "Either Place or Ob missing form Response: " + root.toString());
+//                }
+//            } else {
+//                Log.d(logTag, "Response Missing: " + root.toString());
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            Log.e(logTag, Objects.requireNonNull(e.getMessage()));
+//        }
+//    }
+//
 }
