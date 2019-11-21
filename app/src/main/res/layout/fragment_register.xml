@@ -7,106 +7,144 @@
     android:layout_height="match_parent"
     tools:context=".RegisterFragment">
 
-    // logo
+    <ImageView
+        android:id="@+id/iv_register_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/iv_register_bg"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_main_v1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ImageView
         android:id="@+id/iv_register_logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="40dp"
-        android:src="@mipmap/ic_launcher_round_current"
+        android:layout_width="177dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/iv_register_logo"
+        android:src="@mipmap/logo_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/iv_register_bg" />
 
-    // nickname field
     <EditText
         android:id="@+id/et_register_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/primaryTextColor"
         android:ems="10"
         android:hint="@string/et_register_nickname"
         android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="@color/primaryTextColor"
+        android:textColorHint="@color/primaryHintColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_register_lastName" />
+        app:layout_constraintTop_toBottomOf="@+id/et_register_lastName"
+        android:autofillHints="" tools:targetApi="o" />
 
-    // email field
     <EditText
         android:id="@+id/et_register_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/primaryTextColor"
         android:ems="10"
         android:hint="@string/et_register_email"
         android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        android:textColor="@color/primaryTextColor"
+        android:textColorHint="@color/primaryHintColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_register_nickname" />
+        app:layout_constraintTop_toBottomOf="@+id/et_register_nickname"
+        android:importantForAutofill="no" />
 
-    // password field
     <EditText
         android:id="@+id/et_register_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/primaryTextColor"
         android:ems="10"
         android:hint="@string/et_register_password"
         android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="@color/primaryTextColor"
+        android:textColorHint="@color/primaryHintColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_register_email" />
+        app:layout_constraintTop_toBottomOf="@+id/et_register_email"
+        android:importantForAutofill="no" />
 
-    // confirm password field (match)
     <EditText
         android:id="@+id/et_register_confpass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/primaryTextColor"
         android:ems="10"
         android:hint="@string/et_register_confirmPass"
         android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="@color/primaryTextColor"
+        android:textColorHint="@color/primaryHintColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_register_password" />
+        app:layout_constraintTop_toBottomOf="@+id/et_register_password"
+        android:importantForAutofill="no" />
 
-    // register button
     <Button
         android:id="@+id/btn_register_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/secondaryColor"
         android:text="@string/btn_register_register"
+        android:textColor="@color/secondaryTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_register_confpass" />
 
-    // last name field
     <EditText
         android:id="@+id/et_register_lastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/primaryTextColor"
         android:ems="10"
         android:hint="@string/et_register_lastName"
         android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="@color/primaryTextColor"
+        android:textColorHint="@color/primaryHintColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_register_firstName" />
+        app:layout_constraintTop_toBottomOf="@+id/et_register_firstName"
+        android:importantForAutofill="no" />
 
-    // first name field
     <EditText
         android:id="@+id/et_register_firstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="400dp"
+        android:backgroundTint="@color/primaryTextColor"
         android:ems="10"
         android:hint="@string/et_register_firstName"
         android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="@color/primaryTextColor"
+        android:textColorHint="@color/primaryHintColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_register_wait"
         android:layout_width="match_parent"
@@ -115,6 +153,18 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_register_loadingBackground"
+            android:layout_width="265dp"
+            android:layout_height="265dp"
+            android:layout_marginTop="64dp"
+            android:contentDescription="@string/iv_login_bg"
+            android:src="@drawable/logo_gradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/pb_register"
@@ -125,6 +175,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

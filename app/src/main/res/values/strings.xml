@@ -20,6 +20,8 @@
     <string name="et_register_lastName">Last Name</string>
     <string name="et_register_nickname">Nickname</string>
     <string name="btn_register_register">Register</string>
+    <string name="iv_register_logo">Main Logo</string>
+    <string name="iv_register_bg">Background Image</string>
 
     <!--verification fragment strings-->
     <string name="tv_verification_verificationMessage">A verification link has been sent to your Email address.
