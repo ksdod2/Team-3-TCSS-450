@@ -18,11 +18,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import edu.uw.tcss450.team3chatapp.MyChatRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Chat;
+import edu.uw.tcss450.team3chatapp.model.ChatListViewModel;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
@@ -37,6 +38,7 @@ public class ChatFragment extends Fragment {
     private int mMemberID;
     private String mJWT;
     private int currentChat;
+    private ArrayList<Chat> mRooms = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -54,9 +56,19 @@ public class ChatFragment extends Fragment {
         mMemberID = args.getMemberID();
         mJWT = args.getJWT();
 
-        RecyclerView recyclerView = view.findViewById(R.id.list_chatroom);
-        ArrayList<Chat> rooms = new ArrayList(Arrays.asList(args.getRooms()));
-        recyclerView.setAdapter(new MyChatRecyclerViewAdapter(rooms, this::displayChat, this::displayMenu));
+        // Add this fragment as an observer to the chat ViewModel
+        ChatListViewModel model = ChatListViewModel.getFactory().create(ChatListViewModel.class);
+        model.getCurrentChats().observe(this, this::updateRecyclerView);
+        mRooms.addAll(model.getCurrentChats().getValue());
+
+        RecyclerView roomList = view.findViewById(R.id.list_chatroom);
+        roomList.setAdapter(new MyChatRecyclerViewAdapter(mRooms, this::displayChat, this::displayMenu));
+
+        view.findViewById(R.id.btn_chat_create).setOnClickListener(v -> {
+            ChatFragmentDirections.ActionNavChatsToNavChatCreate create =
+                    ChatFragmentDirections.actionNavChatsToNavChatCreate(mMemberID, mJWT);
+            Navigation.findNavController(v).navigate(create);
+        });
 
         return view;
     }
@@ -66,6 +78,9 @@ public class ChatFragment extends Fragment {
      * @param tChat the chat to display content from
      */
     private void displayChat(final Chat tChat) {
+        // Viewing the chat, remove alert that there are new messages in it
+        tChat.setNew(false);
+
         // Get all the prior messages of the chat asynchronously
         Uri chatUri = new Uri.Builder()
                 .scheme("https")
@@ -87,6 +102,18 @@ public class ChatFragment extends Fragment {
                 .onCancelled(error -> Log.e("CHAT_ROOM_NAV", error))
                 .addHeaderField("authorization", mJWT)
                 .build().execute();
+    }
+
+    /**
+     * Updates the RecyclerView of Chats upon notification of the Chat ViewModel being updated.
+     * @param tChats the list of chats to update with
+     */
+    private void updateRecyclerView(final List<Chat> tChats) {
+        mRooms.clear();
+        mRooms.addAll(tChats);
+
+        RecyclerView roomList = getView().findViewById(R.id.list_chatroom);
+        roomList.getAdapter().notifyDataSetChanged();
     }
 
     /**

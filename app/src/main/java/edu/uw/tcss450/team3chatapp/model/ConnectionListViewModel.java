@@ -20,7 +20,7 @@ public class ConnectionListViewModel extends ViewModel {
     private static ConnectionListViewModel mInstance;
 
     // The list of connections, for ease of internal access
-    private ArrayList<Connection> mConnections;
+    private List<Connection> mConnections = new ArrayList<>();
 
     // The mutable live data to store the connections and update observers
     private MutableLiveData<List<Connection>> connections;
@@ -64,7 +64,7 @@ public class ConnectionListViewModel extends ViewModel {
      * Replaces the list of connections with a new one.
      * @param tConnections the list of connections to use
      */
-    public void setConnections(final ArrayList<Connection> tConnections) {
+    public void setConnections(final List<Connection> tConnections) {
         mConnections = tConnections;
         connections.setValue(mConnections);
     }

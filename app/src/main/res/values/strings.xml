@@ -229,8 +229,12 @@
     <string name="btn_sheet_invite">Invite From Contacts</string>
     <string name="btn_sheet_leave">Leave Chat</string>
     <string name="btn_chat_create">Create New Chat</string>
-    <string name="btn_chat_pending">View Invitations</string>
     <string name="btn_chatroom_send">Send</string>
+    <string name="et_chat_create_name">Chatroom Name</string>
+    <string name="et_chat_create_description">Chatroom Description (Optional)</string>
+    <string name="btn_chat_create_create">Create Room</string>
+    <string name="tv_chat_create_contacts">Your Contacts</string>
+    <string name="tv_chat_create_add">Contacts to invite to this room</string>
 
     <!-- Settings menu strings -->
     <!-- Theme settings strings -->
@@ -269,5 +273,6 @@
     <string name="et_connectionsearch_email">Email</string>
     <string name="et_connectionsearch_name_error">Please input both a first and last name.</string>
     <string name="et_connectionsearch_general_error">Please input a valid search term.</string>
+
 
 </resources>

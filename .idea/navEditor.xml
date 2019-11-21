@@ -28,6 +28,18 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="nav_chat_create">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="491" />
+                            <option name="y" value="367" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="nav_chatroom">
                     <value>
                       <LayoutPositions>
@@ -52,6 +64,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_chatFragment_to_chatMessageFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_nav_chats_to_nav_chat_create">
                               <value>
                                 <LayoutPositions />
                               </value>

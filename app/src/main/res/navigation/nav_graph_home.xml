@@ -19,14 +19,14 @@
             android:id="@+id/action_chatFragment_to_chatMessageFragment"
             app:destination="@id/nav_chatroom" />
         <argument
-            android:name="rooms"
-            app:argType="edu.uw.tcss450.team3chatapp.model.Chat[]" />
-        <argument
             android:name="JWT"
             app:argType="string" />
         <argument
             android:name="memberID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_nav_chats_to_nav_chat_create"
+            app:destination="@id/nav_chat_create" />
     </fragment>
     <fragment
         android:id="@+id/nav_chatroom"
@@ -105,5 +105,17 @@
         android:name="edu.uw.tcss450.team3chatapp.ui.WeatherFragment"
         android:label="fragment_weather"
         tools:layout="@layout/fragment_weather" />
+    <fragment
+        android:id="@+id/nav_chat_create"
+        android:name="edu.uw.tcss450.team3chatapp.ui.ChatCreationFragment"
+        android:label="Create Chat"
+        tools:layout="@layout/fragment_chat_creation" >
+        <argument
+            android:name="memberID"
+            app:argType="integer" />
+        <argument
+            android:name="JWT"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

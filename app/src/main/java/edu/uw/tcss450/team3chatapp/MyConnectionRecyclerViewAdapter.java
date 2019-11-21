@@ -48,7 +48,6 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
                     .inflate(R.layout.fragment_connection_search_result, parent, false);
             return new SearchViewHolder(view);
         }
-
     }
 
     @Override

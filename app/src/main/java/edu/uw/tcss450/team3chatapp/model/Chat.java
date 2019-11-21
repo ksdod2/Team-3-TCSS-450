@@ -3,6 +3,8 @@ package edu.uw.tcss450.team3chatapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 
 /**
@@ -14,20 +16,18 @@ public class Chat implements Serializable, Parcelable {
     private final int mChatID;
     private final String mName;
     private final String mDesc;
-    private final boolean mConfirmation;
+    private boolean mNewFlag = false;
 
-    public Chat(final int tChatID, final String tName, final String tDesc, final boolean tConf) {
+    public Chat(final int tChatID, final String tName, final String tDesc) {
         mChatID = tChatID;
         mName = tName;
         mDesc = tDesc;
-        mConfirmation = tConf;
     }
 
     protected Chat(Parcel in) {
         mChatID = in.readInt();
         mName = in.readString();
         mDesc = in.readString();
-        mConfirmation = (in.readByte() != 0);
     }
 
     public static final Creator<Chat> CREATOR = new Creator<Chat>() {
@@ -45,7 +45,9 @@ public class Chat implements Serializable, Parcelable {
     public int getChatID() { return  mChatID; }
     public String getName() { return mName; }
     public String getDescription() { return mDesc; }
-    public boolean getConfirmation() { return mConfirmation; }
+    public boolean hasNew() { return mNewFlag; }
+
+    public void setNew(final boolean tNewFlag) { mNewFlag = tNewFlag; }
 
     @Override
     public int describeContents() {
@@ -57,6 +59,17 @@ public class Chat implements Serializable, Parcelable {
         parcel.writeString(mName);
         parcel.writeString(mDesc);
         parcel.writeInt(mChatID);
-        parcel.writeInt(mConfirmation ? 1 : 0);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(!(obj instanceof  Chat))
+            return false;
+        return mChatID == ((Chat) obj).mChatID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(mChatID);
     }
 }
