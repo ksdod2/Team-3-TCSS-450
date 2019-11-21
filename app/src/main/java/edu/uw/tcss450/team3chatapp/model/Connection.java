@@ -68,9 +68,7 @@ public class Connection implements Serializable, Parcelable {
     public boolean equals(@Nullable Object obj) {
         if (!(obj instanceof Connection))
             return false;
-        return mMemberID == ((Connection) obj).mMemberID && mFirstName.equals(((Connection) obj).mFirstName)
-                && mLastName.equals(((Connection) obj).mLastName) && mUsername.equals(((Connection) obj).mUsername)
-                && mEmail.equals(((Connection) obj).mEmail);
+        return mMemberID == ((Connection) obj).mMemberID;
     }
 
     public static final Creator<Connection> CREATOR = new Creator<Connection>() {

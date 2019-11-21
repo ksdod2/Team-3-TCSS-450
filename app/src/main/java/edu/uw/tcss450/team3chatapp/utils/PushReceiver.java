@@ -25,6 +25,7 @@ public class PushReceiver extends BroadcastReceiver {
 
     public static final String RECEIVED_NEW_MESSAGE = "new message from pushy";
     public static final String RECEIVED_NEW_CONN = "new connection from pushy";
+    public static final String RECEIVED_NEW_CONVO = "new chat from pushy";
 
     private static final String CHANNEL_ID = "1";
 
@@ -96,7 +97,7 @@ public class PushReceiver extends BroadcastReceiver {
 
                 if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
                     //app is in the foreground so send the message to the active Activities
-                    Log.d("PUSHY", "Message received in foreground: " + message.toString());
+                    Log.d("PUSHY", "Connection received in foreground: " + message.toString());
 
                     //create an Intent to broadcast a message to other parts of the app.
                     Intent i = new Intent(RECEIVED_NEW_CONN);
@@ -141,8 +142,32 @@ public class PushReceiver extends BroadcastReceiver {
             } catch (JSONException e) {
                 Log.e("PUSH ERROR", e.getMessage());
             }
-        } else if (typeOfMessage.equals("room")) {
-            // STUFF HERE FOR ROOM INVITATIONS
+        } else if (typeOfMessage.equals("convo")) {
+            try {
+                JSONObject message = new JSONObject(intent.getStringExtra("message"));
+
+                ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
+                ActivityManager.getMyMemoryState(appProcessInfo);
+
+                if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
+                    //app is in the foreground so send the message to the active Activities
+                    Log.d("PUSHY", "Chat received in foreground: " + message.toString());
+
+                    //create an Intent to broadcast a message to other parts of the app.
+                    Intent i = new Intent(RECEIVED_NEW_CONVO);
+                    i.putExtra("SENDER", sender);
+                    i.putExtra("MESSAGE", message.toString());
+                    i.putExtras(intent.getExtras());
+
+                    context.sendBroadcast(i);
+
+                } else {
+                    // TODO: Should user be background notified about adding to rooms? Invitations were scrapped, so atm unclear
+
+                }
+            } catch (JSONException e) {
+                Log.e("PUSH ERROR", e.getMessage());
+            }
         }
     }
 }

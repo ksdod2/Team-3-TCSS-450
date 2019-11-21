@@ -27,6 +27,7 @@
     <string name="keys_json_chats_name">name</string>
     <string name="keys_json_chats_description">description</string>
     <string name="keys_json_chats_messages">messages</string>
+    <string name="keys_json_chats_invitees">invitees</string>
     <string name="keys_json_chatmessage_sender">username</string>
     <string name="keys_json_chatmessage_message">message</string>
     <string name="keys_json_chatmessage_timestamp">timestamp</string>

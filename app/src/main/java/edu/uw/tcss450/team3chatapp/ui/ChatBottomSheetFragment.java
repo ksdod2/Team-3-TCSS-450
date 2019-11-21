@@ -45,9 +45,7 @@ public class ChatBottomSheetFragment extends BottomSheetDialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_chat_bottom_sheet, container, false);
 
         Button leave = rootView.findViewById(R.id.btn_sheet_leave);
-        leave.setOnClickListener(view -> {
-            Log.i("CLICKED", mChat.getName());
-        });
+        leave.setOnClickListener(this::leaveChat);
 
         return rootView;
     }
@@ -61,14 +59,13 @@ public class ChatBottomSheetFragment extends BottomSheetDialogFragment {
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base))
                 .appendPath(getString(R.string.ep_chat))
-                .appendPath(getString(R.string.ep_chat_confirm))
+                .appendPath(getString(R.string.ep_chat_leave))
                 .build();
 
         JSONObject chatInfo = new JSONObject();
         try {
             chatInfo.put("memberid", mMemberID);
             chatInfo.put(getString(R.string.keys_json_chats_id), mChat.getChatID());
-            chatInfo.put(getString(R.string.keys_json_connections_verified_int), 0);
         } catch (JSONException e) {
             e.printStackTrace();
         }

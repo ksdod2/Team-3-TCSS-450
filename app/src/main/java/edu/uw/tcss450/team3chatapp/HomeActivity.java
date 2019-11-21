@@ -40,9 +40,11 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.model.Chat;
+import edu.uw.tcss450.team3chatapp.model.ChatListViewModel;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.model.ConnectionListViewModel;
+import edu.uw.tcss450.team3chatapp.ui.ChatFragmentDirections;
 import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
 import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
@@ -119,6 +121,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         // Get information to populate ViewModels
         fetchConnections();
+        fetchChats();
 
         navigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
 
@@ -137,6 +140,7 @@ public class HomeActivity extends AppCompatActivity {
         IntentFilter iFilter = new IntentFilter();
         iFilter.addAction(PushReceiver.RECEIVED_NEW_MESSAGE);
         iFilter.addAction(PushReceiver.RECEIVED_NEW_CONN);
+        iFilter.addAction(PushReceiver.RECEIVED_NEW_CONVO);
         registerReceiver(mPushMessageReceiver, iFilter);
     }
 
@@ -169,25 +173,10 @@ public class HomeActivity extends AppCompatActivity {
                 navController.navigate(R.id.nav_home, getIntent().getExtras());
                 break;
             case R.id.nav_chats:
-                Uri chatUri = new Uri.Builder()
-                        .scheme("https")
-                        .appendPath(getString(R.string.ep_base))
-                        .appendPath(getString(R.string.ep_chat))
-                        .appendPath(getString(R.string.ep_chat_getchats))
-                        .build();
+                MobileNavigationDirections.ActionGlobalNavChats chats =
+                        ChatFragmentDirections.actionGlobalNavChats(mArgs.getJwt(), mArgs.getUserId());
 
-                JSONObject chatInfo = new JSONObject();
-                try {
-                    chatInfo.put("memberid", mArgs.getUserId());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                new SendPostAsyncTask.Builder(chatUri.toString(), chatInfo)
-                        .onPostExecute(this::handleChatsOnPostExecute)
-                        .onCancelled(error -> Log.e("CONN_NAV", error))
-                        .addHeaderField("authorization", mArgs.getJwt())
-                        .build().execute();
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(chats);
                 break;
 
             case R.id.nav_connectionhome:
@@ -229,6 +218,28 @@ public class HomeActivity extends AppCompatActivity {
                 .build().execute();
     }
 
+    private void fetchChats() {
+        Uri chatUri = new Uri.Builder()
+                .scheme("https")
+                .appendPath(getString(R.string.ep_base))
+                .appendPath(getString(R.string.ep_chat))
+                .appendPath(getString(R.string.ep_chat_getchats))
+                .build();
+
+        JSONObject chatInfo = new JSONObject();
+        try {
+            chatInfo.put("memberid", mArgs.getUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        new SendPostAsyncTask.Builder(chatUri.toString(), chatInfo)
+                .onPostExecute(this::handleChatsOnPostExecute)
+                .onCancelled(error -> Log.e("CONN_NAV", error))
+                .addHeaderField("authorization", mArgs.getJwt())
+                .build().execute();
+    }
+
     private void handleConnectionsOnPostExecute(final String result) {
         //parse JSON
         try {
@@ -264,21 +275,17 @@ public class HomeActivity extends AppCompatActivity {
         try {
             JSONObject root = new JSONObject(result);
             if (root.has(getString(R.string.keys_json_chats))) {
+                ArrayList<Chat> chats = new ArrayList<>();
                 JSONArray data = root.getJSONArray(getString(R.string.keys_json_chats));
-                Chat[] rooms = new Chat[data.length()];
                 for(int i = 0; i < data.length(); i++) {
                     JSONObject room = data.getJSONObject(i);
 
-                    rooms[i] = new Chat(room.getInt(getString(R.string.keys_json_chats_id)),
+                    chats.add(new Chat(room.getInt(getString(R.string.keys_json_chats_id)),
                             room.getString(getString(R.string.keys_json_chats_name)),
-                            room.getString(getString(R.string.keys_json_chats_description)), true);
+                            room.getString(getString(R.string.keys_json_chats_description))));
                 }
-
-                MobileNavigationDirections.ActionGlobalNavChats chats =
-                        MobileNavigationDirections.actionGlobalNavChats(rooms, mArgs.getJwt(),
-                                mArgs.getUserId());
-                Navigation.findNavController(this, R.id.nav_host_fragment)
-                        .navigate(chats);
+                // Set the list of chats in the ViewModel to the full set of user chats
+                ChatListViewModel.getFactory().create(ChatListViewModel.class).setChats(chats);
 
             }
         } catch (JSONException e) {
@@ -383,25 +390,24 @@ public class HomeActivity extends AppCompatActivity {
                     && intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {
 
                 try {
-                    JSONObject info = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
-                    boolean sender = info.getInt(getString(R.string.keys_json_connections_memberid_int)) == mArgs.getUserId();
+                    JSONObject msgInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
+                    boolean sender = msgInfo.getInt(getString(R.string.keys_json_connections_memberid_int)) == mArgs.getUserId();
                     Connection pushed =
-                            new Connection(info.getInt(getString(R.string.keys_json_connections_memberid_int)),
-                                    info.getString(getString(R.string.keys_json_connections_firstname_str)),
-                                    info.getString(getString(R.string.keys_json_connections_lastname_str)),
-                                    info.getString(getString(R.string.keys_json_connections_username_str)),
-                                    info.getString(getString(R.string.keys_prefs_email)),
-                                    info.getInt("relation"), sender);
+                            new Connection(msgInfo.getInt(getString(R.string.keys_json_connections_memberid_int)),
+                                    msgInfo.getString(getString(R.string.keys_json_connections_firstname_str)),
+                                    msgInfo.getString(getString(R.string.keys_json_connections_lastname_str)),
+                                    msgInfo.getString(getString(R.string.keys_json_connections_username_str)),
+                                    msgInfo.getString(getString(R.string.keys_prefs_email)),
+                                    msgInfo.getInt("relation"), sender);
                     // Update ViewModel of connections with change based on connection
-                    if (info.getBoolean("new")) {
+                    if (msgInfo.getBoolean("new")) {
                         ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).addConnection(pushed);
                         if(pushed.getRelation() == Connection.Relation.UNACCEPTED && !pushed.amSender()
                             && Objects.requireNonNull(nd).getId() != R.id.nav_connectionhome) {
                             // TODO: Something to notify users in-app of a new connection invitation
-                            Log.i("PUSH CONNECTION", info.toString());
+                            Log.i("PUSH CONNECTION", msgInfo.toString());
                         }
-                    }
-                    else
+                    } else
                         ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).removeConnection(pushed);
 
                 } catch (JSONException e) {
@@ -409,6 +415,36 @@ public class HomeActivity extends AppCompatActivity {
                     Log.e("PUSH CONNECTION", Objects.requireNonNull(e.getMessage()));
                 }
 
+            } else if (Objects.requireNonNull(intent.getAction()).equals(PushReceiver.RECEIVED_NEW_CONVO)
+                    && intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {
+
+                try {
+                    JSONObject chtInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
+                    Chat pushed = new Chat(chtInfo.getInt(getString(R.string.keys_json_chats_id)),
+                            chtInfo.getString(getString(R.string.keys_json_chats_name)),
+                            chtInfo.getString(getString(R.string.keys_json_chats_description)));
+                    // Update ViewModel of connections with change based on chat
+                    if (chtInfo.getBoolean("new")) {
+                        ChatListViewModel.getFactory().create(ChatListViewModel.class).addChat(pushed);
+                        // TODO: In-app notification of being added to a new chatroom
+                    } else
+                        ChatListViewModel.getFactory().create(ChatListViewModel.class).removeChat(pushed);
+
+                } catch (JSONException e) {
+                    // Couldn't get the notification properly, just give up
+                    Log.e("PUSH CHAT", Objects.requireNonNull(e.getMessage()));
+                }
+            } else if (Objects.requireNonNull(intent.getAction()).equals(PushReceiver.RECEIVED_NEW_MESSAGE)
+                    && intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {
+                try {
+                    JSONObject msgInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
+                    // Set chat where message came from to display as having unread messages
+                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(msgInfo.getInt("room"));
+                    // TODO: Immediately visible in-app notification of new message received, potential local storage of message
+                } catch (JSONException e) {
+                    // Couldn't get the notification properly, just give up
+                    Log.e("PUSH MESSAGE", Objects.requireNonNull(e.getMessage()));
+                }
             }
         }
     }
