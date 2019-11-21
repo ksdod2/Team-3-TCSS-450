@@ -23,8 +23,6 @@
     <string name="ep_connections_get">get</string>
     <string name="ep_connections_search">search</string>
 
-    <!-- Aeris Weather API endpoints -->
-    <string name="ep_weather_weather">weather</string>
-    <string name="ep_weather_observations">observations</string>
-    <string name="ep_weather_forecasts">forecasts</string>
+    <!-- Aeris Weather API endpoint -->
+    <string name="ep_weather">weather</string>
 </resources>

@@ -54,6 +54,7 @@ import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
 import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
+import edu.uw.tcss450.team3chatapp.utils.Utils;
 import me.pushy.sdk.Pushy;
 
 public class HomeActivity extends AppCompatActivity {
@@ -130,6 +131,7 @@ public class HomeActivity extends AppCompatActivity {
             nc.navigate(connection);
         }
         // Get information to populate ViewModels
+        Utils.updateWeatherIfNecessary(mPrefs);
         fetchConnections();
         fetchChats();
 
@@ -141,6 +143,8 @@ public class HomeActivity extends AppCompatActivity {
         ((TextView) header.findViewById(R.id.tv_nav_header)).setText(mArgs.getCredentials().getUsername());
         ((TextView) header.findViewById(R.id.tv_verification_message)).setText(mArgs.getCredentials().getEmail());
     }
+
+    private void fetchWeatherPost(final String result) {}
 
     @Override
     public void onResume() {
@@ -211,6 +215,62 @@ public class HomeActivity extends AppCompatActivity {
         ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawers();
         return true;
     }
+
+//    private void updateWeatherIfNecessary() {
+//        WeatherProfileViewModel model = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
+//
+//        if(model.getAllWeatherProfiles().getValue() == null || model.getTimeStamp() < Utils.getTopOfLastHour()) {
+//            ArrayList<Location> savedLocations;
+//
+//            Location curLoc = Objects.requireNonNull(LocationViewModel.getFactory().create(LocationViewModel.class).getCurrentLocation().getValue());
+//            String locKey = getString(R.string.keys_prefs_savedlocations);
+//            Gson gson = new Gson();
+//
+//            if(mPrefs.contains(locKey)) {
+//                Type typeOfLocList = new TypeToken<List<Location>>(){}.getType();
+//
+//                String listAsJSON = mPrefs.getString(locKey, "");
+//                savedLocations = gson.fromJson(listAsJSON, typeOfLocList);
+//
+//                //Add current location to saved locations if current location is far enough away from any other saved locations.
+//                boolean containsCurLoc = false;
+//                for(Location savedLoc : savedLocations) {
+//                    if(Utils.areCloseTogether(savedLoc, curLoc)) {
+//                        containsCurLoc = true;
+//                        break;
+//                    }
+//                }
+//                if(!containsCurLoc) {
+//                    savedLocations.add(curLoc);
+//                    mPrefs.edit().putString(locKey, gson.toJson(savedLocations)).apply();
+//                }
+//            } else {
+//                savedLocations = new ArrayList<>();
+//                savedLocations.add(curLoc);
+//                mPrefs.edit().putString(locKey, gson.toJson(savedLocations)).apply();
+//            }
+//
+//            model.update(savedLocations);
+//        }
+
+//        if(savedLocations.size() > 0) {
+//            Uri uri = new Uri.Builder()
+//                    .scheme("https")
+//                    .authority(getString(R.string.ep_base))
+//                    .appendPath(getString(R.string.ep_weather))
+//                    .appendQueryParameter("requests", buildWeatherQuery(savedLocations))
+//                    .build();
+//
+//            Log.d("WEATHER_URI", uri.toString());
+//
+//            new GetAsyncTask.Builder(uri.toString())
+//                    .onPostExecute(this::fetchWeatherPost)
+//                    .onCancelled(error -> Log.e("", error))
+//                    .build().execute();
+//        } else {
+//            Log.d("WEATHER_ERR", "Unable to get device location & no saved locations");
+//        }
+//    }
 
     private void fetchConnections() {
         Uri connectionUri = new Uri.Builder()
