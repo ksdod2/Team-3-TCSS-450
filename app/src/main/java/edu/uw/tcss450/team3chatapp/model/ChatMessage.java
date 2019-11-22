@@ -11,17 +11,20 @@ import java.io.Serializable;
  * @version 10/30/19
  */
 public class ChatMessage implements Serializable, Parcelable {
+    private final boolean amSender;
     private final String mSender;
     private final String mTimestamp;
     private final String mMessage;
 
-    public ChatMessage(final String tSender, final String tTimestamp, final String tMessage) {
+    public ChatMessage(final boolean isSender, final String tSender, final String tTimestamp, final String tMessage) {
+        amSender = isSender;
         mSender = tSender;
         mTimestamp = tTimestamp.substring(0, tTimestamp.indexOf('.'));
         mMessage = tMessage;
     }
 
     protected ChatMessage(Parcel in) {
+        amSender = in.readInt() == 1;
         mSender = in.readString();
         mTimestamp = in.readString();
         mMessage = in.readString();
@@ -40,10 +43,9 @@ public class ChatMessage implements Serializable, Parcelable {
     };
 
     public String getSender() { return mSender; }
-
     public String getTimestamp() { return mTimestamp; }
-
     public String getMessage() { return mMessage; }
+    public boolean amSender() { return amSender; }
 
     @Override
     public int describeContents() {
@@ -52,6 +54,7 @@ public class ChatMessage implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(amSender ? 1 : 0);
         parcel.writeString(mSender);
         parcel.writeString(mTimestamp);
         parcel.writeString(mSender);

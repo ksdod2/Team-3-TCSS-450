@@ -122,7 +122,10 @@ public class ChatCreationFragment extends Fragment {
             mRoomName.setError("Room must have a name.");
             return;
         }
+        // Disable UI elements to prevent attempted double creation or change to list contents
         mCreate.setEnabled(false);
+        ((MyConnectionRecyclerViewAdapter) mAvailableView.getAdapter()).setClickable(false);
+        ((MyConnectionRecyclerViewAdapter) mToAddView.getAdapter()).setClickable(false);
 
         Uri uri = new Uri.Builder()
                 .scheme("https")
@@ -223,6 +226,8 @@ public class ChatCreationFragment extends Fragment {
             Log.e("ERROR!", e.getMessage());
         }
         mCreate.setEnabled(true);
+        ((MyConnectionRecyclerViewAdapter) mAvailableView.getAdapter()).setClickable(true);
+        ((MyConnectionRecyclerViewAdapter) mToAddView.getAdapter()).setClickable(true);
         mCreate.setError("Could not invite at this time, please try again later.");
     }
 

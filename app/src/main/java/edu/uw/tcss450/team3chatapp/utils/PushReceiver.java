@@ -27,6 +27,10 @@ public class PushReceiver extends BroadcastReceiver {
     public static final String RECEIVED_NEW_CONN = "new connection from pushy";
     public static final String RECEIVED_NEW_CONVO = "new chat from pushy";
 
+    public static final String CHAT_MESSAGE = "msg";
+    public static final String CHAT_ROOM = "convo";
+    public static final String CONNECTION = "conn";
+
     private static final String CHANNEL_ID = "1";
 
     @Override
@@ -36,82 +40,30 @@ public class PushReceiver extends BroadcastReceiver {
         // Sender's username is always sent
         String sender = intent.getStringExtra("sender");
 
-        if (typeOfMessage.equals("msg")) {
-            try {
-                JSONObject message = new JSONObject(intent.getStringExtra("message"));
-                String messageText = message.getString("text");
+        switch (typeOfMessage) {
+            case CHAT_MESSAGE:
+                try {
+                    JSONObject message = new JSONObject(intent.getStringExtra("message"));
+                    String messageText = message.getString("text");
 
-                ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
-                ActivityManager.getMyMemoryState(appProcessInfo);
+                    ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
+                    ActivityManager.getMyMemoryState(appProcessInfo);
 
-                if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
-                    //app is in the foreground so send the message to the active Activities
-                    Log.d("PUSHY", "Message received in foreground: " + messageText);
+                    if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
+                        //app is in the foreground so send the message to the active Activities
+                        Log.d("PUSHY", "Message received in foreground: " + messageText);
 
-                    //create an Intent to broadcast a message to other parts of the app.
-                    Intent i = new Intent(RECEIVED_NEW_MESSAGE);
-                    i.putExtra("SENDER", sender);
-                    i.putExtra("MESSAGE", message.toString());
-                    i.putExtras(intent.getExtras());
+                        //create an Intent to broadcast a message to other parts of the app.
+                        Intent i = new Intent(RECEIVED_NEW_MESSAGE);
+                        i.putExtra("SENDER", sender);
+                        i.putExtra("MESSAGE", message.toString());
+                        i.putExtras(intent.getExtras());
 
-                    context.sendBroadcast(i);
+                        context.sendBroadcast(i);
 
-                } else {
-                    //app is in the background so create and post a notification
-                    Log.d("PUSHY", "Message received in background: " + messageText);
-
-                    Intent i = new Intent(context, MainActivity.class);
-                    i.putExtras(intent.getExtras());
-
-                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                            i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                    //research more on notifications the how to display them
-                    //https://developer.android.com/guide/topics/ui/notifiers/notifications
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                            .setAutoCancel(true)
-                            .setSmallIcon(R.drawable.ic_menu_chats)
-                            .setContentTitle("Message from: " + sender)
-                            .setContentText(messageText)
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .setContentIntent(pendingIntent);
-
-                    // Automatically configure a ChatMessageNotification Channel for devices running Android O+
-                    Pushy.setNotificationChannel(builder, context);
-
-                    // Get an instance of the NotificationManager service
-                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-
-                    // Build the notification and display it
-                    notificationManager.notify(1, builder.build());
-                }
-            } catch (JSONException e) {
-                Log.e("PUSH ERROR", e.getMessage());
-            }
-        } else if (typeOfMessage.equals("conn")) {
-            try {
-                JSONObject message = new JSONObject(intent.getStringExtra("message"));
-
-                ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
-                ActivityManager.getMyMemoryState(appProcessInfo);
-
-                if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
-                    //app is in the foreground so send the message to the active Activities
-                    Log.d("PUSHY", "Connection received in foreground: " + message.toString());
-
-                    //create an Intent to broadcast a message to other parts of the app.
-                    Intent i = new Intent(RECEIVED_NEW_CONN);
-                    i.putExtra("SENDER", sender);
-                    i.putExtra("MESSAGE", message.toString());
-                    i.putExtras(intent.getExtras());
-
-                    context.sendBroadcast(i);
-
-                } else {
-                    //app is in the background so create and post a notification
-                    Log.d("PUSHY", "Message received in background: " + message.toString());
-                    // Updates to all sorts of connections will be received, only notify for invitations
-                    if(message.getBoolean("new") && message.getInt("relation") == 0) {
+                    } else {
+                        //app is in the background so create and post a notification
+                        Log.d("PUSHY", "Message received in background: " + messageText);
 
                         Intent i = new Intent(context, MainActivity.class);
                         i.putExtras(intent.getExtras());
@@ -124,8 +76,8 @@ public class PushReceiver extends BroadcastReceiver {
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                                 .setAutoCancel(true)
                                 .setSmallIcon(R.drawable.ic_menu_chats)
-                                .setContentTitle("Connection request from: " + sender)
-                                .setContentText("You have received a new connection request.")
+                                .setContentTitle("Message from: " + sender)
+                                .setContentText(messageText)
                                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                                 .setContentIntent(pendingIntent);
 
@@ -138,36 +90,88 @@ public class PushReceiver extends BroadcastReceiver {
                         // Build the notification and display it
                         notificationManager.notify(1, builder.build());
                     }
+                } catch (JSONException e) {
+                    Log.e("PUSH ERROR", e.getMessage());
                 }
-            } catch (JSONException e) {
-                Log.e("PUSH ERROR", e.getMessage());
-            }
-        } else if (typeOfMessage.equals("convo")) {
-            try {
-                JSONObject message = new JSONObject(intent.getStringExtra("message"));
+                break;
+            case CONNECTION:
+                try {
+                    JSONObject message = new JSONObject(intent.getStringExtra("message"));
 
-                ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
-                ActivityManager.getMyMemoryState(appProcessInfo);
+                    ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
+                    ActivityManager.getMyMemoryState(appProcessInfo);
 
-                if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
-                    //app is in the foreground so send the message to the active Activities
-                    Log.d("PUSHY", "Chat received in foreground: " + message.toString());
+                    if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
+                        //app is in the foreground so send the message to the active Activities
+                        Log.d("PUSHY", "Connection received in foreground: " + message.toString());
 
-                    //create an Intent to broadcast a message to other parts of the app.
-                    Intent i = new Intent(RECEIVED_NEW_CONVO);
-                    i.putExtra("SENDER", sender);
-                    i.putExtra("MESSAGE", message.toString());
-                    i.putExtras(intent.getExtras());
+                        //create an Intent to broadcast a message to other parts of the app.
+                        Intent i = new Intent(RECEIVED_NEW_CONN);
+                        i.putExtra("SENDER", sender);
+                        i.putExtra("MESSAGE", message.toString());
+                        i.putExtras(intent.getExtras());
 
-                    context.sendBroadcast(i);
+                        context.sendBroadcast(i);
 
-                } else {
-                    // TODO: Should user be background notified about adding to rooms? Invitations were scrapped, so atm unclear
+                    } else {
+                        //app is in the background so create and post a notification
+                        Log.d("PUSHY", "Message received in background: " + message.toString());
+                        // Updates to all sorts of connections will be received, only notify for invitations
+                        if (message.getBoolean("new") && message.getInt("relation") == 0) {
 
+                            Intent i = new Intent(context, MainActivity.class);
+                            i.putExtras(intent.getExtras());
+
+                            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                                    i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                            //research more on notifications the how to display them
+                            //https://developer.android.com/guide/topics/ui/notifiers/notifications
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                                    .setAutoCancel(true)
+                                    .setSmallIcon(R.drawable.ic_menu_chats)
+                                    .setContentTitle("Connection request from: " + sender)
+                                    .setContentText("You have received a new connection request.")
+                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                    .setContentIntent(pendingIntent);
+
+                            // Automatically configure a ChatMessageNotification Channel for devices running Android O+
+                            Pushy.setNotificationChannel(builder, context);
+
+                            // Get an instance of the NotificationManager service
+                            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                            // Build the notification and display it
+                            notificationManager.notify(1, builder.build());
+                        }
+                    }
+                } catch (JSONException e) {
+                    Log.e("PUSH ERROR", e.getMessage());
                 }
-            } catch (JSONException e) {
-                Log.e("PUSH ERROR", e.getMessage());
-            }
+                break;
+            case CHAT_ROOM:
+                try {
+                    JSONObject message = new JSONObject(intent.getStringExtra("message"));
+
+                    ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
+                    ActivityManager.getMyMemoryState(appProcessInfo);
+
+                    if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
+                        //app is in the foreground so send the message to the active Activities
+                        Log.d("PUSHY", "Chat received in foreground: " + message.toString());
+
+                        //create an Intent to broadcast a message to other parts of the app.
+                        Intent i = new Intent(RECEIVED_NEW_CONVO);
+                        i.putExtra("SENDER", sender);
+                        i.putExtra("MESSAGE", message.toString());
+                        i.putExtras(intent.getExtras());
+
+                        context.sendBroadcast(i);
+                    }
+                } catch (JSONException e) {
+                    Log.e("PUSH ERROR", e.getMessage());
+                }
+                break;
         }
     }
 }
