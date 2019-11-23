@@ -229,6 +229,7 @@
     <string name="btn_sheet_invite">Invite From Contacts</string>
     <string name="btn_sheet_leave">Leave Chat</string>
     <string name="btn_chat_create">Create New Chat</string>
+    <string name="btn_chat_invite">Invite Users</string>
     <string name="btn_chatroom_send">Send</string>
     <string name="et_chat_create_name">Chatroom Name</string>
     <string name="et_chat_create_description">Chatroom Description (Optional)</string>

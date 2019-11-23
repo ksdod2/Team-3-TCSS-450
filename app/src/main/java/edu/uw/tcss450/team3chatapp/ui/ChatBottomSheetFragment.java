@@ -1,10 +1,15 @@
 package edu.uw.tcss450.team3chatapp.ui;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +21,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Chat;
@@ -38,14 +45,18 @@ public class ChatBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mChat = (Chat) getArguments().getSerializable("chat");
-        mMemberID = getArguments().getInt("memberid");
-        mJWT = getArguments().getString("jwt");
+        ChatBottomSheetFragmentArgs args = ChatBottomSheetFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
+        mChat = args.getChat();
+        mMemberID = args.getMemberID();
+        mJWT = args.getJWT();
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_chat_bottom_sheet, container, false);
 
         Button leave = rootView.findViewById(R.id.btn_sheet_leave);
         leave.setOnClickListener(this::leaveChat);
+
+        Button invite = rootView.findViewById(R.id.btn_sheet_invite);
+        invite.setOnClickListener(this::invite);
 
         return rootView;
     }
@@ -79,10 +90,12 @@ public class ChatBottomSheetFragment extends BottomSheetDialogFragment {
 
     /**
      * Navigates to invite users from contacts to the chat associated with the menu.
-     * @param tView the view containing the chat
+     * @param tView the view triggering the navigation
      */
     private void invite(final View tView) {
-
+        ChatBottomSheetFragmentDirections.ActionNavChatBottomsheetToNavChatCreate invite =
+                ChatBottomSheetFragmentDirections.actionNavChatBottomsheetToNavChatCreate(mMemberID, mJWT, mChat);
+        NavHostFragment.findNavController(this).navigate(invite);
     }
 
 }

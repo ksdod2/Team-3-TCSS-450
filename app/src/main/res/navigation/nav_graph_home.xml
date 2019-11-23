@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_nav_chats_to_nav_chat_create"
             app:destination="@id/nav_chat_create" />
+        <action
+            android:id="@+id/action_nav_chats_to_nav_chat_bottomsheet"
+            app:destination="@id/nav_chat_bottomsheet" />
     </fragment>
     <fragment
         android:id="@+id/nav_chatroom"
@@ -116,6 +119,28 @@
         <argument
             android:name="JWT"
             app:argType="string" />
+        <argument
+            android:name="chat"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Chat"
+            app:nullable="true" />
     </fragment>
+    <dialog
+        android:id="@+id/nav_chat_bottomsheet"
+        android:name="edu.uw.tcss450.team3chatapp.ui.ChatBottomSheetFragment"
+        android:label="fragment_chat_bottom_sheet"
+        tools:layout="@layout/fragment_chat_bottom_sheet" >
+        <argument
+            android:name="chat"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Chat" />
+        <action
+            android:id="@+id/action_nav_chat_bottomsheet_to_nav_chat_create"
+            app:destination="@id/nav_chat_create" />
+        <argument
+            android:name="memberID"
+            app:argType="integer" />
+        <argument
+            android:name="JWT"
+            app:argType="string" />
+    </dialog>
 
 </navigation>

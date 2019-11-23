@@ -66,7 +66,7 @@ public class ChatFragment extends Fragment {
 
         view.findViewById(R.id.btn_chat_create).setOnClickListener(v -> {
             ChatFragmentDirections.ActionNavChatsToNavChatCreate create =
-                    ChatFragmentDirections.actionNavChatsToNavChatCreate(mMemberID, mJWT);
+                    ChatFragmentDirections.actionNavChatsToNavChatCreate(mMemberID, mJWT, null);
             Navigation.findNavController(v).navigate(create);
         });
 
@@ -121,13 +121,9 @@ public class ChatFragment extends Fragment {
      * @param tChat the chat for which options should apply to
      */
     private void displayMenu(final Chat tChat) {
-        ChatBottomSheetFragment dialog = new ChatBottomSheetFragment();
-        Bundle chatArg = new Bundle();
-        chatArg.putSerializable("chat", tChat);
-        chatArg.putInt("memberid", mMemberID);
-        chatArg.putString("jwt", mJWT);
-        dialog.setArguments(chatArg);
-        dialog.show(getFragmentManager(), null);
+        ChatFragmentDirections.ActionNavChatsToNavChatBottomsheet bottomSheet =
+                ChatFragmentDirections.actionNavChatsToNavChatBottomsheet(tChat, mMemberID, mJWT);
+        Navigation.findNavController(getView()).navigate(bottomSheet);
     }
 
     private void handleDisplayChatOnPostExecute(final String result) {

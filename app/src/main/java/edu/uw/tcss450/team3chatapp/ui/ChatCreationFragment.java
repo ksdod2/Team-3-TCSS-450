@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,9 +26,12 @@ import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.MyConnectionRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
+import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.model.ConnectionListViewModel;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
+
+import static android.view.View.GONE;
 
 /**
  * Fragment to set information and members in creation of a new chat room.
@@ -38,11 +42,13 @@ public class ChatCreationFragment extends Fragment {
     private ArrayList<Connection> mAvailableConnections = new ArrayList<>();
     private ArrayList<Connection> mToAddConnections = new ArrayList<>();
 
-    private EditText mRoomName;
-    private EditText mRoomDescription;
+    private EditText mNameInput;
+    private EditText mDescInput;
     private RecyclerView mAvailableView;
     private RecyclerView mToAddView;
     private Button mCreate;
+    private Button mInvite;
+    private Chat mChat;
 
     private int mMemberID;
     private String mJWT;
@@ -64,11 +70,33 @@ public class ChatCreationFragment extends Fragment {
                 mAvailableConnections.add(connection);
         }
 
-        mMemberID = ChatCreationFragmentArgs.fromBundle(Objects.requireNonNull(getArguments())).getMemberID();
-        mJWT = ChatCreationFragmentArgs.fromBundle(Objects.requireNonNull(getArguments())).getJWT();
+        ChatCreationFragmentArgs args = ChatCreationFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
+        mMemberID = args.getMemberID();
+        mJWT = args.getJWT();
+        mChat = args.getChat();
 
-        mRoomName = rootView.findViewById(R.id.et_chat_create_name);
-        mRoomDescription = rootView.findViewById(R.id.et_chat_create_desc);
+        // views used for creating a new chat
+        mNameInput = rootView.findViewById(R.id.et_chat_create_name);
+        mDescInput = rootView.findViewById(R.id.et_chat_create_desc);
+        mCreate = rootView.findViewById(R.id.btn_chat_create_make);
+
+        // views used for inviting to an existing chat
+        TextView mChatName = rootView.findViewById(R.id.tv_chat_invite_name);
+        TextView mChatDescription = rootView.findViewById(R.id.tv_chat_invite_desc);
+        mInvite = rootView.findViewById(R.id.btn_invite_invite);
+
+        // Determine which views are needed based on creating new room or inviting to one
+        if(mChat == null) {
+            mChatName.setVisibility(GONE);
+            mChatDescription.setVisibility(GONE);
+            mInvite.setVisibility(GONE);
+        } else {
+            mNameInput.setVisibility(GONE);
+            mDescInput.setVisibility(GONE);
+
+            mChatName.setText(mChat.getName());
+            mChatDescription.setText(mChat.getDescription());
+        }
 
         mAvailableView = rootView.findViewById(R.id.list_chat_create_contacts);
         mAvailableView.setAdapter(new MyConnectionRecyclerViewAdapter(mAvailableConnections, this::addToInvitees));
@@ -76,8 +104,10 @@ public class ChatCreationFragment extends Fragment {
         mToAddView = rootView.findViewById(R.id.list_chat_create_toadd);
         mToAddView.setAdapter(new MyConnectionRecyclerViewAdapter(mToAddConnections, this::removeFromInvitees));
 
-        mCreate = rootView.findViewById(R.id.btn_chat_create_make);
         mCreate.setOnClickListener(this::makeRoom);
+        mInvite.setOnClickListener(v -> {
+            inviteUsers(mChat.getChatID());
+        });
 
         mInviteURI = new Uri.Builder()
                 .scheme("https")
@@ -116,10 +146,10 @@ public class ChatCreationFragment extends Fragment {
      * @param tView the button that triggered the request
      */
     private void makeRoom(final View tView) {
-        String chatName = mRoomName.getText().toString();
-        String chatDesc = mRoomDescription.getText().toString();
+        String chatName = mNameInput.getText().toString();
+        String chatDesc = mDescInput.getText().toString();
         if (chatName.equals("")) {
-            mRoomName.setError("Room must have a name.");
+            mNameInput.setError("Room must have a name.");
             return;
         }
         // Disable UI elements to prevent attempted double creation or change to list contents
@@ -185,9 +215,11 @@ public class ChatCreationFragment extends Fragment {
         // Check if we are creating a room and have no other invitees or are just inviting
         if(mToAddConnections.isEmpty()) {
             mCreate.setError("Please select users to add.");
+            mInvite.setError("Please select users to add.");
             return;
         }
         mCreate.setEnabled(false);
+        mInvite.setEnabled(false);
         JSONObject body = new JSONObject();
         try {
             ArrayList<Integer> memberIDs = new ArrayList<>();
@@ -226,9 +258,11 @@ public class ChatCreationFragment extends Fragment {
             Log.e("ERROR!", e.getMessage());
         }
         mCreate.setEnabled(true);
+        mInvite.setEnabled(true);
         ((MyConnectionRecyclerViewAdapter) mAvailableView.getAdapter()).setClickable(true);
         ((MyConnectionRecyclerViewAdapter) mToAddView.getAdapter()).setClickable(true);
         mCreate.setError("Could not invite at this time, please try again later.");
+        mInvite.setError("Could not invite at this time, please try again later.");
     }
 
     /**
