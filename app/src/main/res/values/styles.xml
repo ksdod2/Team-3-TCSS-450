@@ -1,28 +1,16 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:colorBackground">@color/primaryColor</item>
-        <item name="android:itemBackground">@color/primaryColor</item>
-        <item name="colorPrimary">@color/primaryDarkColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="android:colorSecondary" tools:targetApi="n_mr1">@color/primaryLightColor</item>
-        <item name="colorAccent">@color/secondaryColor</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+<resources>
 
     <!-- Dark Mode Current theme. -->
     <style name="DarkMode" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:colorBackground">@color/primaryColor</item>
-        <item name="android:itemBackground">@color/primaryColor</item>
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="android:colorSecondary" tools:targetApi="n_mr1">@color/primaryLightColor</item>
-        <item name="colorAccent">@color/secondaryColor</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
+        <!-- Fragment and popup menu background color-->
+        <item name="android:windowBackground">@color/darkModeBackgroundColor</item>
+        <item name="android:itemBackground">@color/headerColor</item>
+        <!-- Fragment header color -->
+        <item name="colorPrimary">@color/headerColor</item>
+        <!-- Loading wheel and main text color -->
+        <item name="colorAccent">@color/darkModeButtonColor</item>
+        <item name="android:textColor">@color/darkModeTextColor</item>
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
@@ -35,61 +23,68 @@
 
     <!-- Light Mode Current theme. -->
     <style name="LightMode" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:colorBackground">@color/secondaryColor</item>
-        <item name="android:itemBackground">@color/secondaryColor</item>
-        <item name="colorPrimary">@color/secondaryColor</item>
-        <item name="colorPrimaryDark">@color/secondaryDarkColor</item>
-        <item name="android:colorSecondary" tools:targetApi="n_mr1">@color/secondaryLightColor</item>
-        <item name="colorAccent">@color/primaryColor</item>
-        <item name="android:textColor">@color/secondaryTextColor</item>
+        <!-- Fragment and popup menu background color-->
+        <item name="android:windowBackground">@color/lightModeBackgroundColor</item>
+        <item name="android:itemBackground">@color/lightModeBackgroundColor</item>
+        <!-- Fragment header color -->
+        <item name="colorPrimary">@color/headerColor</item>
+        <!-- Loading wheel and main text color -->
+        <item name="colorAccent">@color/darkModeButtonColor</item>
+        <item name="android:textColor">@color/lightModeTextColor</item>
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <!-- Specific Widgets -->
+        <item name="android:buttonStyle">@style/LightModeButtonStyle</item>
+        <item name="editTextStyle">@style/LightModeEditTextStyle</item>
+        <item name="android:radioButtonStyle">@style/LightModeRadioButtonStyle</item>
     </style>
 
     <!-- Specific Widget Styles -->
-
     <!-- Dark Mode Button Style. -->
     <style name="DarkModeButtonStyle" parent="@android:style/Widget.Material.Light.Button">
-        <item name="android:textColor">@color/primaryDarkColor</item>
-        <item name="android:backgroundTint">@color/secondaryColor</item>
+        <item name="android:textColor">@color/lightModeTextColor</item>
+        <item name="android:backgroundTint">@color/darkModeButtonColor</item>
     </style>
 
     <!-- Dark Mode Edit Text Style. -->
     <style name="DarkModeEditTextStyle" parent="@android:style/Widget.Material.Light.EditText">
-        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textColor">@color/darkModeTextColor</item>
         <item name="android:textColorHint">@color/primaryHintColor</item>
-        <item name="android:backgroundTint">@color/primaryTextColor</item>
+        <item name="android:backgroundTint">@color/darkModeTextColor</item>
     </style>
 
     <!-- Dark Mode Radio Button Style. -->
     <style name="DarkModeRadioButtonStyle" parent="@android:style/Widget.Material.Light.CompoundButton.RadioButton">
-        <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="android:buttonTint">@color/secondaryColor</item>
+        <item name="android:textColor">@color/darkModeTextColor</item>
+        <item name="android:buttonTint">@color/darkModeButtonColor</item>
     </style>
 
-
-    <!-- Spooky Orange theme. -->
-    <style name="SpookyOrangeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/spookyPrimaryColor</item>
-        <item name="colorPrimaryDark">@color/spookyPrimaryDarkColor</item>
-        <item name="colorAccent">@color/spookySecondaryColor</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <!-- Light Mode Button Style. -->
+    <style name="LightModeButtonStyle" parent="@android:style/Widget.Material.Light.Button">
+        <item name="android:textColor">@color/darkModeTextColor</item>
+        <item name="android:backgroundTint">@color/lightModeButtonColor</item>
     </style>
 
-    <!-- Bashful Blue theme. -->
-    <style name="BashfulBlueTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/bluePrimaryColor</item>
-        <item name="colorPrimaryDark">@color/bluePrimaryDarkColor</item>
-        <item name="colorAccent">@color/blueSecondaryColor</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <!-- Light Mode Edit Text Style. -->
+    <style name="LightModeEditTextStyle" parent="@android:style/Widget.Material.Light.EditText">
+        <item name="android:textColor">@color/lightModeTextColor</item>
+        <item name="android:textColorHint">@color/lightModeTextColor</item>
+        <item name="android:backgroundTint">@color/lightModeTextColor</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Light Mode Radio Button Style. -->
+    <style name="LightModeRadioButtonStyle" parent="@android:style/Widget.Material.Light.CompoundButton.RadioButton">
+        <item name="android:textColor">@color/lightModeTextColor</item>
+        <item name="android:buttonTint">@color/lightModeButtonColor</item>
+    </style>
+
+    <style name="DarkMode.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="DarkMode.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Unused -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    </style>
 
 </resources>

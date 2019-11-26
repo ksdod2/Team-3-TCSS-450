@@ -1,17 +1,9 @@
 <resources>
 
     // default ActionBar theme
-    <style name="AppTheme.NoActionBar">
+    <style name="DarkMode.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-
-    // Spooky Orange theme
-    <style name="SpookyOrangeTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@color/spookyPrimaryColor</item>
-    </style>
-
 </resources>

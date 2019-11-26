@@ -91,10 +91,10 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.settings_themeoption_default:
+            case R.id.settings_themeOption_darkMode:
                 updateTheme(R.style.DarkMode);
                 return true;
-            case R.id.settings_themeoption_spookyorange:
+            case R.id.settings_themeOption_lightMode:
                 updateTheme(R.style.LightMode);
                 return true;
             default:

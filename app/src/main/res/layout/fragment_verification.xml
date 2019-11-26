@@ -7,19 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".VerificationFragment" >
 
-    // logo
     <ImageView
-        android:id="@+id/iv_verification_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:src="@mipmap/ic_launcher_round_current"
+        android:id="@+id/iv_verification_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/iv_login_logo"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_main_v1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/iv_verifcation_logo"
+        android:layout_width="265dp"
+        android:layout_height="265dp"
+        android:layout_marginTop="84dp"
+        android:contentDescription="@string/iv_login_logo"
+        android:src="@drawable/logo_gradient"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    // text view for verification message
     <TextView
         android:id="@+id/tv_verification_message"
         android:layout_width="0dp"
@@ -29,13 +41,12 @@
         android:layout_marginBottom="112dp"
         android:text="@string/tv_verification_verificationMessage"
         android:textAlignment="center"
+        android:textColor="@color/darkModeTextColor"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
-
-    // okay button to move back to the main fragment (login screen)
 
     <Button
         android:id="@+id/btn_verification_ok"

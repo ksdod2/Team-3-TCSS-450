@@ -34,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
         //Apply user-preferred theme from shared preferences before setContentView
         SharedPreferences prefs = getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         if(prefs.contains(getString(R.string.keys_prefs_theme))) {
-            int themeId = prefs.getInt(getString(R.string.keys_prefs_theme), R.style.AppTheme);
+            int themeId = prefs.getInt(getString(R.string.keys_prefs_theme), R.style.DarkMode);
             ThemeChanger.setThemeOnActivityCreation(this, themeId);
         } else {
-            prefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.AppTheme).apply();
-            ThemeChanger.setThemeOnActivityCreation(this, R.style.AppTheme);
+            prefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.DarkMode).apply();
+            ThemeChanger.setThemeOnActivityCreation(this, R.style.DarkMode);
         }
 
 //        View decorView = getWindow().getDecorView();

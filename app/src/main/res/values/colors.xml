@@ -1,46 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Main Colors -->
+    <color name="headerColor">#041f49</color>
 
-    //default colors
-    <color name="primaryColor">#041f49</color>
-    <color name="primaryLightColor">#374675</color>
-    <color name="primaryDarkColor">#000022</color>
-    <color name="secondaryColor">#80DEEA</color>
-    <color name="secondaryLightColor">#b4ffff</color>
-    <color name="secondaryDarkColor">#4bacb8</color>
-    <color name="primaryTextColor">#FFFFFF</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="gradientCenterColor">#374675</color>
+    <color name="gradientEndColor">#000022</color>
+
+    <color name="darkModeButtonColor">#80DEEA</color>
+    <color name="lightModeButtonColor">#072F97</color>
+
     <color name="primaryHintColor">#9F9F9F</color>
 
-    //spooky orange colors
-    <color name="spookyPrimaryColor">#FF9800</color>
-    <color name="spookyPrimaryLightColor">#ffc947</color>
-    <color name="spookyPrimaryDarkColor">#c66900</color>
-    <color name="spookyPrimaryDarkTransparent">#A0C66900</color>
-    <color name="spookySecondaryColor">#212121</color>
-    <color name="spookySecondaryLightColor">#484848</color>
-    <color name="spookySecondaryDarkColor">#000000</color>
-    <color name="spookyPrimaryTextColor">#000000</color>
-    <color name="spookySecondaryTextColor">#fb8c00</color>
+    <color name="darkModeTextColor">#FFFFFF</color>
+    <color name="lightModeTextColor">#000000</color>
 
-    //bashful blue colors
-    <color name="bluePrimaryColor">#64B5F6</color>
-    <color name="bluePrimaryLightColor">#9be7ff</color>
-    <color name="bluePrimaryDarkColor">#2286C3</color>
-    <color name="blueSecondaryColor">#81d4fa</color>
-    <color name="blueSecondaryLightColor">#B6FFFF</color>
-    <color name="blueSecondaryDarkColor">#4ba3c7</color>
-    <color name="bluePrimaryTextColor">#000000</color>
-    <color name="blueSecondaryTextColor">#000000</color>
+    <color name="darkModeBackgroundColor">#252B3D</color>
+    <color name="lightModeBackgroundColor">#5B99C2</color>
 
-    //husky pride colors
-    <color name="huskyPrimaryColor">#4b2e83</color>
-    <color name="huskyPrimaryLightColor">#7B59B3</color>
-    <color name="huskyPrimaryDarkColor">#1a0555</color>
-    <color name="huskySecondaryColor">#b7a57a</color>
-    <color name="huskySecondaryLightColor">#ead6a9</color>
-    <color name="huskySecondaryDarkColor">#86764e</color>
-    <color name="huskyPrimaryTextColor">#ffffff</color>
-    <color name="huskySecondaryTextColor">#000000</color>
 </resources>
 

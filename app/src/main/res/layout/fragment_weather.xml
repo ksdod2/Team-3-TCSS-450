@@ -7,28 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.WeatherFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/tv_weather_weatherHub"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/layout_weather_upperLayout"
         android:layout_width="360dp"
         android:layout_height="86dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="48dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/layout_weather_currentLocation"
@@ -100,9 +88,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
                 android:text="@string/tv_weather_map"
                 android:textAlignment="viewStart"
-                android:textColor="@android:color/holo_blue_dark"
                 android:textIsSelectable="false"
                 android:textSize="12sp" />
 
@@ -111,9 +100,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
                 android:text="@string/tv_weather_saveLocation"
                 android:textAlignment="center"
-                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="12sp" />
 
             <TextView
@@ -121,9 +111,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
                 android:text="@string/tv_weather_savedLocations"
                 android:textAlignment="viewEnd"
-                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>

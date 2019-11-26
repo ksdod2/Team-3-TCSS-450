@@ -66,11 +66,11 @@ public class HomeActivity extends AppCompatActivity {
         //Apply user-preferred theme from shared preferences
         mPrefs = getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         if(mPrefs.contains(getString(R.string.keys_prefs_theme))) {
-            int themeId = mPrefs.getInt(getString(R.string.keys_prefs_theme), R.style.AppTheme);
+            int themeId = mPrefs.getInt(getString(R.string.keys_prefs_theme), R.style.DarkMode);
             ThemeChanger.setThemeOnActivityCreation(this, themeId);
         } else {
-            mPrefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.AppTheme).apply();
-            ThemeChanger.setThemeOnActivityCreation(this, R.style.AppTheme);
+            mPrefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.DarkMode).apply();
+            ThemeChanger.setThemeOnActivityCreation(this, R.style.DarkMode);
         }
         setContentView(R.layout.activity_home);
 
