@@ -304,7 +304,8 @@ public class HomeActivity extends AppCompatActivity {
                 for(int i = 0; i < data.length(); i++) {
                     JSONObject message = data.getJSONObject(i);
 
-                    messages[i] = new ChatMessage(message.getString(getString(R.string.keys_json_chatmessage_sender)),
+                    messages[i] = new ChatMessage(message.getInt(getString(R.string.keys_json_connections_memberid_int)) == mArgs.getUserId(),
+                            message.getString(getString(R.string.keys_json_chatmessage_sender)),
                             message.getString(getString(R.string.keys_json_chatmessage_timestamp)),
                             message.getString(getString(R.string.keys_json_chatmessage_message)));
                 }

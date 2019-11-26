@@ -47,7 +47,7 @@ public class ChatMessageFragment extends Fragment {
     private EditText mSendField;
     private Button mSendButton;
 
-    private PushMessageReceiver mPushMessageReciever;
+    private PushMessageReceiver mPushMessageReceiver;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,18 +59,18 @@ public class ChatMessageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mPushMessageReciever == null) {
-            mPushMessageReciever = new PushMessageReceiver();
+        if (mPushMessageReceiver == null) {
+            mPushMessageReceiver = new PushMessageReceiver();
         }
         IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
-        getActivity().registerReceiver(mPushMessageReciever, iFilter);
+        getActivity().registerReceiver(mPushMessageReceiver, iFilter);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mPushMessageReciever != null){
-            getActivity().unregisterReceiver(mPushMessageReciever);
+        if (mPushMessageReceiver != null){
+            getActivity().unregisterReceiver(mPushMessageReceiver);
         }
     }
 
@@ -84,7 +84,6 @@ public class ChatMessageFragment extends Fragment {
         mChatID = args.getChatID();
         mJWT = args.getJWT();
         mMessages = new ArrayList(Arrays.asList(args.getMessages()));
-        // MESSAGES APPEAR IN REVERSE, MAY BE FIXABLE IN SERVICE
         Collections.reverse(mMessages);
 
         mChatWindow = view.findViewById(R.id.list_chatroom);
@@ -141,7 +140,7 @@ public class ChatMessageFragment extends Fragment {
                 mSendField.setText("");
             } else {
                 Log.e("CHAT_ERR", result);
-                mSendButton.setError("Could not send message, please try again");
+                mSendField.setError("Could not send message, please try again");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -171,8 +170,10 @@ public class ChatMessageFragment extends Fragment {
                 try {
                     // Immediately build out new chat message to add to RecyclerView
                     JSONObject body = new JSONObject(intent.getStringExtra("MESSAGE"));
-                    ChatMessage newMessage = new ChatMessage(intent.getStringExtra("SENDER"),
-                            body.getString("stamp"), body.getString("text"));
+                    ChatMessage newMessage = new ChatMessage(body.getInt("memberid")  == mMemberID,
+                            intent.getStringExtra("SENDER"),
+                            body.getString("stamp"),
+                            body.getString("text"));
                     mMessages.add(newMessage);
                     // Update chat and scroll to newest message
                     mChatWindow.getAdapter().notifyDataSetChanged();

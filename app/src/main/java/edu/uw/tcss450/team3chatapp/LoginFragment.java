@@ -248,7 +248,8 @@ public class LoginFragment extends Fragment {
                                     // Go to chat room using information from push notification
                                     try {
                                         JSONObject msg = new JSONObject(getArguments().getString("message"));
-                                        ChatMessage pushed = new ChatMessage(getArguments().getString("sender"),
+                                        ChatMessage pushed = new ChatMessage(msg.getInt(getString(R.string.keys_json_connections_memberid_int))  == root.getInt("memberid"),
+                                                getArguments().getString("sender"),
                                                 msg.getString(getString(R.string.keys_json_push_chatmessage_time)),
                                                 msg.getString(getString(R.string.keys_json_push_chatmessage_text)));
                                         int room = msg.getInt(getString(R.string.keys_json_push_chatmessage_room));
