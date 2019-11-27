@@ -48,6 +48,9 @@
         <argument
             android:name="chatID"
             app:argType="integer" />
+        <argument
+            android:name="chatname"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/nav_settings"
@@ -107,7 +110,7 @@
         android:id="@+id/nav_weather"
         android:name="edu.uw.tcss450.team3chatapp.ui.WeatherFragment"
         android:label="WeatherHub"
-        tools:layout="@layout/WeatherHub" />
+        tools:layout="@layout/fragment_weather" />
     <fragment
         android:id="@+id/nav_chat_create"
         android:name="edu.uw.tcss450.team3chatapp.ui.ChatCreationFragment"

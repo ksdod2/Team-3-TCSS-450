@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.ChatMessageNotification;
 import edu.uw.tcss450.team3chatapp.model.Connection;
@@ -273,6 +274,18 @@ public class LoginFragment extends Fragment {
                                                         info.getString(getString(R.string.keys_prefs_email)),
                                                         0, false);
                                         homeActivity.setConnection(pushed);
+                                    } catch (JSONException e) {
+                                        // Couldn't get the notification properly, just give up
+                                        getActivity().finish();
+                                    }
+                                } else if (getArguments().get("type").equals("convo")) {
+                                    // Go to chatroom using information from push notification
+                                    try {
+                                        JSONObject info = new JSONObject(getArguments().getString("message"));
+                                        Chat pushed = new Chat(info.getInt(getString(R.string.keys_json_chats_id)),
+                                                info.getString(getString(R.string.keys_json_chats_name)),
+                                                info.getString(getString(R.string.keys_json_chats_description)));
+                                        homeActivity.setChat(pushed);
                                     } catch (JSONException e) {
                                         // Couldn't get the notification properly, just give up
                                         getActivity().finish();

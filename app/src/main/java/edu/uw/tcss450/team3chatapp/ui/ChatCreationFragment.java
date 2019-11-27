@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -196,6 +197,7 @@ public class ChatCreationFragment extends Fragment {
                 if (!mToAddConnections.isEmpty())
                     inviteUsers(root.getInt(getString(R.string.keys_json_chats_id)));
                 else {
+                    Toast.makeText(getActivity(), "Chatroom created.", Toast.LENGTH_SHORT).show();
                     Navigation.findNavController(getView()).popBackStack();
                 }
             } else {
@@ -249,7 +251,12 @@ public class ChatCreationFragment extends Fragment {
         try {
             JSONObject root = new JSONObject(res);
             if(root.getBoolean("success")) {
+                if(mNameInput.getText().toString().equals(""))
+                    Toast.makeText(getActivity(), "Users successfully invited.", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getActivity(), "Chatroom created and users successfully invited.", Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(getView()).popBackStack();
+                return;
             } else {
                 Log.e("ERROR", "Chat creation error");
             }

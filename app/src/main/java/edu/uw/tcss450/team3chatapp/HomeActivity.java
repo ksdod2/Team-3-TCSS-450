@@ -90,8 +90,8 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         mArgs = HomeActivityArgs.fromBundle(Objects.requireNonNull(getIntent().getExtras()));
-        // Check for unread messages; Navigate immediately to chatroom of pushed message
-        if(mArgs.getChatMessage() != null) {
+        // Check for unread messages; Navigate immediately to chatroom of pushed message or room
+        if(mArgs.getChatMessage() != null || mArgs.getChat() != null) {
             Uri chatUri = new Uri.Builder()
                     .scheme("https")
                     .appendPath(getString(R.string.ep_base))
@@ -101,7 +101,10 @@ public class HomeActivity extends AppCompatActivity {
 
             JSONObject chatInfo = new JSONObject();
             try {
-                chatInfo.put("chatid", mArgs.getChatMessage().getRoom());
+                if(mArgs.getChatMessage() != null)
+                    chatInfo.put("chatid", mArgs.getChatMessage().getRoom());
+                else
+                    chatInfo.put("chatid", mArgs.getChat().getChatID());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -311,7 +314,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 MobileNavigationDirections.ActionGlobalNavChatroom chatroom =
                         MobileNavigationDirections.actionGlobalNavChatroom(messages, mArgs.getJwt(),
-                                                mArgs.getUserId(), Objects.requireNonNull(mArgs.getChatMessage()).getRoom());
+                                                mArgs.getUserId(), Objects.requireNonNull(mArgs.getChatMessage()).getRoom(), "Chatroom");
                 Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(chatroom);
             } else {
@@ -392,7 +395,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 try {
                     JSONObject msgInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
-                    boolean sender = msgInfo.getInt(getString(R.string.keys_json_connections_memberid_int)) == mArgs.getUserId();
+                    boolean sender = !intent.getStringExtra("SENDER").equals(mArgs.getCredentials().getUsername());
                     Connection pushed =
                             new Connection(msgInfo.getInt(getString(R.string.keys_json_connections_memberid_int)),
                                     msgInfo.getString(getString(R.string.keys_json_connections_firstname_str)),

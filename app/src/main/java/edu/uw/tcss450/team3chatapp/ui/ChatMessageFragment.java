@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -85,6 +86,8 @@ public class ChatMessageFragment extends Fragment {
         mJWT = args.getJWT();
         mMessages = new ArrayList(Arrays.asList(args.getMessages()));
         Collections.reverse(mMessages);
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(args.getChatname());
 
         mChatWindow = view.findViewById(R.id.list_chatroom);
         // Clicking on an individual message does nothing

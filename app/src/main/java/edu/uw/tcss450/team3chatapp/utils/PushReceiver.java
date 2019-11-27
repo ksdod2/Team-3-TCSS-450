@@ -85,7 +85,7 @@ public class PushReceiver extends BroadcastReceiver {
                         Pushy.setNotificationChannel(builder, context);
 
                         // Get an instance of the NotificationManager service
-                        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+                        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
                         // Build the notification and display it
                         notificationManager.notify(1, builder.build());
@@ -167,6 +167,34 @@ public class PushReceiver extends BroadcastReceiver {
                         i.putExtras(intent.getExtras());
 
                         context.sendBroadcast(i);
+                    } else {
+                        //app is in the background so create and post a notification
+                        Log.d("PUSHY", "Chat received in background:  " + message.toString());
+
+                        Intent i = new Intent(context, MainActivity.class);
+                        i.putExtras(intent.getExtras());
+
+                        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                                i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        //research more on notifications the how to display them
+                        //https://developer.android.com/guide/topics/ui/notifiers/notifications
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                                .setAutoCancel(true)
+                                .setSmallIcon(R.drawable.ic_menu_chats)
+                                .setContentTitle(sender + " has added you to a new chat:")
+                                .setContentText(message.getString("name"))
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                .setContentIntent(pendingIntent);
+
+                        // Automatically configure a ChatMessageNotification Channel for devices running Android O+
+                        Pushy.setNotificationChannel(builder, context);
+
+                        // Get an instance of the NotificationManager service
+                        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                        // Build the notification and display it
+                        notificationManager.notify(1, builder.build());
                     }
                 } catch (JSONException e) {
                     Log.e("PUSH ERROR", e.getMessage());

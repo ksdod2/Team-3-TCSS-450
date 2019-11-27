@@ -37,7 +37,7 @@ public class ChatFragment extends Fragment {
 
     private int mMemberID;
     private String mJWT;
-    private int currentChat;
+    private Chat currentChat;
     private ArrayList<Chat> mRooms = new ArrayList<>();
 
     /**
@@ -92,7 +92,7 @@ public class ChatFragment extends Fragment {
         JSONObject chatInfo = new JSONObject();
         try {
             chatInfo.put("chatid", tChat.getChatID());
-            currentChat = tChat.getChatID();
+            currentChat = tChat;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -143,7 +143,8 @@ public class ChatFragment extends Fragment {
                 }
 
                 ChatFragmentDirections.ActionChatFragmentToChatMessageFragment chatroom =
-                        ChatFragmentDirections.actionChatFragmentToChatMessageFragment(messages, mJWT, mMemberID, currentChat);
+                        ChatFragmentDirections.actionChatFragmentToChatMessageFragment(messages, mJWT, mMemberID,
+                                                                currentChat.getChatID(), currentChat.getName());
 
                 NavController nc = Navigation.findNavController(getView());
                 if (nc.getCurrentDestination().getId() != R.id.nav_chats) // Ensure back button doesn't break nav

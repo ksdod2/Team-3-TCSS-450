@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,9 +26,11 @@ import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
  * Fragment for displaying all a user's connections, with ability to move to searching for users
  * and viewing information about a given contact.
  * @author Kameron Dodd
- * @version 11/18/19
+ * @version 11/26/19
  */
 public class ConnectionViewFragment extends Fragment {
+    private enum ConnectionChange {ACCEPT, INVITE, REMOVE}
+
     private int mMemberID;
     private String mJWT;
     private TextView mStatus;
@@ -35,6 +38,7 @@ public class ConnectionViewFragment extends Fragment {
     private Button mReject;
     private Button mSend;
     private Button mRemove;
+    private ConnectionChange mAction;
     private Connection mConn;
 
     public ConnectionViewFragment() {
@@ -126,6 +130,7 @@ public class ConnectionViewFragment extends Fragment {
 
         mAccept.setEnabled(false);
         mReject.setEnabled(false);
+        mAction = ConnectionChange.ACCEPT;
     }
 
     /**
@@ -162,6 +167,7 @@ public class ConnectionViewFragment extends Fragment {
                 .build().execute();
 
         view.setEnabled(false);
+        mAction = ConnectionChange.REMOVE;
     }
 
 
@@ -193,6 +199,7 @@ public class ConnectionViewFragment extends Fragment {
                 .build().execute();
 
         view.setEnabled(false);
+        mAction = ConnectionChange.INVITE;
     }
 
     /**
@@ -204,13 +211,28 @@ public class ConnectionViewFragment extends Fragment {
         try {
             JSONObject root = new JSONObject(result);
             if(root.getBoolean("success")) {
+                String txt;
+                switch (mAction) {
+                    case ACCEPT:
+                        txt = "Connection request accepted.";
+                        break;
+                    case INVITE:
+                        txt = "Connection request sent.";
+                        break;
+                    case REMOVE:
+                        txt = "Connection has been removed.";
+                        break;
+                    default:
+                        txt = "SOMETHING HAS GONE WRONG";
+                }
+                Toast.makeText(getActivity(), txt, Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(getView()).popBackStack();
+                return;
             } else {
                 Log.e("ERROR", "Connection change error");
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR!", e.getMessage());
         }
         mRemove.setEnabled(true);
         mRemove.setError("Could not remove at this time, please try again later.");

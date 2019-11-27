@@ -61,5 +61,10 @@
             app:argType="edu.uw.tcss450.team3chatapp.model.Connection"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="chat"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Chat"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </activity>
 </navigation>
