@@ -6,10 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +60,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private SharedPreferences mPrefs;
     private AppBarConfiguration mAppBarConfiguration;
+    private NavigationView mNavigationView;
     private HomeActivityArgs mArgs;
+    private ColorFilter mDefault;
 
     private HomePushMessageReceiver mPushMessageReceiver;
 
@@ -78,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        mNavigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each menu should be considered as top level destination.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_chats, R.id.nav_connectionhome, R.id.nav_weather)
@@ -87,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.setGraph(R.navigation.nav_graph_home, getIntent().getExtras());
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupWithNavController(mNavigationView, navController);
 
         mArgs = HomeActivityArgs.fromBundle(Objects.requireNonNull(getIntent().getExtras()));
         // Check for unread messages; Navigate immediately to chatroom of pushed message or room
@@ -126,10 +133,11 @@ public class HomeActivity extends AppCompatActivity {
         fetchConnections();
         fetchChats();
 
-        navigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
+        mNavigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
+        mDefault = toolbar.getNavigationIcon().getColorFilter();
 
         // Set navigation drawer header fields with user information
-        View header = navigationView.getHeaderView(0);
+        View header = mNavigationView.getHeaderView(0);
         ((TextView) header.findViewById(R.id.tv_nav_header)).setText(mArgs.getCredentials().getUsername());
         ((TextView) header.findViewById(R.id.tv_verification_message)).setText(mArgs.getCredentials().getEmail());
     }
@@ -169,6 +177,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private boolean onNavigationSelected(final MenuItem menuItem) {
+        // Regardless of action, user is now aware of a notification that arrived somewhere
+        ((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon()
+                .setColorFilter(mDefault);
+
         NavController navController =
                 Navigation.findNavController(this, R.id.nav_host_fragment);
         switch (menuItem.getItemId()) {
@@ -180,6 +192,7 @@ public class HomeActivity extends AppCompatActivity {
                         ChatFragmentDirections.actionGlobalNavChats(mArgs.getJwt(), mArgs.getUserId());
 
                 Navigation.findNavController(this, R.id.nav_host_fragment).navigate(chats);
+                menuItem.setTitle(R.string.menu_chats);
                 break;
 
             case R.id.nav_connectionhome:
@@ -188,7 +201,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(directions);
-
+                menuItem.setTitle(R.string.menu_connections);
                 break;
             case R.id.nav_weather:
                 navController.navigate(R.id.nav_weather);
@@ -395,7 +408,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 try {
                     JSONObject msgInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
-                    boolean sender = !intent.getStringExtra("SENDER").equals(mArgs.getCredentials().getUsername());
+                    boolean sender = intent.getStringExtra("SENDER").equals(mArgs.getCredentials().getUsername());
                     Connection pushed =
                             new Connection(msgInfo.getInt(getString(R.string.keys_json_connections_memberid_int)),
                                     msgInfo.getString(getString(R.string.keys_json_connections_firstname_str)),
@@ -408,8 +421,10 @@ public class HomeActivity extends AppCompatActivity {
                         ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).addConnection(pushed);
                         if(pushed.getRelation() == Connection.Relation.UNACCEPTED && !pushed.amSender()
                             && Objects.requireNonNull(nd).getId() != R.id.nav_connectionhome) {
-                            // TODO: Something to notify users in-app of a new connection invitation
-                            Log.i("PUSH CONNECTION", msgInfo.toString());
+
+                            ((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon()
+                                    .setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                            mNavigationView.getMenu().findItem(R.id.nav_connectionhome).setChecked(true);
                         }
                     } else
                         ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).removeConnection(pushed);
@@ -430,7 +445,15 @@ public class HomeActivity extends AppCompatActivity {
                     // Update ViewModel of connections with change based on chat
                     if (chtInfo.getBoolean("new")) {
                         ChatListViewModel.getFactory().create(ChatListViewModel.class).addChat(pushed);
-                        // TODO: In-app notification of being added to a new chatroom
+                        ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(pushed.getChatID());
+                        // Color navigation menu to show new chat received
+                        if (Objects.requireNonNull(nd).getId() != R.id.nav_chats) {
+                            ((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon()
+                                    .setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                            SpannableString s = new SpannableString(getString(R.string.menu_chats));
+                            s.setSpan(new ForegroundColorSpan(Color.CYAN), 0, s.length(), 0);
+                            mNavigationView.getMenu().findItem(R.id.nav_chats).setTitle(s);
+                        }
                     } else
                         ChatListViewModel.getFactory().create(ChatListViewModel.class).removeChat(pushed);
 
@@ -444,7 +467,14 @@ public class HomeActivity extends AppCompatActivity {
                     JSONObject msgInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
                     // Set chat where message came from to display as having unread messages
                     ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(msgInfo.getInt("room"));
-                    // TODO: Immediately visible in-app notification of new message received, potential local storage of message
+                    // Color navigation menu to show new message received
+                    if (Objects.requireNonNull(nd).getId() != R.id.nav_chats) {
+                        ((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon()
+                                .setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                        SpannableString s = new SpannableString(getString(R.string.menu_chats));
+                        s.setSpan(new ForegroundColorSpan(Color.CYAN), 0, s.length(), 0);
+                        mNavigationView.getMenu().findItem(R.id.nav_chats).setTitle(s);
+                    }
                 } catch (JSONException e) {
                     // Couldn't get the notification properly, just give up
                     Log.e("PUSH MESSAGE", Objects.requireNonNull(e.getMessage()));
