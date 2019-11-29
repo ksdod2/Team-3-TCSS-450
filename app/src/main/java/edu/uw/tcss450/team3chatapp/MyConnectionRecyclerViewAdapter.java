@@ -100,7 +100,7 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         void setInfo(Connection item) {
             mItem = item;
             mNameView.setText(item.getFirstName() + " " + item.getLastName());
-            mUsername.setText(item.getUsername());
+            mUsername.setText("Username: " + item.getUsername());
             mEmail.setText(item.getEmail());
 
             mView.setOnClickListener(v -> {
@@ -140,7 +140,7 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         void setInfo(Connection item) {
             mItem = item;
             mNameView.setText(item.getFirstName() + " " + item.getLastName());
-            mUsername.setText(item.getUsername());
+            mUsername.setText("Username: "+ item.getUsername());
             mEmail.setText(item.getEmail());
 
             mView.setOnClickListener(v -> {

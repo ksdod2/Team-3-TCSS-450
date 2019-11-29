@@ -15,11 +15,12 @@
         <item name="windowNoTitle">true</item>
 
         <!-- Specific Widgets -->
+        <item name="android:textViewStyle">@style/GlobalFontStyle</item>
         <item name="android:buttonStyle">@style/DarkModeButtonStyle</item>
         <item name="editTextStyle">@style/DarkModeEditTextStyle</item>
         <item name="android:radioButtonStyle">@style/DarkModeRadioButtonStyle</item>
-    </style>
 
+    </style>
 
     <!-- Light Mode Current theme. -->
     <style name="LightMode" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -36,16 +37,25 @@
         <item name="windowNoTitle">true</item>
 
         <!-- Specific Widgets -->
+        <item name="android:textViewStyle">@style/GlobalFontStyle</item>
         <item name="android:buttonStyle">@style/LightModeButtonStyle</item>
         <item name="editTextStyle">@style/LightModeEditTextStyle</item>
         <item name="android:radioButtonStyle">@style/LightModeRadioButtonStyle</item>
+
     </style>
 
     <!-- Specific Widget Styles -->
+    <!-- Global Font -->
+    <style name="GlobalFontStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/lato_bold</item>
+    </style>
+
     <!-- Dark Mode Button Style. -->
     <style name="DarkModeButtonStyle" parent="@android:style/Widget.Material.Light.Button">
         <item name="android:textColor">@color/lightModeTextColor</item>
         <item name="android:backgroundTint">@color/darkModeButtonColor</item>
+
+        <item name="android:fontFamily">@font/lato_bold</item>
     </style>
 
     <!-- Dark Mode Edit Text Style. -->
@@ -53,18 +63,24 @@
         <item name="android:textColor">@color/darkModeTextColor</item>
         <item name="android:textColorHint">@color/primaryHintColor</item>
         <item name="android:backgroundTint">@color/darkModeTextColor</item>
+
+        <item name="android:fontFamily">@font/lato_bold</item>
     </style>
 
     <!-- Dark Mode Radio Button Style. -->
     <style name="DarkModeRadioButtonStyle" parent="@android:style/Widget.Material.Light.CompoundButton.RadioButton">
         <item name="android:textColor">@color/darkModeTextColor</item>
         <item name="android:buttonTint">@color/darkModeButtonColor</item>
+
+        <item name="android:fontFamily">@font/lato_bold</item>
     </style>
 
     <!-- Light Mode Button Style. -->
     <style name="LightModeButtonStyle" parent="@android:style/Widget.Material.Light.Button">
         <item name="android:textColor">@color/darkModeTextColor</item>
         <item name="android:backgroundTint">@color/lightModeButtonColor</item>
+
+        <item name="android:fontFamily">@font/lato_bold</item>
     </style>
 
     <!-- Light Mode Edit Text Style. -->
@@ -72,12 +88,16 @@
         <item name="android:textColor">@color/lightModeTextColor</item>
         <item name="android:textColorHint">@color/lightModeTextColor</item>
         <item name="android:backgroundTint">@color/lightModeTextColor</item>
+
+        <item name="android:fontFamily">@font/lato_bold</item>
     </style>
 
     <!-- Light Mode Radio Button Style. -->
     <style name="LightModeRadioButtonStyle" parent="@android:style/Widget.Material.Light.CompoundButton.RadioButton">
         <item name="android:textColor">@color/lightModeTextColor</item>
         <item name="android:buttonTint">@color/lightModeButtonColor</item>
+
+        <item name="android:fontFamily">@font/lato_bold</item>
     </style>
 
     <style name="DarkMode.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -7,37 +7,39 @@
     android:padding="2dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="2dp"
-        app:cardBackgroundColor="#dfdfdf"
-        app:cardCornerRadius="6dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/messageReceivedColor"
+        app:cardCornerRadius="15dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_connectionsearch_list_name"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_connectionsearch_list_username"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:textAppearance="?attr/textAppearanceListItem" />
+                android:textAppearance="?attr/textAppearanceListItemSecondary"
+                android:textColor="@color/lightModeButtonColor" />
 
             <TextView
-                android:id="@+id/tv_connectionsearch_list_username"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_connectionsearch_list_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:textAppearance="?attr/textAppearanceListItemSecondary" />
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/tv_connectionsearch_list_email"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:textAppearance="?attr/textAppearanceListItemSecondary" />
+                android:textAppearance="?attr/textAppearanceListItemSecondary"
+                android:textColor="@android:color/black" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

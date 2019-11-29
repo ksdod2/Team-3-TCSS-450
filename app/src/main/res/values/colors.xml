@@ -17,5 +17,8 @@
     <color name="darkModeBackgroundColor">#252B3D</color>
     <color name="lightModeBackgroundColor">#5B99C2</color>
 
+    <color name="messageSentColor">#6E9EEB</color>
+    <color name="messageReceivedColor">#CACACA</color>
+
 </resources>
 

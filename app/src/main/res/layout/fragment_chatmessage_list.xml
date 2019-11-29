@@ -10,6 +10,8 @@
         android:name="edu.uw.tcss450.team3chatapp.ChatMessageFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/et_chatroom_send"
         app:layout_constraintEnd_toEndOf="parent"

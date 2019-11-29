@@ -19,6 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        app:itemTextAppearance="@style/GlobalFontStyle"
         app:itemTextColor="?android:textColor"
         app:itemIconTint="?android:textColor"
         app:headerLayout="@layout/nav_header_home"

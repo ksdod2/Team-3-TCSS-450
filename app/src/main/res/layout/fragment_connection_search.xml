@@ -7,16 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".ui.ConnectionSearchFragment">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/tv_connectionsearch_searchResults"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_connection_searchresults"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:listitem="@layout/fragment_connection_search_result">
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -42,7 +54,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/et_connectionsearch_firstname"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textAlignment="center" />
 
             <EditText
                 android:id="@+id/et_connection_search_lastname"
@@ -50,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/et_connectionsearch_lastname"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textAlignment="center" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,7 +79,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/et_connectionsearch_username"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textAlignment="center" />
 
             <EditText
                 android:id="@+id/et_connection_search_email"
@@ -73,7 +88,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/et_connectionsearch_email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textAlignment="center" />
         </LinearLayout>
 
         <Button

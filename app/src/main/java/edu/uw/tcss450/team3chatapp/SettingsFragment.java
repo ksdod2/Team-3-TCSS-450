@@ -70,10 +70,10 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
 
         if (currentThemeID == R.style.DarkMode) {
             tv_settings_currentTheme.setText("Current Theme: Dark Mode");
-            iv_settings_currentThemeIcon.setImageResource(R.mipmap.logo_dark);
+            iv_settings_currentThemeIcon.setImageResource(R.drawable.logo_dark);
         } else {
             tv_settings_currentTheme.setText("Current Theme: Light Mode");
-            iv_settings_currentThemeIcon.setImageResource(R.mipmap.logo_light);
+            iv_settings_currentThemeIcon.setImageResource(R.drawable.logo_light);
         }
         
         tempUnitOptions.setOnCheckedChangeListener(this::changeTempUnits);

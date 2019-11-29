@@ -60,7 +60,7 @@
     <fragment
         android:id="@+id/nav_connectionhome"
         android:name="edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragment"
-        android:label="Your Connections"
+        android:label="My Connections"
         tools:layout="@layout/fragment_connection_list" >
         <action
             android:id="@+id/action_nav_connectionhome_to_nav_connectionview"
@@ -114,7 +114,7 @@
     <fragment
         android:id="@+id/nav_chat_create"
         android:name="edu.uw.tcss450.team3chatapp.ui.ChatCreationFragment"
-        android:label="Create Chat"
+        android:label="Create Chatroom"
         tools:layout="@layout/fragment_chat_creation" >
         <argument
             android:name="memberID"

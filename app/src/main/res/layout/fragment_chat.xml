@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
-        app:cardBackgroundColor="#DADADA"
+        app:cardBackgroundColor="@color/messageReceivedColor"
         app:cardCornerRadius="4dp"
         app:cardElevation="2dp">
 
@@ -24,14 +24,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
-                android:textAppearance="?attr/textAppearanceListItem" />
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/lightModeButtonColor" />
 
             <TextView
                 android:id="@+id/tv_chatlist_description"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
-                android:textAppearance="?attr/textAppearanceListItemSecondary" />
+                android:textAppearance="?attr/textAppearanceListItemSecondary"
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

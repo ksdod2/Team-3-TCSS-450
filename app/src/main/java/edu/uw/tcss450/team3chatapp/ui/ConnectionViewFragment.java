@@ -68,7 +68,7 @@ public class ConnectionViewFragment extends Fragment {
         mStatus = view.findViewById(R.id.tv_connection_view_status);
 
         ((TextView) view.findViewById(R.id.tv_connection_view_name)).setText(mConn.getFirstName() + " " + mConn.getLastName());
-        ((TextView) view.findViewById(R.id.tv_connection_view_username)).setText(mConn.getUsername());
+        ((TextView) view.findViewById(R.id.tv_connection_view_username)).setText("Username: " + mConn.getUsername());
         ((TextView) view.findViewById(R.id.tv_connection_view_email)).setText(mConn.getEmail());
 
         // Make needed buttons visible based on connection details

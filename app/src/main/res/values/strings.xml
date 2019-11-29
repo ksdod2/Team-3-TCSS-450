@@ -228,13 +228,13 @@
     <!-- Chat strings -->
     <string name="btn_sheet_invite">Invite From Contacts</string>
     <string name="btn_sheet_leave">Leave Chat</string>
-    <string name="btn_chat_create">Create New Chat</string>
+    <string name="btn_chat_create">Create New Chatroom</string>
     <string name="btn_chat_invite">Invite Users</string>
     <string name="btn_chatroom_send">Send</string>
     <string name="et_chat_create_name">Chatroom Name</string>
     <string name="et_chat_create_description">Chatroom Description (Optional)</string>
-    <string name="btn_chat_create_create">Create Room</string>
-    <string name="tv_chat_create_contacts">Your Contacts</string>
+    <string name="btn_chat_create_create">Create Chatroom</string>
+    <string name="tv_chat_create_contacts">Contacts</string>
     <string name="tv_chat_create_add">Contacts to invite to this room</string>
 
     <!-- Settings menu strings -->
@@ -251,9 +251,9 @@
     <string name="rb_settings_celcius">C</string>
 
     <!-- Connections home fragment strings -->
-    <string name="tv_connections_accepted">Your Connections</string>
-    <string name="tv_connections_pending">Your Sent Connection Invites</string>
-    <string name="tv_connections_incoming">Your Connection Invitations</string>
+    <string name="tv_connections_accepted">Connections</string>
+    <string name="tv_connections_pending">Sent Connection Invites</string>
+    <string name="tv_connections_incoming">Connection Invitations</string>
     <string name="btn_connections_search">Search For Users</string>
 
     <!-- Connection view fragment strings -->
@@ -267,6 +267,7 @@
     <string name="tv_status_sendnew">Send a connection request to this user?</string>
 
     <!-- Connection search fragment strings -->
+    <string name="tv_connectionsearch_searchResults">User Found:</string>
     <string name="btn_connectionsearch_search">Search</string>
     <string name="et_connectionsearch_firstname">First Name</string>
     <string name="et_connectionsearch_lastname">Last Name</string>
@@ -274,6 +275,4 @@
     <string name="et_connectionsearch_email">Email</string>
     <string name="et_connectionsearch_name_error">Please input both a first and last name.</string>
     <string name="et_connectionsearch_general_error">Please input a valid search term.</string>
-
-
 </resources>
