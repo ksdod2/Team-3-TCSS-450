@@ -131,7 +131,6 @@ public class HomeActivity extends AppCompatActivity {
             nc.navigate(connection);
         }
         // Get information to populate ViewModels
-        Utils.updateWeatherIfNecessary(mPrefs);
         fetchConnections();
         fetchChats();
 
@@ -143,8 +142,6 @@ public class HomeActivity extends AppCompatActivity {
         ((TextView) header.findViewById(R.id.tv_nav_header)).setText(mArgs.getCredentials().getUsername());
         ((TextView) header.findViewById(R.id.tv_verification_message)).setText(mArgs.getCredentials().getEmail());
     }
-
-    private void fetchWeatherPost(final String result) {}
 
     @Override
     public void onResume() {

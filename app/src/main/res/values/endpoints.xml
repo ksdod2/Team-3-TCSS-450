@@ -25,4 +25,6 @@
 
     <!-- Aeris Weather API endpoint -->
     <string name="ep_weather">weather</string>
+    <string name="ep_weather_batch">batch</string>
+    <string name="ep_weather_obs">observations</string>
 </resources>

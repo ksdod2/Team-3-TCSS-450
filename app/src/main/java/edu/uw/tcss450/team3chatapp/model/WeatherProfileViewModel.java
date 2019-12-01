@@ -19,23 +19,34 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
-import edu.uw.tcss450.team3chatapp.utils.Utils;
 
 public class WeatherProfileViewModel extends ViewModel {
 
     private static WeatherProfileViewModel mInstance;
 
-    private ArrayList<WeatherProfile> mWeatherProfileList;
-    private MutableLiveData<List<WeatherProfile>> mLiveWeatherProfiles;
-    private ArrayList<Location> mSavedLocations;
+    private MutableLiveData<WeatherProfile> mCurrentLocationWeatherProfile;
+    private MutableLiveData<List<WeatherProfile>> mSavedLocationsWeatherProfiles;
     private long mLastUpdated;
 
+    private ArrayList<Location> mSavedLocations;
+
     private WeatherProfileViewModel() {
-        mLiveWeatherProfiles = new MutableLiveData<>();
+        mCurrentLocationWeatherProfile = new MutableLiveData<>();
+        mSavedLocationsWeatherProfiles = new MutableLiveData<>();
         mLastUpdated = System.currentTimeMillis() / 1000L;
     }
 
-    public long getTimeStamp() {return mLastUpdated;}
+    public LiveData<WeatherProfile> getCurrentLocationWeatherProfile() {
+        return mCurrentLocationWeatherProfile;
+    }
+
+    public LiveData<List<WeatherProfile>> getAllWeatherProfiles() {
+        return mSavedLocationsWeatherProfiles;
+    }
+
+    public long getTimeStamp() {
+        return mLastUpdated;
+    }
 
     public void update(ArrayList<Location> savedLocations) {
         if(savedLocations.size() > 0) {
@@ -45,10 +56,11 @@ public class WeatherProfileViewModel extends ViewModel {
                     .scheme("https")
                     .authority("team3-chatapp-backend.herokuapp.com")
                     .appendPath("weather")
+                    .appendPath("batch")
                     .appendQueryParameter("requests", buildWeatherQuery(savedLocations))
                     .build();
 
-            //TODO remove
+            //TODO remove test log
             Log.d("WEATHER_URI", uri.toString());
 
             new GetAsyncTask.Builder(uri.toString())
@@ -60,61 +72,12 @@ public class WeatherProfileViewModel extends ViewModel {
         }
     }
 
-    public WeatherProfile getWeatherProfileForLocation(final Location newLoc) {
-        WeatherProfile closest = null;
-        float shortestDist = Float.MAX_VALUE;
-
-        for(WeatherProfile w : mWeatherProfileList) {
-            Location thisLoc = w.getLocation();
-            float distBetweenLocations = thisLoc.distanceTo(newLoc);
-
-            if(Utils.areCloseTogether(newLoc, thisLoc)
-                    && distBetweenLocations < shortestDist) {
-                shortestDist = distBetweenLocations;
-                closest = w;
-            }
-        }
-        return closest;
-    }
-
-    public LiveData<List<WeatherProfile>> getAllWeatherProfiles() {
-        return mLiveWeatherProfiles;
-    }
-
-//    public void addWeatherProfile(final WeatherProfile newWP) {
-//        boolean alreadyHaveLocation = false;
-//        Location newLoc = newWP.getLocation();
-//        WeatherProfile closeEnough = null;
-//        for(WeatherProfile wp : mWeatherProfileList) {
-//            Location thisLoc = wp.getLocation();
-//            if(areCloseTogether(thisLoc, newLoc)) {
-//                alreadyHaveLocation = true;
-//                closeEnough = wp;
-//                break;
-//            }
-//        }
-//
-//        if(alreadyHaveLocation) {
-//            mWeatherProfileList.remove(closeEnough);
-//            mWeatherProfileList.add(newWP);
-//        } else {
-//            mWeatherProfileList.add(newWP);
-//        }
-//
-//        mLiveWeatherProfiles.setValue(mWeatherProfileList);
-//    }
-
-//    public void removeWeatherProfile(final int tID) {
-//        mWeatherProfileList.remove(tID);
-//        mLiveWeatherProfiles.setValue(mWeatherProfileList);
-//    }
-
     private void fetchWeatherPost(final String result) {
         try {
             JSONObject root = new JSONObject(result).getJSONObject("response");
             if(root.has("responses")) {
                 JSONArray data = root.getJSONArray("responses");
-                mWeatherProfileList = new ArrayList<>();
+                ArrayList<WeatherProfile> savedLocationWeatherProfileList = new ArrayList<>();
 
                 for(int i = 0; i < data.length(); i+=3) {
                     int id = i / 3;
@@ -124,13 +87,16 @@ public class WeatherProfileViewModel extends ViewModel {
                     JSONObject hourlyJSON = data.getJSONObject(i+2);
 
                     WeatherProfile wp = new WeatherProfile(id, loc, obsJSON, dailyJSON, hourlyJSON);
-                    mWeatherProfileList.add(wp);
+
+                    // First block of weather info is always current location
+                    if(i == 0) {
+                        mCurrentLocationWeatherProfile.setValue(wp);
+                    } else {
+                        savedLocationWeatherProfileList.add(wp);
+                    }
                 }
-
-                mSavedLocations = null;
-                mLiveWeatherProfiles.setValue(mWeatherProfileList);
+                mSavedLocationsWeatherProfiles.setValue(savedLocationWeatherProfileList);
             }
-
         } catch(JSONException e) {
             e.printStackTrace();
             Log.e("WEATHER_UPDATE_ERR", Objects.requireNonNull(e.getMessage()));

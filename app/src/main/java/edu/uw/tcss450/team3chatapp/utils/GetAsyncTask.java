@@ -176,7 +176,7 @@ public class GetAsyncTask extends AsyncTask<Void, String, String> {
 
             InputStream content = urlConnection.getInputStream();
             BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-            String s = "";
+            String s;
             while((s = buffer.readLine()) != null) {
                 response.append(s);
             }
@@ -212,4 +212,3 @@ public class GetAsyncTask extends AsyncTask<Void, String, String> {
         mOnPost.accept(result);
     }
 }
-
