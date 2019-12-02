@@ -47,6 +47,24 @@ public class Utils {
         }
     }
 
+    public static String formatCityState(String name, String state) {
+
+        StringBuilder city = new StringBuilder();
+
+        String[] split;
+        if(name.contains(" ")) {
+            split = name.split(" ");
+            for(String s : split) {
+                city.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
+            }
+        } else {
+            city.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" ");
+        }
+        city.trimToSize();
+
+        return city.append(", ").append(state).toString();
+    }
+
     private static long getTopOfLastHour() {
         return (System.currentTimeMillis() / 1000L) - ((System.currentTimeMillis() / 1000L) % 3600);
     }

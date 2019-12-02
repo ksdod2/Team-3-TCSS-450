@@ -201,7 +201,7 @@ public class LoginFragment extends Fragment {
 
                 InputStream content = urlConnection.getInputStream();
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                String s = "";
+                String s;
                 while((s = buffer.readLine()) != null) {
                     response.append(s);
                 }
