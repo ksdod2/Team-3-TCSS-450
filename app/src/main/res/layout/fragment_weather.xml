@@ -11,7 +11,9 @@
         android:id="@+id/layout_weather_upperLayout"
         android:layout_width="360dp"
         android:layout_height="86dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -26,50 +28,44 @@
 
             <TextView
                 android:id="@+id/tv_weather_currentLocation"
-                android:layout_width="140dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0"
+                android:paddingStart="0dp"
+                android:paddingEnd="4dp"
                 android:text="@string/tv_weather_currentLocation"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_weather_currentCity"
+                android:id="@+id/tv_weather_currentCityState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:text="@string/tv_weather_currentCity"
                 android:textAlignment="viewStart"
                 android:textStyle="italic" />
 
-            <TextView
-                android:id="@+id/tv_weather_currentState"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/tv_weather_currentState"
-                android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_weather_search"
             android:layout_width="match_parent"
-            android:layout_height="47dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/et_weather_searchByZip"
-                android:layout_width="226dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:autofillHints=""
-                android:ems="10"
                 android:hint="@string/et_weather_searchByZip"
                 android:inputType="number"
                 tools:targetApi="o" />
 
             <Button
                 android:id="@+id/btn_weather_search"
-                android:layout_width="113dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/btn_weather_search" />
@@ -91,7 +87,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:text="@string/tv_weather_map"
-                android:textAlignment="viewStart"
+                android:textAlignment="center"
                 android:textIsSelectable="false"
                 android:textSize="12sp" />
 
@@ -114,7 +110,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:text="@string/tv_weather_savedLocations"
-                android:textAlignment="viewEnd"
+                android:textAlignment="center"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
@@ -123,64 +119,71 @@
         android:id="@+id/tv_weather_currentConditions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/tv_weather_currentConditions"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/sv_weather_currentConditions"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_weather_upperLayout" />
 
     <TextView
         android:id="@+id/tv_weather_24hourForecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginBottom="16dp"
         android:text="@string/tv_weather_24hourForecast"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/sv_weather_24hourForecast"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_weather_10dayForecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginBottom="16dp"
         android:text="@string/tv_weather_10dayForecast"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/sv_weather_10dayForecast"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
         android:id="@+id/sv_weather_currentConditions"
         style="@android:style/Widget.DeviceDefault.Light.ScrollView"
-        android:layout_width="310dp"
-        android:layout_height="82dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_weather_24hourForecast"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iv_weather_currentIcon"
+        app:layout_constraintTop_toBottomOf="@+id/tv_weather_currentConditions">
 
         <LinearLayout
             android:id="@+id/layout_weather_currentConditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/layout_weather_currentTemperature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="2dp">
 
                 <TextView
                     android:id="@+id/tv_weather_currentTemperature"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_temperature"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -188,23 +191,36 @@
 
                 <TextView
                     android:id="@+id/tv_weather_currentTemperatureDefault"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="4dp"
                     android:text="@string/tv_weather_temperatureDefault"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_weather_current_tempunits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/rb_settings_fahrenheit"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_currentMinTemp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="2dp">
 
                 <TextView
                     android:id="@+id/tv_weather_currentMinimum"
-                    android:layout_width="119dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_tempMin"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -215,18 +231,21 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/tv_weather_tempMinDefault" />
+                    android:text="@string/tv_weather_tempMinDefault"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_weather_currentMaxTemp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="2dp">
 
                 <TextView
                     android:id="@+id/tv_weather_currentMaximum"
-                    android:layout_width="122dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_tempMax"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -237,7 +256,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/tv_weather_tempMaxDefault" />
+                    android:text="@string/tv_weather_tempMaxDefault"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -245,12 +265,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/tv_weather_currentDescription"
-                    android:layout_width="91dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_description"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -261,7 +283,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/tv_weather_descriptionDefault" />
+                    android:text="@string/tv_weather_descriptionDefault"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -270,12 +293,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tv_weather_currentHumidity"
-                    android:layout_width="76dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_humidity"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -288,7 +313,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/tv_weather_humidityDefault" />
+                    android:text="@string/tv_weather_humidityDefault"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -297,12 +323,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/tv_weather_currentPrecipitation"
-                    android:layout_width="97dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_precipitation"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -316,6 +344,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/tv_weather_precipitationDefault"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
             </LinearLayout>
@@ -325,12 +354,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/tv_weather_currentWind"
-                    android:layout_width="49dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_wind"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -340,10 +371,21 @@
 
                 <TextView
                     android:id="@+id/tv_weather_currentWindDefault"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="4dp"
+                    android:text="@string/tv_weather_windDefault"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_weather_current_windspeed_units"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/tv_weather_windDefault" />
+                    android:textStyle="bold"
+                    tools:text="@string/tv_weather_windunits_imperial" />
             </LinearLayout>
 
             <LinearLayout
@@ -351,12 +393,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="0dp"
+                android:paddingBottom="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/tv_weather_currentSunrise"
-                    android:layout_width="64dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_sunrise"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -368,7 +412,8 @@
                     android:id="@+id/tv_weather_currentSunriseDefault"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tv_weather_sunriseDefault" />
+                    android:text="@string/tv_weather_sunriseDefault"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -381,7 +426,7 @@
 
                 <TextView
                     android:id="@+id/tv_weather_currentSunset"
-                    android:layout_width="60dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_weather_sunset"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -394,7 +439,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/tv_weather_sunsetDefault" />
+                    android:text="@string/tv_weather_sunsetDefault"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
@@ -402,9 +448,11 @@
 
     <HorizontalScrollView
         android:id="@+id/sv_weather_10dayForecast"
-        android:layout_width="310dp"
+        android:layout_width="0dp"
         android:layout_height="100dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -822,12 +870,13 @@
 
     <HorizontalScrollView
         android:id="@+id/sv_weather_24hourForecast"
-        android:layout_width="310dp"
+        android:layout_width="0dp"
         android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_weather_10dayForecast"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
@@ -854,7 +903,6 @@
                     android:id="@+id/iv_weather_24hour1"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:layout_gravity="center"
                     android:contentDescription="@string/iv_weather_24hourNow"
                     android:src="@mipmap/cloudy"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -1796,5 +1844,18 @@
 
         </LinearLayout>
     </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/iv_weather_currentIcon"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/PLACEHOLDER"
+        android:src="@mipmap/clear"
+        app:layout_constraintBottom_toTopOf="@+id/tv_weather_24hourForecast"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_weather_currentConditions" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

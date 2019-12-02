@@ -131,7 +131,6 @@ public class HomeFragment extends Fragment {
            point, so weather data for current location needs to be loaded manually.*/
         if(curLocWP == null) {
             String locEP = mLocation.getLatitude() + "," + mLocation.getLongitude();
-            String obsFields = "place.name,place.state,ob.tempC,ob.tempF,ob.weather,ob.icon";
 
             Uri uri = new Uri.Builder()
                     .scheme("https")
@@ -139,7 +138,7 @@ public class HomeFragment extends Fragment {
                     .appendPath(getString(R.string.ep_weather))
                     .appendPath(getString(R.string.ep_weather_obs))
                     .appendPath(locEP)
-                    .appendQueryParameter("fields", obsFields)
+                    .appendQueryParameter("fields", Utils.OBS_FIELDS)
                     .build();
 
             new GetAsyncTask.Builder(uri.toString())
@@ -171,18 +170,18 @@ public class HomeFragment extends Fragment {
                 if(response.has(getString(R.string.keys_json_weather_place))
                         && response.has(getString(R.string.keys_json_weather_ob))) {
 
-                    JSONObject place = response.getJSONObject("place");
-                    JSONObject ob = response.getJSONObject("ob");
+                    JSONObject place = response.getJSONObject(getString(R.string.keys_json_weather_place));
+                    JSONObject ob = response.getJSONObject(getString(R.string.keys_json_weather_ob));
 
-                    String cityState = Utils.formatCityState(place.getString("name"),
-                            place.getString("state").toUpperCase());
+                    String cityState = Utils.formatCityState(place.getString(getString(R.string.keys_json_weather_name)),
+                            place.getString(getString(R.string.keys_json_weather_state)).toUpperCase());
 
-                    String icFile = ob.getString("icon").substring(0, ob.getString("icon").length()-4);
+                    String icFile = ob.getString(getString(R.string.keys_json_weather_icon)).substring(0, ob.getString(getString(R.string.keys_json_weather_icon)).length()-4);
 
                     int id = getResources().getIdentifier(icFile, "mipmap", getContext().getPackageName());
 
-                    mWeatherDescription.setText(ob.getString("weather"));
-                    mWeatherTemp.setText("F".equals(mUnits) ? ob.getString("tempF") : ob.getString("tempC"));
+                    mWeatherDescription.setText(ob.getString(getString(R.string.keys_json_weather_desc)));
+                    mWeatherTemp.setText("F".equals(mUnits) ? ob.getString(getString(R.string.keys_json_weather_tempf)) : ob.getString(getString(R.string.keys_json_weather_tempc)));
                     mCityState.setText(cityState);
                     mWeatherIcon.setImageResource(id);
                 } else {

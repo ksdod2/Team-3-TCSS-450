@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
+import edu.uw.tcss450.team3chatapp.utils.Utils;
 
 public class WeatherProfileViewModel extends ViewModel {
 
@@ -106,9 +107,6 @@ public class WeatherProfileViewModel extends ViewModel {
     private String buildWeatherQuery(ArrayList<Location> tSavedLocations) {
         StringBuilder result = new StringBuilder();
 
-        String obsFields = "place.name,place.state,ob.tempC,ob.tempF,ob.weather,ob.icon";
-        String dailyFields = "periods.weather,periods.minTempC,periods.minTempF,periods.maxTempC,periods.maxTempF,periods.icon";
-        String hourlyFields = "periods.weather,periods.avgTempC,periods.avgTempF,periods.icon";
         String qm = "%3F";
         String amp = "%26";
 
@@ -118,18 +116,18 @@ public class WeatherProfileViewModel extends ViewModel {
 
             //append current weather request: '/observations/{locEP}?fields={obsFields},'
             req.append("/observations/").append(locEP).append(qm)
-                    .append("fields=").append(obsFields)
+                    .append("fields=").append(Utils.OBS_FIELDS)
                     .append(",");
             //append 10-day forecast request: '/forecasts/{locEP}?limit=10&fields={dailyFields},'
             req.append("/forecasts/").append(locEP).append(qm)
                     .append("limit=10").append(amp)
-                    .append("fields=").append(dailyFields)
+                    .append("fields=").append(Utils.DAILY_FIELDS)
                     .append(",");
             //append 24hr forecast request: '/forecasts/{locEP}?filter=1hr&limit=24&fields={hourlyFields},'
             req.append("/forecasts/").append(locEP).append(qm)
                     .append("filter=1hr").append(amp)
                     .append("limit=24").append(amp)
-                    .append("fields=").append(hourlyFields)
+                    .append("fields=").append(Utils.HOURLY_FIELDS)
                     .append(",");
 
             //append query string for this location to entire request.
