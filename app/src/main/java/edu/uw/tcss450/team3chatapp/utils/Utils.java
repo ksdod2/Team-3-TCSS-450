@@ -16,9 +16,9 @@ import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 
 public class Utils {
 
-    public static final String OBS_FIELDS = "place.name,place.state,ob.tempC,ob.tempF,ob.humidity,ob.windSpeedKPH,ob.windSpeedMPH,ob.weatherShort,ob.icon";
-    public static final String DAILY_FIELDS = "periods.weather,periods.minTempC,periods.minTempF,periods.maxTempC,periods.maxTempF,periods.pop,periods.sunrise,periods.sunset,periods.icon";
-    public static final String HOURLY_FIELDS = "periods.timestamp,periods.weather,periods.avgTempC,periods.avgTempF,periods.icon";
+    public static final String OBS_FIELDS = "place.name,place.state,ob.tempC,ob.tempF,ob.humidity,ob.windSpeedKPH,ob.windSpeedMPH,ob.weather,ob.weatherShort,ob.cloudsCoded,ob.icon";
+    public static final String DAILY_FIELDS = "periods.timestamp,periods.minTempC,periods.minTempF,periods.maxTempC,periods.maxTempF,periods.pop,periods.sunrise,periods.sunset,periods.icon";
+    public static final String HOURLY_FIELDS = "periods.timestamp,periods.avgTempC,periods.avgTempF,periods.icon";
 
     private Utils() {}
 
@@ -67,6 +67,25 @@ public class Utils {
         city.trimToSize();
 
         return city.append(", ").append(state).toString();
+    }
+
+    public static String cloudDecode(final String theCode) {
+        String response;
+        switch(theCode) {
+            case "CL":
+                response = "Clear Outside"; break;
+            case "FW":
+                response = "Mostly Clear"; break;
+            case "SC":
+                response = "Partly Cloudy"; break;
+            case "BK":
+                response = "Mostly Cloudy"; break;
+            case "OV":
+                response = "Cloudy Outside"; break;
+            default:
+                response = "Unsure. Try again later."; break;
+        }
+        return response;
     }
 
     private static long getTopOfLastHour() {

@@ -3,6 +3,8 @@
     <!-- Main Colors -->
     <color name="headerColor">#041f49</color>
 
+
+
     <color name="gradientCenterColor">#374675</color>
     <color name="gradientEndColor">#000022</color>
 
@@ -12,7 +14,9 @@
     <color name="primaryHintColor">#9F9F9F</color>
 
     <color name="darkModeTextColor">#FFFFFF</color>
+
     <color name="lightModeTextColor">#000000</color>
+
 
     <color name="darkModeBackgroundColor">#252B3D</color>
     <color name="lightModeBackgroundColor">#5B99C2</color>

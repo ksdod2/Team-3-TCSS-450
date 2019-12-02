@@ -91,32 +91,28 @@ public class HomeFragment extends Fragment {
         mWeatherIcon = getView().findViewById(R.id.iv_home_weatherIcon);
         mCityState = getView().findViewById(R.id.tv_home_citystate);
 
-        TextView units = getView().findViewById(R.id.tv_home_unit);
+        TextView units = getView().findViewById(R.id.tv_home_tempUnit);
         TextView greeting = Objects.requireNonNull(getView()).findViewById(R.id.tv_home_greeting);
         TextView date = getView().findViewById((R.id.tv_home_date));
-        TextView dayOfWeek = getView().findViewById((R.id.tv_home_dayOfWeek));
 
         // Set preferred unit of measurement
-        if("F".equals(mUnits)) {
-            units.setText("°F");
-        } else {
-            units.setText("°C");
-        }
+        String tempUnitsDisplay = getString(R.string.misc_temp_unit_symbol) + mUnits + "\u00A0";
+        units.setText(tempUnitsDisplay);
 
         // format the date and day of week
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd");
         SimpleDateFormat dayOfWeekFormat = new SimpleDateFormat("EEEE");
 
         String dateString = dateFormat.format(calendar.getTime());
         String dayOfWeekString = dayOfWeekFormat.format((calendar.getTime()));
+        String fullDate = dayOfWeekString+ ", " + dateString;
 
         // set greeting message with credentials
         String greetingText = "Welcome, " + credentials.getFirstName() + " " + credentials.getLastName() + "!";
         greeting.setText(greetingText);
 
-        // set current date and day of week
-        date.setText(dateString);
-        dayOfWeek.setText(dayOfWeekString);
+        // set current date
+        date.setText(fullDate);
 
         // Use data in WeatherProfileViewModel to display weather
         populateWeatherData();
@@ -173,6 +169,9 @@ public class HomeFragment extends Fragment {
                     JSONObject place = response.getJSONObject(getString(R.string.keys_json_weather_place));
                     JSONObject ob = response.getJSONObject(getString(R.string.keys_json_weather_ob));
 
+                    String tempDisplay = "F".equals(mUnits) ? ob.getString(getString(R.string.keys_json_weather_tempf)) : ob.getString(getString(R.string.keys_json_weather_tempc));
+                    tempDisplay += '\u00A0';
+
                     String cityState = Utils.formatCityState(place.getString(getString(R.string.keys_json_weather_name)),
                             place.getString(getString(R.string.keys_json_weather_state)).toUpperCase());
 
@@ -180,8 +179,9 @@ public class HomeFragment extends Fragment {
 
                     int id = getResources().getIdentifier(icFile, "mipmap", getContext().getPackageName());
 
-                    mWeatherDescription.setText(ob.getString(getString(R.string.keys_json_weather_desc)));
-                    mWeatherTemp.setText("F".equals(mUnits) ? ob.getString(getString(R.string.keys_json_weather_tempf)) : ob.getString(getString(R.string.keys_json_weather_tempc)));
+                    // Display info
+                    mWeatherDescription.setText(ob.getString(getString(R.string.keys_json_weather_desc_long)));
+                    mWeatherTemp.setText(tempDisplay);
                     mCityState.setText(cityState);
                     mWeatherIcon.setImageResource(id);
                 } else {
