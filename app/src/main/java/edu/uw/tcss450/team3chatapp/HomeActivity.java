@@ -448,6 +448,7 @@ public class HomeActivity extends AppCompatActivity {
             mPrefs.edit().remove(getString(R.string.keys_prefs_password)).apply();
             mPrefs.edit().remove(getString(R.string.keys_prefs_email)).apply();
             mPrefs.edit().remove(getString(R.string.keys_prefs_stay_logged_in)).apply();
+            mPrefs.edit().remove(getString(R.string.keys_prefs_favorites)).apply();
 
             //unregister the device from the Pushy servers
             Pushy.unregister(HomeActivity.this);

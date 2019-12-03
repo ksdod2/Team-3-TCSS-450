@@ -20,8 +20,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:itemTextAppearance="@style/GlobalFontStyle"
-        app:itemTextColor="?android:textColor"
-        app:itemIconTint="?android:textColor"
+        app:itemTextColor="@color/darkModeTextColor"
+        app:itemIconTint="@color/darkModeTextColor"
         app:headerLayout="@layout/nav_header_home"
         app:menu="@menu/activity_home_drawer" />
 

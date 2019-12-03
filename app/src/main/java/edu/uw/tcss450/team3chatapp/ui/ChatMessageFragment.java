@@ -139,6 +139,8 @@ public class ChatMessageFragment extends Fragment {
             if (!prefs.contains(getString(R.string.keys_prefs_favorites))) {
                 favs.add("" + mChatID);
                 prefs.edit().putStringSet(getString(R.string.keys_prefs_favorites), favs).apply();
+                item.setTitle("Unfavorite");
+                ChatListViewModel.getFactory().create(ChatListViewModel.class).setFavorite(mChatID, true);
             } else {
                 favs = prefs.getStringSet(getString(R.string.keys_prefs_favorites), null);
                 // Either set favorite or remove it if already exists
