@@ -15,11 +15,13 @@ import android.os.Bundle;
 
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -32,6 +34,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.widget.TextView;
@@ -42,7 +45,9 @@ import org.json.JSONObject;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.ChatListViewModel;
@@ -61,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences mPrefs;
     private AppBarConfiguration mAppBarConfiguration;
     private NavigationView mNavigationView;
-    private HomeActivityArgs mArgs;
+    public HomeActivityArgs mArgs;
     private ColorFilter mDefault;
 
     private HomePushMessageReceiver mPushMessageReceiver;
@@ -129,6 +134,7 @@ public class HomeActivity extends AppCompatActivity {
                     MobileNavigationDirections.actionGlobalNavConnectionview(mArgs.getConnection(), mArgs.getUserId(), mArgs.getJwt());
             nc.navigate(connection);
         }
+
         // Get information to populate ViewModels
         fetchConnections();
         fetchChats();
@@ -302,6 +308,14 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 // Set the list of chats in the ViewModel to the full set of user chats
                 ChatListViewModel.getFactory().create(ChatListViewModel.class).setChats(chats);
+                // Check shared preferences for any favorite chats
+                if(mPrefs.contains(getString(R.string.keys_prefs_favorites))) {
+                    Set<String> favs = mPrefs.getStringSet(getString(R.string.keys_prefs_favorites), null);
+                    for(Chat c : chats) {
+                        if(favs.contains("" + c.getChatID()))
+                            ChatListViewModel.getFactory().create(ChatListViewModel.class).setFavorite(c.getChatID(), true);
+                    }
+                }
 
             }
         } catch (JSONException e) {
@@ -327,7 +341,8 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 MobileNavigationDirections.ActionGlobalNavChatroom chatroom =
                         MobileNavigationDirections.actionGlobalNavChatroom(messages, mArgs.getJwt(),
-                                                mArgs.getUserId(), Objects.requireNonNull(mArgs.getChatMessage()).getRoom(), "Chatroom");
+                                                mArgs.getUserId(), Objects.requireNonNull(mArgs.getChatMessage()).getRoom(),
+                                                "Chatroom", false);
                 Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(chatroom);
             } else {

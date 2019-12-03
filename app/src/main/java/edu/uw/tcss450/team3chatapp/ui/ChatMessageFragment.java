@@ -4,15 +4,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,9 +29,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.uw.tcss450.team3chatapp.MyChatMessageRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
+import edu.uw.tcss450.team3chatapp.model.Chat;
+import edu.uw.tcss450.team3chatapp.model.ChatListViewModel;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
@@ -45,6 +54,7 @@ public class ChatMessageFragment extends Fragment {
     private int mChatID;
     private String mJWT;
     private String mSendUrl;
+    private boolean amFav;
     private EditText mSendField;
     private Button mSendButton;
 
@@ -84,6 +94,7 @@ public class ChatMessageFragment extends Fragment {
         mMemberID = args.getMemberID();
         mChatID = args.getChatID();
         mJWT = args.getJWT();
+        amFav = args.getFavorite();
         mMessages = new ArrayList(Arrays.asList(args.getMessages()));
         Collections.reverse(mMessages);
 
@@ -106,8 +117,47 @@ public class ChatMessageFragment extends Fragment {
                 .appendPath(getString(R.string.ep_chat_send))
                 .build()
                 .toString();
+        // Prepare to add option to existing menu by flagging need to alter it
+        setHasOptionsMenu(true);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        String label = amFav? "Unfavorite" : "Favorite";
+        menu.add(label);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Ensure the item selected was the one added by the fragment and not an activity's item
+        if(item.getTitle() != null && (item.getTitle().equals("Favorite") || item.getTitle().equals("Unfavorite"))) {
+            Set<String> favs = new HashSet<>();
+            SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+            if (!prefs.contains(getString(R.string.keys_prefs_favorites))) {
+                favs.add("" + mChatID);
+                prefs.edit().putStringSet(getString(R.string.keys_prefs_favorites), favs).apply();
+            } else {
+                favs = prefs.getStringSet(getString(R.string.keys_prefs_favorites), null);
+                // Either set favorite or remove it if already exists
+                if(!favs.contains("" + mChatID)) {
+                    favs.add("" + mChatID);
+                    item.setTitle("Unfavorite");
+                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setFavorite(mChatID, true);
+                }
+                else {
+                    favs.remove("" + mChatID);
+                    item.setTitle("Favorite");
+                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setFavorite(mChatID, false);
+                }
+                prefs.edit().putStringSet(getString(R.string.keys_prefs_favorites), favs).apply();
+            }
+            Log.i("STORED CHATS", favs.toString());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void sendMessage(final View tView) {
