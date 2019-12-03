@@ -8,6 +8,7 @@
     <string name="keys_prefs_username">username</string>
     <string name="keys_prefs_stay_logged_in">loggedIn</string>
     <string name="keys_prefs_savedlocations">savedLocations</string>
+    <string name="keys_prefs_favorites">favorites</string>
 
     <!-- JSON response keys from "/register" end point -->
     <string name="keys_json_register_success_bool">success</string>

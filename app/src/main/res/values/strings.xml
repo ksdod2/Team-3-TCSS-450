@@ -30,6 +30,8 @@
 
     <!--home fragment strings-->
     <string name="tv_home_weatherMessage">Current Weather in:</string>
+    <string name="tv_home_weatherMessage">Weather Forecast</string>
+    <string name="tv_home_chats">Your Favorite Chats</string>
 
     <!--weather fragment strings-->
     <string name="tv_weather_weatherHub">WeatherHub</string>

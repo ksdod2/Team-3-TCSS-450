@@ -144,7 +144,8 @@ public class ChatFragment extends Fragment {
 
                 ChatFragmentDirections.ActionChatFragmentToChatMessageFragment chatroom =
                         ChatFragmentDirections.actionChatFragmentToChatMessageFragment(messages, mJWT, mMemberID,
-                                                                currentChat.getChatID(), currentChat.getName());
+                                                                currentChat.getChatID(), currentChat.getName(),
+                                                                currentChat.isFavorited());
 
                 NavController nc = Navigation.findNavController(getView());
                 if (nc.getCurrentDestination().getId() != R.id.nav_chats) // Ensure back button doesn't break nav

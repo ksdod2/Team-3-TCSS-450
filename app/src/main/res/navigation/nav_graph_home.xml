@@ -51,6 +51,9 @@
         <argument
             android:name="chatname"
             app:argType="string" />
+        <argument
+            android:name="favorite"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/nav_settings"

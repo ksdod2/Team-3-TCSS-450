@@ -17,6 +17,7 @@ public class Chat implements Serializable, Parcelable {
     private final String mName;
     private final String mDesc;
     private boolean mNewFlag = false;
+    private boolean mFavorited = false;
 
     public Chat(final int tChatID, final String tName, final String tDesc) {
         mChatID = tChatID;
@@ -46,8 +47,10 @@ public class Chat implements Serializable, Parcelable {
     public String getName() { return mName; }
     public String getDescription() { return mDesc; }
     public boolean hasNew() { return mNewFlag; }
+    public boolean isFavorited() { return mFavorited; }
 
     public void setNew(final boolean tNewFlag) { mNewFlag = tNewFlag; }
+    public void setFavorited(final boolean tFavoriteFlag) { mFavorited = tFavoriteFlag;}
 
     @Override
     public int describeContents() {

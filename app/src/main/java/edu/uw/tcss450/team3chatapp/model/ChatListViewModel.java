@@ -80,6 +80,19 @@ public class ChatListViewModel extends ViewModel {
     }
 
     /**
+     * Sets a chat in the list of chats to recognize that its favorite status changed.
+     * @param chatID the ID of the chat to flag
+     * @param isFav whether the chat is favorited
+     */
+    public void setFavorite(final int chatID, final boolean isFav) {
+        for(Chat c : mChats) {
+            if(c.getChatID() == chatID)
+                c.setFavorited(isFav);
+        }
+        chats.setValue(mChats);
+    }
+
+    /**
      * Factory method to provide the factory that gives access to the singleton instance.
      * @return the factory that provides the instance of this ViewModel
      */
