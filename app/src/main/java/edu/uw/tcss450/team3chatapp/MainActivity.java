@@ -11,19 +11,20 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import edu.uw.tcss450.team3chatapp.model.LocationViewModel;
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
+import edu.uw.tcss450.team3chatapp.utils.Utils;
 import me.pushy.sdk.Pushy;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_LOCATIONS = 8414;
 
+    private SharedPreferences mPrefs;
     private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
@@ -32,18 +33,14 @@ public class MainActivity extends AppCompatActivity {
         Pushy.listen(this);
 
         //Apply user-preferred theme from shared preferences before setContentView
-        SharedPreferences prefs = getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
-        if(prefs.contains(getString(R.string.keys_prefs_theme))) {
-            int themeId = prefs.getInt(getString(R.string.keys_prefs_theme), R.style.DarkMode);
+        mPrefs = getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+        if(mPrefs.contains(getString(R.string.keys_prefs_theme))) {
+            int themeId = mPrefs.getInt(getString(R.string.keys_prefs_theme), R.style.DarkMode);
             ThemeChanger.setThemeOnActivityCreation(this, themeId);
         } else {
-            prefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.DarkMode).apply();
+            mPrefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.DarkMode).apply();
             ThemeChanger.setThemeOnActivityCreation(this, R.style.DarkMode);
         }
-
-//        View decorView = getWindow().getDecorView();
-//        int uiOptions = View.INVISIBLE;
-//        decorView.setSystemUiVisibility(uiOptions);
 
         setContentView(R.layout.activity_main);
 
@@ -106,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
                             LocationViewModel model = LocationViewModel.getFactory().create(LocationViewModel.class);
                             model.changeLocation(location);
+
+                            // Check if weather update necessary now that we have user location
+                            Utils.updateWeatherIfNecessary(mPrefs);
                         }
             });
         }

@@ -15,7 +15,6 @@
     <string name="ep_chat_getcontents">getchatcontent</string>
     <string name="ep_chat_send">send</string>
 
-
     <!-- Connections endpoints -->
     <string name="ep_connections">connections</string>
     <string name="ep_connections_send">send</string>
@@ -24,7 +23,7 @@
     <string name="ep_connections_search">search</string>
 
     <!-- Aeris Weather API endpoints -->
-    <string name="ep_weather_weather">weather</string>
-    <string name="ep_weather_observations">observations</string>
-    <string name="ep_weather_forecasts">forecasts</string>
+    <string name="ep_weather">weather</string>
+    <string name="ep_weather_obs">observations</string>
+    <string name="ep_weather_batch">batch</string>
 </resources>

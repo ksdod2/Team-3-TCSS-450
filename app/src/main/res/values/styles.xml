@@ -1,5 +1,4 @@
 <resources>
-
     <!-- Dark Mode Current theme. -->
     <style name="DarkMode" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Fragment and popup menu background color-->
@@ -9,6 +8,7 @@
         <item name="colorPrimary">@color/headerColor</item>
         <!-- Loading wheel and main text color -->
         <item name="colorAccent">@color/darkModeButtonColor</item>
+        <item name="android:colorAccent">@color/darkModeButtonColor</item>
         <item name="android:textColor">@color/darkModeTextColor</item>
 
         <item name="windowActionBar">false</item>
@@ -31,6 +31,7 @@
         <item name="colorPrimary">@color/headerColor</item>
         <!-- Loading wheel and main text color -->
         <item name="colorAccent">@color/darkModeButtonColor</item>
+        <item name="android:colorAccent">@color/darkModeButtonColor</item>
         <item name="android:textColor">@color/lightModeTextColor</item>
 
         <item name="windowActionBar">false</item>
