@@ -5,7 +5,9 @@ import android.location.Location;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class WeatherProfile {
+import java.io.Serializable;
+
+public class WeatherProfile implements Serializable {
 
     private int mID;
     private Location mLocation;

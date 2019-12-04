@@ -44,8 +44,7 @@ public class ChatFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ChatFragment() {
-    }
+    public ChatFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

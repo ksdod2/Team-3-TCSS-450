@@ -63,6 +63,9 @@ public class WeatherFragment extends Fragment {
         view.findViewById(R.id.tv_weather_map).setOnClickListener(view1 -> {
             Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavWeatherToNavMap());
         });
+        view.findViewById(R.id.tv_weather_viewSavedLocations).setOnClickListener(v -> {
+            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavWeatherToNavWeatherprofiles());
+        });
 
         if(mPrefs.contains(getString(R.string.keys_prefs_tempunit))) {
             mUnits = mPrefs.getString(getString(R.string.keys_prefs_tempunit), "F");
