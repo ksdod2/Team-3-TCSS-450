@@ -113,7 +113,11 @@
         android:id="@+id/nav_weather"
         android:name="edu.uw.tcss450.team3chatapp.ui.WeatherFragment"
         android:label="WeatherHub"
-        tools:layout="@layout/fragment_weather" />
+        tools:layout="@layout/fragment_weather" >
+        <action
+            android:id="@+id/action_nav_weather_to_nav_map"
+            app:destination="@id/nav_map" />
+    </fragment>
     <fragment
         android:id="@+id/nav_chat_create"
         android:name="edu.uw.tcss450.team3chatapp.ui.ChatCreationFragment"
@@ -148,5 +152,10 @@
             android:name="JWT"
             app:argType="string" />
     </dialog>
+    <fragment
+        android:id="@+id/nav_map"
+        android:name="edu.uw.tcss450.team3chatapp.ui.MapFragment"
+        android:label="Map"
+        tools:layout="@layout/fragment_map" />
 
 </navigation>

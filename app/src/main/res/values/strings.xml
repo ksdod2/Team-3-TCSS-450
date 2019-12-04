@@ -44,6 +44,7 @@
     <string name="tv_weather_24hourForecast">24-Hour Forecast</string>
     <string name="tv_weather_10dayForecast">10-Day Forecast</string>
     <string name="btn_weather_search">Search</string>
+    <string name="btn_map_use">Use This Location</string>
     <!--current conditions strings-->
     <string name="tv_weather_temperature">Temperature:</string>
     <string name="tv_weather_tempMin">Today\'s High:</string>
@@ -179,5 +180,7 @@
     <!-- No-break space added because italics on string w/wrap content causes clipping-->
     <string name="misc_temp_unit_display_imperial">°F\u00A0</string>
     <string name="misc_temp_unit_display_metric">°C\u00A0</string>
+
+    <string name="title_activity_maps">Map</string>
 
 </resources>

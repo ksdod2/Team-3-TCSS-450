@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import edu.uw.tcss450.team3chatapp.MobileNavigationDirections;
 import edu.uw.tcss450.team3chatapp.R;
+import edu.uw.tcss450.team3chatapp.model.MapResultViewModel;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfile;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 import edu.uw.tcss450.team3chatapp.utils.Utils;
@@ -38,6 +43,7 @@ public class WeatherFragment extends Fragment {
     private WeatherProfileViewModel mWeatherModel;
     private SharedPreferences mPrefs;
     private String mUnits;
+    private LatLng mMapResult;
 
     public WeatherFragment() {/*Required empty public constructor*/}
 
@@ -54,6 +60,9 @@ public class WeatherFragment extends Fragment {
         mPrefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         Utils.updateWeatherIfNecessary(mPrefs);
         mWeatherModel = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
+        view.findViewById(R.id.tv_weather_map).setOnClickListener(view1 -> {
+            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavWeatherToNavMap());
+        });
 
         if(mPrefs.contains(getString(R.string.keys_prefs_tempunit))) {
             mUnits = mPrefs.getString(getString(R.string.keys_prefs_tempunit), "F");
@@ -63,6 +72,18 @@ public class WeatherFragment extends Fragment {
         }
 
         populateWeatherData(mWeatherModel.getCurrentLocationWeatherProfile().getValue());
+
+        // Set up observation for any map fragment interactions
+        MapResultViewModel.getFactory().create(MapResultViewModel.class).getResult().observe(this, this::getMapResult);
+    }
+
+    /**
+     * Gets the result of selecting a location via the map fragment.
+     * @param tRes the LatLng selected on MapFragment
+     */
+    private void getMapResult(final LatLng tRes) {
+        mMapResult = tRes;
+        Log.i("MAP", mMapResult.toString());
     }
 
     private void populateWeatherData(final WeatherProfile theWP) {
