@@ -7,8 +7,11 @@
     <string name="keys_prefs_password">password</string>
     <string name="keys_prefs_username">username</string>
     <string name="keys_prefs_stay_logged_in">loggedIn</string>
-    <string name="keys_prefs_savedlocations">savedLocations</string>
     <string name="keys_prefs_favorites">favorites</string>
+    <!-- Keys for current and saved location weather profiles, and timestamp -->
+    <string name="keys_prefs_weathervm_current">current</string>
+    <string name="keys_prefs_weathervm_saved">saved</string>
+    <string name="keys_prefs_weathervm_lastupdated">lastupdated</string>
 
     <!-- JSON response keys from "/register" end point -->
     <string name="keys_json_register_success_bool">success</string>

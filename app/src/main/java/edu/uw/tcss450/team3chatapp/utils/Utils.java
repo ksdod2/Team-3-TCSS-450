@@ -1,17 +1,12 @@
 package edu.uw.tcss450.team3chatapp.utils;
 
-import android.content.SharedPreferences;
 import android.location.Location;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.model.LocationViewModel;
+import edu.uw.tcss450.team3chatapp.model.WeatherProfile;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 
 public class Utils {
@@ -22,32 +17,35 @@ public class Utils {
 
     private Utils() {}
 
-    public static void updateWeatherIfNecessary(SharedPreferences prefs) {
-        WeatherProfileViewModel weatherModel = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
-
-        if(weatherModel.getCurrentLocationWeatherProfile().getValue() == null || weatherModel.getTimeStamp() < Utils.getTopOfLastHour()) {
-            ArrayList<Location> savedLocations;
+    public static void updateWeatherIfNecessary(WeatherProfileViewModel theWeatherVM) {
+        ArrayList<Location> locationsToUpdate = new ArrayList<>();
+        // Redundant code in branches because method will be called a lot without hitting them.
+        if(theWeatherVM.getCurrentLocationWeatherProfile().getValue() == null) {
+            // Add current location to list of locations to update
             Location curLoc = Objects.requireNonNull(LocationViewModel
-                                                    .getFactory()
-                                                    .create(LocationViewModel.class)
-                                                    .getCurrentLocation()
-                                                    .getValue());
+                    .getFactory()
+                    .create(LocationViewModel.class)
+                    .getCurrentLocation()
+                    .getValue());
+            locationsToUpdate.add(curLoc);
 
-            String locKey = "savedLocations";
-            Type typeOfLocList = new TypeToken<List<Location>>() {}.getType();
-            Gson gson = new Gson();
+            theWeatherVM.update(locationsToUpdate);
 
-            if (prefs.contains(locKey)) {
+        } else if(theWeatherVM.getTimeStamp() < Utils.getTopOfLastHour()) {
+            // Add current location to list of locations to update first:
+            Location curLoc = Objects.requireNonNull(LocationViewModel
+                    .getFactory()
+                    .create(LocationViewModel.class)
+                    .getCurrentLocation()
+                    .getValue());
+            locationsToUpdate.add(curLoc);
 
-                String listAsJSON = prefs.getString(locKey, "");
-                savedLocations = gson.fromJson(listAsJSON, typeOfLocList);
-
-                savedLocations.add(0, curLoc);
-            } else {
-                savedLocations = new ArrayList<>();
-                savedLocations.add(curLoc);
+            // Add saved locations from VM to list of locations to update
+            if(theWeatherVM.getSavedLocationWeatherProfiles().getValue() != null) {
+                for(WeatherProfile wp : theWeatherVM.getSavedLocationWeatherProfiles().getValue()) {
+                    locationsToUpdate.add(wp.getLocation());
+                }
             }
-            weatherModel.update(savedLocations);
         }
     }
 

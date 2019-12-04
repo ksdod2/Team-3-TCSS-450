@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.lifecycle.ViewModelProviders;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,7 +121,10 @@ public class HomeFragment extends Fragment {
         mLocation = locVM.getCurrentLocation().getValue();
 
         // Update weather if necessary
-        Utils.updateWeatherIfNecessary(prefs);
+        WeatherProfileViewModel weatherVM = ViewModelProviders
+                .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
+                .get(WeatherProfileViewModel.class);
+        Utils.updateWeatherIfNecessary(weatherVM);
 
         // Get UI elements
         mWeatherDescription = Objects.requireNonNull(getView()).findViewById(R.id.tv_home_status);
@@ -156,7 +160,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void populateWeatherData() {
-        WeatherProfileViewModel model = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
+        WeatherProfileViewModel model = ViewModelProviders
+                .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
+                .get(WeatherProfileViewModel.class);
         WeatherProfile curLocWP = model.getCurrentLocationWeatherProfile().getValue();
 
         /* On app boot w/ stay signed in checked, there's no way for the onPostExecute
@@ -187,12 +193,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void weatherOnPre() {
-        getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
     }
 
     private void weatherOnCancel(final String result) {
         Log.e("ASYNC_TASK_ERROR", result);
-        getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
     }
 
     private void weatherOnPost(final String result) {
@@ -230,24 +236,6 @@ public class HomeFragment extends Fragment {
             //TODO Print useful error message
             getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
         }
-    }
-
-    private String formatCityState(String name, String state) {
-
-        StringBuilder city = new StringBuilder();
-
-        String split[];
-        if(name.contains(" ")) {
-            split = name.split(" ");
-            for(String s : split) {
-                city.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
-            }
-        } else {
-            city.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" ");
-        }
-        city.trimToSize();
-
-        return city.append(", ").append(state).toString();
     }
 
     /**

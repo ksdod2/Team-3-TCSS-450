@@ -15,13 +15,11 @@ import android.os.Bundle;
 
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -34,7 +32,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.widget.TextView;
@@ -43,9 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -59,7 +54,6 @@ import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
 import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
-import edu.uw.tcss450.team3chatapp.utils.Utils;
 import me.pushy.sdk.Pushy;
 
 public class HomeActivity extends AppCompatActivity {
@@ -117,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
                 if(mArgs.getChatMessage() != null)
                     chatInfo.put("chatid", mArgs.getChatMessage().getRoom());
                 else
-                    chatInfo.put("chatid", mArgs.getChat().getChatID());
+                    chatInfo.put("chatid", Objects.requireNonNull(mArgs.getChat()).getChatID());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -137,20 +131,63 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         // Get information to populate ViewModels
-        Utils.updateWeatherIfNecessary(mPrefs);
         fetchConnections();
         fetchChats();
 
+//        WeatherProfileViewModel model = ViewModelProviders
+//                .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getApplication())))
+//                .get(WeatherProfileViewModel.class);
+//        Utils.updateWeatherIfNecessary(model);
+
+
+
+
+
+//      private void updateWeatherIfNecessary() {
+//        WeatherProfileViewModel model = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
+//
+//        if(model.getAllWeatherProfiles().getValue() == null || model.getTimeStamp() < Utils.getTopOfLastHour()) {
+//            ArrayList<Location> savedLocations;
+//
+//            Location curLoc = Objects.requireNonNull(LocationViewModel.getFactory().create(LocationViewModel.class).getCurrentLocation().getValue());
+//            String locKey = getString(R.string.keys_prefs_savedlocations);
+//            Gson gson = new Gson();
+//
+//            if(mPrefs.contains(locKey)) {
+//                Type typeOfLocList = new TypeToken<List<Location>>(){}.getType();
+//
+//                String listAsJSON = mPrefs.getString(locKey, "");
+//                savedLocations = gson.fromJson(listAsJSON, typeOfLocList);
+//
+//                //Add current location to saved locations if current location is far enough away from any other saved locations.
+//                boolean containsCurLoc = false;
+//                for(Location savedLoc : savedLocations) {
+//                    if(Utils.areCloseTogether(savedLoc, curLoc)) {
+//                        containsCurLoc = true;
+//                        break;
+//                    }
+//                }
+//                if(!containsCurLoc) {
+//                    savedLocations.add(curLoc);
+//                    mPrefs.edit().putString(locKey, gson.toJson(savedLocations)).apply();
+//                }
+//            } else {
+//                savedLocations = new ArrayList<>();
+//                savedLocations.add(curLoc);
+//                mPrefs.edit().putString(locKey, gson.toJson(savedLocations)).apply();
+//            }
+//
+//            model.update(savedLocations);
+//        }
+
         mNavigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
-        mDefault = toolbar.getNavigationIcon().getColorFilter();
+        mDefault = Objects.requireNonNull(toolbar.getNavigationIcon()).getColorFilter();
 
         // Set navigation drawer header fields with user information
         View header = mNavigationView.getHeaderView(0);
         ((TextView) header.findViewById(R.id.tv_nav_header)).setText(mArgs.getCredentials().getUsername());
         ((TextView) header.findViewById(R.id.tv_verification_message)).setText(mArgs.getCredentials().getEmail());
     }
-
-    private void fetchWeatherPost(final String result) {}
 
     @Override
     public void onResume() {
@@ -188,7 +225,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private boolean onNavigationSelected(final MenuItem menuItem) {
         // Regardless of action, user is now aware of a notification that arrived somewhere
-        ((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon()
+        Objects.requireNonNull(((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon())
                 .setColorFilter(mDefault);
 
         NavController navController =
@@ -221,62 +258,6 @@ public class HomeActivity extends AppCompatActivity {
         ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawers();
         return true;
     }
-
-//    private void updateWeatherIfNecessary() {
-//        WeatherProfileViewModel model = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
-//
-//        if(model.getAllWeatherProfiles().getValue() == null || model.getTimeStamp() < Utils.getTopOfLastHour()) {
-//            ArrayList<Location> savedLocations;
-//
-//            Location curLoc = Objects.requireNonNull(LocationViewModel.getFactory().create(LocationViewModel.class).getCurrentLocation().getValue());
-//            String locKey = getString(R.string.keys_prefs_savedlocations);
-//            Gson gson = new Gson();
-//
-//            if(mPrefs.contains(locKey)) {
-//                Type typeOfLocList = new TypeToken<List<Location>>(){}.getType();
-//
-//                String listAsJSON = mPrefs.getString(locKey, "");
-//                savedLocations = gson.fromJson(listAsJSON, typeOfLocList);
-//
-//                //Add current location to saved locations if current location is far enough away from any other saved locations.
-//                boolean containsCurLoc = false;
-//                for(Location savedLoc : savedLocations) {
-//                    if(Utils.areCloseTogether(savedLoc, curLoc)) {
-//                        containsCurLoc = true;
-//                        break;
-//                    }
-//                }
-//                if(!containsCurLoc) {
-//                    savedLocations.add(curLoc);
-//                    mPrefs.edit().putString(locKey, gson.toJson(savedLocations)).apply();
-//                }
-//            } else {
-//                savedLocations = new ArrayList<>();
-//                savedLocations.add(curLoc);
-//                mPrefs.edit().putString(locKey, gson.toJson(savedLocations)).apply();
-//            }
-//
-//            model.update(savedLocations);
-//        }
-
-//        if(savedLocations.size() > 0) {
-//            Uri uri = new Uri.Builder()
-//                    .scheme("https")
-//                    .authority(getString(R.string.ep_base))
-//                    .appendPath(getString(R.string.ep_weather))
-//                    .appendQueryParameter("requests", buildWeatherQuery(savedLocations))
-//                    .build();
-//
-//            Log.d("WEATHER_URI", uri.toString());
-//
-//            new GetAsyncTask.Builder(uri.toString())
-//                    .onPostExecute(this::fetchWeatherPost)
-//                    .onCancelled(error -> Log.e("", error))
-//                    .build().execute();
-//        } else {
-//            Log.d("WEATHER_ERR", "Unable to get device location & no saved locations");
-//        }
-//    }
 
     private void fetchConnections() {
         Uri connectionUri = new Uri.Builder()
@@ -484,7 +465,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 try {
                     JSONObject msgInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
-                    boolean sender = intent.getStringExtra("SENDER").equals(mArgs.getCredentials().getUsername());
+                    boolean sender = Objects.requireNonNull(intent.getStringExtra("SENDER")).equals(mArgs.getCredentials().getUsername());
                     Connection pushed =
                             new Connection(msgInfo.getInt(getString(R.string.keys_json_connections_memberid_int)),
                                     msgInfo.getString(getString(R.string.keys_json_connections_firstname_str)),
@@ -498,7 +479,7 @@ public class HomeActivity extends AppCompatActivity {
                         if(pushed.getRelation() == Connection.Relation.UNACCEPTED && !pushed.amSender()
                             && Objects.requireNonNull(nd).getId() != R.id.nav_connectionhome) {
 
-                            ((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon()
+                            Objects.requireNonNull(((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon())
                                     .setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
                             mNavigationView.getMenu().findItem(R.id.nav_connectionhome).setChecked(true);
                         }
@@ -545,7 +526,7 @@ public class HomeActivity extends AppCompatActivity {
                     ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(msgInfo.getInt("room"));
                     // Color navigation menu to show new message received
                     if (Objects.requireNonNull(nd).getId() != R.id.nav_chats) {
-                        ((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon()
+                        Objects.requireNonNull(((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon())
                                 .setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
                         SpannableString s = new SpannableString(getString(R.string.menu_chats));
                         s.setSpan(new ForegroundColorSpan(Color.CYAN), 0, s.length(), 0);

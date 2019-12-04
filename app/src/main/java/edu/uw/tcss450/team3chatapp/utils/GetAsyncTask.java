@@ -170,6 +170,8 @@ public class GetAsyncTask extends AsyncTask<Void, String, String> {
             URL urlObject = new URL(mUrl);
             urlConnection = (HttpURLConnection) urlObject.openConnection();
 
+            Log.d("API_CALL", urlObject.toString());
+
             for (final String key: mHeaders.keySet()) {
                 urlConnection.setRequestProperty(key, mHeaders.get(key));
             }

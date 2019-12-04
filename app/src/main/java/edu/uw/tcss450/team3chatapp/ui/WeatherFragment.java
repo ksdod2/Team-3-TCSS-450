@@ -1,6 +1,7 @@
 package edu.uw.tcss450.team3chatapp.ui;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import edu.uw.tcss450.team3chatapp.MobileNavigationDirections;
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.MapResultViewModel;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfile;
@@ -38,10 +39,9 @@ import edu.uw.tcss450.team3chatapp.utils.Utils;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressLint("SimpleDateFormat")
 public class WeatherFragment extends Fragment {
 
-    private WeatherProfileViewModel mWeatherModel;
-    private SharedPreferences mPrefs;
     private String mUnits;
     private LatLng mMapResult;
 
@@ -57,27 +57,30 @@ public class WeatherFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPrefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
-        Utils.updateWeatherIfNecessary(mPrefs);
-        mWeatherModel = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
-        view.findViewById(R.id.tv_weather_map).setOnClickListener(view1 -> {
-            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavWeatherToNavMap());
-        });
-        view.findViewById(R.id.tv_weather_viewSavedLocations).setOnClickListener(v -> {
-            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavWeatherToNavWeatherprofiles());
-        });
+        // Check if weather should be updated first and set preferred units
+        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
 
-        if(mPrefs.contains(getString(R.string.keys_prefs_tempunit))) {
-            mUnits = mPrefs.getString(getString(R.string.keys_prefs_tempunit), "F");
+        WeatherProfileViewModel weatherVM = ViewModelProviders
+                .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
+                .get(WeatherProfileViewModel.class);
+        Utils.updateWeatherIfNecessary(weatherVM);
+
+        if(prefs.contains(getString(R.string.keys_prefs_tempunit))) {
+            mUnits = prefs.getString(getString(R.string.keys_prefs_tempunit), "F");
         } else { //Otherwise set units to default (imperial)
             mUnits = "F";
-            mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "F").apply();
+            prefs.edit().putString(getString(R.string.keys_prefs_tempunit), "F").apply();
         }
 
-        populateWeatherData(mWeatherModel.getCurrentLocationWeatherProfile().getValue());
-
+        // Set navigation to Map View
+        view.findViewById(R.id.tv_weather_map).setOnClickListener(v -> {
+            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavWeatherToNavMap());
+        });
         // Set up observation for any map fragment interactions
         MapResultViewModel.getFactory().create(MapResultViewModel.class).getResult().observe(this, this::getMapResult);
+
+        // Setup fragment to display weather info
+        populateWeatherData(weatherVM.getCurrentLocationWeatherProfile().getValue());
     }
 
     /**
@@ -91,9 +94,15 @@ public class WeatherFragment extends Fragment {
 
     private void populateWeatherData(final WeatherProfile theWP) {
         if(theWP != null) {
-            setupCurrent(theWP.getCurrentWeather(), getFirst(theWP.get10DayForecast()));
-            setup24Hour(theWP.get24hrForecast());
-            setup10Day(theWP.get10DayForecast());
+            try {
+                JSONObject currentWeatherJSON = new JSONObject(theWP.getCurrentWeather());
+                JSONObject forecast24HrJSON = new JSONObject(theWP.get24hrForecast());
+                JSONObject forecast10DayJSON = new JSONObject(theWP.get10DayForecast());
+
+                setupCurrent(currentWeatherJSON, getFirst(forecast10DayJSON));
+                setup24Hour(forecast24HrJSON);
+                setup10Day(forecast10DayJSON);
+            } catch (JSONException e) {e.printStackTrace();}
         } else {
             Log.e("WEATHER_FRAG_ERR", "No current weather profile");
         }
@@ -153,7 +162,7 @@ public class WeatherFragment extends Fragment {
                                             ? ob.getString(getString(R.string.keys_json_weather_windspeed_imperial))
                                             : ob.getString(getString(R.string.keys_json_weather_windspeed_metric)));
 
-                    ivIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", getContext().getPackageName()));
+                    ivIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
 
                     String lowTempDisplay = "F".equals(mUnits)
                             ? theDaysForecastJSON.getString(getString(R.string.keys_json_weather_mintempf))
@@ -207,7 +216,7 @@ public class WeatherFragment extends Fragment {
 
                         String icFile = curHourData.getString(getString(R.string.keys_json_weather_icon))
                                 .substring(0, curHourData.getString(getString(R.string.keys_json_weather_icon)).length()-4);
-                        ivCurIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", getContext().getPackageName()));
+                        ivCurIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
 
                         String tempDisplay = "F".equals(mUnits)
                                 ? curHourData.getString(getString(R.string.keys_json_weather_avgtempf))
@@ -254,7 +263,7 @@ public class WeatherFragment extends Fragment {
 
                         String icFile = curDayData.getString(getString(R.string.keys_json_weather_icon))
                                 .substring(0, curDayData.getString(getString(R.string.keys_json_weather_icon)).length()-4);
-                        ivCurIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", getContext().getPackageName()));
+                        ivCurIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
 
                         String tempDisplay = "F".equals(mUnits)
                                 ? curDayData.getString(getString(R.string.keys_json_weather_maxtempf))
@@ -276,10 +285,11 @@ public class WeatherFragment extends Fragment {
     }
 
     /**
-     * Helper method gets first day of 10 day forecast for populating current conditions
+     * Helper method gets first day of 10 day forecast for
+     * populating current conditions (i.e. today's forecast).
      *
-     * @param theListJSON
-     * @return
+     * @param theListJSON   JSON object containing list of all 10 forecasts
+     * @return              JSON object containing just the first day's forecast (today)
      */
     private JSONObject getFirst(final JSONObject theListJSON) {
         JSONObject first = null;

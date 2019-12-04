@@ -3,10 +3,10 @@ package edu.uw.tcss450.team3chatapp.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,7 @@ import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A fragment representing a list of Items.
@@ -40,10 +41,12 @@ public class WeatherProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_weatherprofile_list, container, false);
 
         // Begin observing the ViewModel
-        WeatherProfileViewModel model = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
-        model.getAllWeatherProfiles().observe(this, this::updateRecyclerView);
+        WeatherProfileViewModel weatherVM = ViewModelProviders
+                .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
+                .get(WeatherProfileViewModel.class);
+        weatherVM.getSavedLocationWeatherProfiles().observe(this, this::updateRecyclerView);
 
-        mProfiles.addAll(model.getAllWeatherProfiles().getValue());
+        mProfiles.addAll(Objects.requireNonNull(weatherVM.getSavedLocationWeatherProfiles().getValue()));
 
         RecyclerView profiles = view.findViewById(R.id.list_weatherprofile);
         profiles.setAdapter(new MyWeatherProfileRecyclerViewAdapter(mProfiles, this::displayMenu));
@@ -59,8 +62,8 @@ public class WeatherProfileFragment extends Fragment {
         mProfiles.clear();
         mProfiles.addAll(tProfiles);
 
-        RecyclerView profileList = getView().findViewById(R.id.list_weatherprofile);
-        profileList.getAdapter().notifyDataSetChanged();
+        RecyclerView profileList = Objects.requireNonNull(getView()).findViewById(R.id.list_weatherprofile);
+        Objects.requireNonNull(profileList.getAdapter()).notifyDataSetChanged();
     }
 
     /**
@@ -70,7 +73,7 @@ public class WeatherProfileFragment extends Fragment {
     private void displayMenu(final WeatherProfile tProfile) {
         WeatherProfileFragmentDirections.ActionNavWeatherprofilesToNavWeatherprofileBottomsheet menu =
                 WeatherProfileFragmentDirections.actionNavWeatherprofilesToNavWeatherprofileBottomsheet(tProfile);
-        Navigation.findNavController(getView()).navigate(menu);
+        Navigation.findNavController(Objects.requireNonNull(getView())).navigate(menu);
     }
 
     /**

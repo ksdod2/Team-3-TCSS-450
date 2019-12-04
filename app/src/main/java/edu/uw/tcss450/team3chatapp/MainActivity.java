@@ -3,6 +3,7 @@ package edu.uw.tcss450.team3chatapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.Manifest;
@@ -16,6 +17,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import edu.uw.tcss450.team3chatapp.model.LocationViewModel;
+import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
 import edu.uw.tcss450.team3chatapp.utils.Utils;
 import me.pushy.sdk.Pushy;
@@ -101,11 +103,14 @@ public class MainActivity extends AppCompatActivity {
                         if (location != null) {
                             Log.d("LOCATION", location.toString());
 
-                            LocationViewModel model = LocationViewModel.getFactory().create(LocationViewModel.class);
-                            model.changeLocation(location);
+                            LocationViewModel LocModel = LocationViewModel.getFactory().create(LocationViewModel.class);
+                            LocModel.changeLocation(location);
 
-                            // Check if weather update necessary now that we have user location
-                            Utils.updateWeatherIfNecessary(mPrefs);
+                            // Get saved weather info view model from SharedPreferences and check for update:
+                            WeatherProfileViewModel weatherModel = ViewModelProviders
+                                    .of(this, new WeatherProfileViewModel.WeatherFactory(getApplication()))
+                                    .get(WeatherProfileViewModel.class);
+                            Utils.updateWeatherIfNecessary(weatherModel);
                         }
             });
         }
