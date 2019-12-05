@@ -47,25 +47,7 @@ public class WeatherProfileViewModel extends AndroidViewModel {
         mLastUpdated = System.currentTimeMillis() / 1000L;
     }
 
-    // Private setters
-    private void setCurrentLocationWeatherProfile(final WeatherProfile theWP) {mCurrentLocationWeatherProfile.setValue(theWP);}
-
-    public void setSelectedLocationWeatherProfile(final WeatherProfile theWP) {mSelectedLocationWeatherProfile.setValue(theWP);}
-
-    private void setSavedLocationWeatherProfile(final ArrayList<WeatherProfile> theWPs) {mSavedLocationsWeatherProfiles.setValue(theWPs);}
-
-    private void setTimeStamp(final long theTime) {mLastUpdated = theTime;}
-
-    public LiveData<WeatherProfile> getCurrentLocationWeatherProfile() {return mCurrentLocationWeatherProfile;}
-
-    public LiveData<WeatherProfile> getSelectedLocationWeatherProfile() {return mSelectedLocationWeatherProfile;}
-
-    public LiveData<List<WeatherProfile>> getSavedLocationWeatherProfiles() {return mSavedLocationsWeatherProfiles;}
-
-    public long getTimeStamp() {
-        return mLastUpdated;
-    }
-
+    // Public methods
     public void update(ArrayList<LatLng> theLocationsToUpdate) {
         if(theLocationsToUpdate.size() > 0) {
             mSavedLocations = theLocationsToUpdate;
@@ -89,6 +71,41 @@ public class WeatherProfileViewModel extends AndroidViewModel {
         }
     }
 
+    public void saveLocation(final WeatherProfile theWP) {
+        List<WeatherProfile> savedLocations = mSavedLocationsWeatherProfiles.getValue();
+        Objects.requireNonNull(savedLocations).add(theWP);
+        mSavedLocationsWeatherProfiles.setValue(savedLocations);
+        saveToSharedPrefs();
+    }
+
+    //Getters
+    public LiveData<WeatherProfile> getCurrentLocationWeatherProfile() {return mCurrentLocationWeatherProfile;}
+
+    public LiveData<WeatherProfile> getSelectedLocationWeatherProfile() {return mSelectedLocationWeatherProfile;}
+
+    public LiveData<List<WeatherProfile>> getSavedLocationWeatherProfiles() {return mSavedLocationsWeatherProfiles;}
+
+    public long getTimeStamp() {
+        return mLastUpdated;
+    }
+
+    // Public setter for location selected on map
+    public void setSelectedLocationWeatherProfile(final WeatherProfile theWP) {mSelectedLocationWeatherProfile.setValue(theWP);}
+
+    //Private setters
+    private void setCurrentLocationWeatherProfile(final WeatherProfile theWP) {
+        mCurrentLocationWeatherProfile.setValue(theWP);
+        saveToSharedPrefs();
+    }
+
+    private void setSavedLocationWeatherProfile(final ArrayList<WeatherProfile> theWPs) {mSavedLocationsWeatherProfiles.setValue(theWPs);}
+
+    private void setTimeStamp(final long theTime) {
+        mLastUpdated = theTime;
+        saveToSharedPrefs();
+    }
+
+    //Private helpers
     private void fetchWeatherPost(final String result) {
         try {
             JSONObject root = new JSONObject(result).getJSONObject("response");
@@ -117,17 +134,22 @@ public class WeatherProfileViewModel extends AndroidViewModel {
                 mLastUpdated = System.currentTimeMillis() / 1000L;
 
                 // Save updated WeatherProfileVM info to sharedPrefs:
-                SharedPreferences prefs = getApplication().getSharedPreferences(getApplication().getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
-                Gson gson = new Gson();
-                prefs.edit().putString(getApplication().getString(R.string.keys_prefs_weathervm_current), gson.toJson(getCurrentLocationWeatherProfile().getValue())).apply();
-                prefs.edit().putString(getApplication().getString(R.string.keys_prefs_weathervm_saved), gson.toJson(getSavedLocationWeatherProfiles().getValue())).apply();
-                prefs.edit().putLong(getApplication().getString(R.string.keys_prefs_weathervm_lastupdated), mLastUpdated).apply();
-
+                saveToSharedPrefs();
             }
         } catch(JSONException e) {
             e.printStackTrace();
             Log.e("WEATHER_UPDATE_ERR", Objects.requireNonNull(e.getMessage()));
         }
+    }
+
+    private void saveToSharedPrefs() {
+        SharedPreferences prefs = getApplication().getSharedPreferences(getApplication().getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+
+        prefs.edit().putString(getApplication().getString(R.string.keys_prefs_weathervm_current), gson.toJson(getCurrentLocationWeatherProfile().getValue())).apply();
+        prefs.edit().putString(getApplication().getString(R.string.keys_prefs_weathervm_saved), gson.toJson(getSavedLocationWeatherProfiles().getValue())).apply();
+        prefs.edit().putLong(getApplication().getString(R.string.keys_prefs_weathervm_lastupdated), mLastUpdated).apply();
+
     }
 
     private String getCityState(final String theJSONasStr) {
@@ -154,6 +176,7 @@ public class WeatherProfileViewModel extends AndroidViewModel {
         return result;
     }
 
+    // Factory class
     public static class WeatherFactory extends ViewModelProvider.NewInstanceFactory {
         private final Application mApplication;
 
@@ -190,6 +213,8 @@ public class WeatherProfileViewModel extends AndroidViewModel {
                     mInstance.setCurrentLocationWeatherProfile(currentWP);
                     mInstance.setSavedLocationWeatherProfile(savedWPs);
                     mInstance.setTimeStamp(lastUpdated);
+
+
                 }
             }
             return mInstance;

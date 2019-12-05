@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.R;
@@ -39,6 +41,9 @@ import edu.uw.tcss450.team3chatapp.utils.Utils;
 @SuppressLint("SimpleDateFormat")
 public class WeatherFragment extends Fragment {
 
+    private static final int SAVED_LOCATIONS_LIMIT = 10;
+
+    private WeatherProfile mWPtoLoad;
     private String mUnits;
 
     public WeatherFragment() {/*Required empty public constructor*/}
@@ -68,22 +73,47 @@ public class WeatherFragment extends Fragment {
             prefs.edit().putString(getString(R.string.keys_prefs_tempunit), "F").apply();
         }
 
+        // Check for passed in location to load from map fragment, instead of just the current location
+        WeatherFragmentArgs args = WeatherFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
+        mWPtoLoad = args.getWeatherProfile();
+
+        //default to device location
+        if(mWPtoLoad == null) {
+            mWPtoLoad = weatherVm.getCurrentLocationWeatherProfile().getValue();}
+
+        //display weather info to user
+        populateWeatherData(mWPtoLoad);
+
         // Set navigation to Map View & Saved Locations Fragment
         view.findViewById(R.id.tv_weather_map).setOnClickListener(v ->
                 Navigation.findNavController(Objects.requireNonNull(getView())).navigate(WeatherFragmentDirections.actionNavWeatherToNavMap()));
         view.findViewById(R.id.tv_weather_viewSavedLocations).setOnClickListener(v ->
                 Navigation.findNavController(Objects.requireNonNull(getView())).navigate(WeatherFragmentDirections.actionNavWeatherToNavWeatherprofiles()));
+        view.findViewById(R.id.tv_weather_saveCurrentLocation).setOnClickListener(v -> saveLocationAttempt(weatherVm));
+    }
 
-        // Check for passed in location to load from map fragment, instead of just the current location
-        WeatherFragmentArgs args = WeatherFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
-        WeatherProfile wpToLoad = args.getWeatherProfile();
+    private void saveLocationAttempt(WeatherProfileViewModel tWPVM) {
 
-        //default to device location
-        if(wpToLoad == null) {
-            wpToLoad = weatherVm.getCurrentLocationWeatherProfile().getValue();}
-
-        //display weather info to user
-        populateWeatherData(wpToLoad);
+        // Check if location they're trying to save is near already saved location
+        boolean noMatch = true;
+        List<WeatherProfile> savedLocationWPs = tWPVM.getSavedLocationWeatherProfiles().getValue();
+        if(Objects.requireNonNull(savedLocationWPs).size() >= SAVED_LOCATIONS_LIMIT) {
+            Toast.makeText(getContext(), "Maximum number of saved locations already reached.", Toast.LENGTH_LONG).show();
+        } else {
+            for(WeatherProfile wp : savedLocationWPs) {
+                if(mWPtoLoad.getCityState().equals(wp.getCityState())) {
+                    noMatch = false;
+                    break;
+                }
+            }
+            //if no match then save location, otherwise let the user know it's already saved.
+            if(noMatch) {
+                tWPVM.saveLocation(mWPtoLoad);
+                Toast.makeText(getContext(), "Saved " + mWPtoLoad.getCityState() + " to your saved locations!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "This location is already saved!", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void populateWeatherData(final WeatherProfile theWP) {
