@@ -84,7 +84,7 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
             holder.mIcon.setImageResource(mContext.getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(mContext.getPackageName())));
 
             //Display context specific info
-            if(intRain > 20) {holder.mIcon.setVisibility(View.VISIBLE);}
+            if(intRain > 20) {holder.mRainChance.setVisibility(View.VISIBLE);}
             if(position == 0) {
                 holder.mSpace.setVisibility(View.GONE);
                 holder.mCurLocIcon.setVisibility(View.VISIBLE);
