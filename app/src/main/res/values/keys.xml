@@ -63,6 +63,9 @@
     <string name="keys_json_weather_icon">icon</string>
     <string name="keys_json_weather_periods_array">periods</string>
     <!-- for current weather -->
+    <string name="keys_json_weather_loc">loc</string>
+    <string name="keys_json_weather_lat">lat</string>
+    <string name="keys_json_weather_long">long</string>
     <string name="keys_json_weather_place">place</string>
     <string name="keys_json_weather_name">name</string>
     <string name="keys_json_weather_state">state</string>

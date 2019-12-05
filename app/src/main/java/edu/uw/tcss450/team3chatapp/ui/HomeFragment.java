@@ -180,6 +180,8 @@ public class HomeFragment extends Fragment {
                     .appendQueryParameter("fields", Utils.OBS_FIELDS)
                     .build();
 
+            Log.d("API_CALL_HOME", uri.toString());
+
             new GetAsyncTask.Builder(uri.toString())
                     .onPreExecute(this::weatherOnPre)
                     .onCancelled(this::weatherOnCancel)
@@ -188,7 +190,7 @@ public class HomeFragment extends Fragment {
                     .build().execute();
 
         } else {
-            weatherOnPost(curLocWP.getCurrentWeather().toString());
+            weatherOnPost(curLocWP.getCurrentWeather());
         }
     }
 

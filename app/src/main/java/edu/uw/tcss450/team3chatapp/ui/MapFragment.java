@@ -4,16 +4,20 @@ package edu.uw.tcss450.team3chatapp.ui;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,12 +27,22 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.LocationViewModel;
-import edu.uw.tcss450.team3chatapp.model.MapResultViewModel;
+import edu.uw.tcss450.team3chatapp.model.WeatherProfile;
+import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
+import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
+import edu.uw.tcss450.team3chatapp.utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +51,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private GoogleMap mMap;
     private Geocoder mCoder;
     private Marker mMarker;  // Only use one marker at a time for clarity
+    private WeatherProfileViewModel mWeatherVM;
 
     public MapFragment() { /* Required empty public constructor */}
 
@@ -51,26 +66,33 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mCoder = new Geocoder(Objects.requireNonNull(getActivity()).getApplicationContext());
+        mWeatherVM = ViewModelProviders
+                .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
+                .get(WeatherProfileViewModel.class);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        mCoder = new Geocoder(getActivity().getApplicationContext());
-        view.findViewById(R.id.btn_map_use).setOnClickListener(this::returnLocation);
+        Objects.requireNonNull(mapFragment).getMapAsync(this);
+
+        view.findViewById(R.id.btn_map_use).setOnClickListener(v -> returnLocation());
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        //Use current location as the starting point for the map
-        LocationViewModel model =  LocationViewModel.getFactory().create(LocationViewModel.class);
-        Location l = model.getCurrentLocation().getValue();
-
-        // Add a marker in the current device location and move the camera
-        LatLng current = new LatLng(l.getLatitude(), l.getLongitude());
+        // Add a marker in the selected location from before if available; otherwise current device location and move the camera
+        WeatherProfile previouslySelected = mWeatherVM.getSelectedLocationWeatherProfile().getValue();
+        LatLng current = previouslySelected == null
+                ? Objects.requireNonNull(mWeatherVM.getCurrentLocationWeatherProfile().getValue()).getLocation()
+                : previouslySelected.getLocation();
         mMarker = mMap.addMarker(new MarkerOptions().position(current).title("Current Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 15.0f));
+
         mMap.setOnMapClickListener(this);
     }
 
@@ -88,10 +110,108 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     /**
      * Returns the currently selected location as the one to be used in WeatherFragment.
-     * @param tView the button triggering the return
      */
-    private void returnLocation(final View tView) {
-        MapResultViewModel.getFactory().create(MapResultViewModel.class).setResult(mMarker.getPosition());
-        Navigation.findNavController(getView()).popBackStack();
+    private void returnLocation() {
+        LatLng mapLocation = mMarker.getPosition();
+        WeatherProfile wpToLoad = null;
+        WeatherProfileViewModel weatherVM = ViewModelProviders
+                .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
+                .get(WeatherProfileViewModel.class);
+
+        Log.i("MAP", mapLocation.toString());
+
+        // Get location info from LatLng passed back
+        String cityState = "";
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            Address address = geocoder.getFromLocation(mapLocation.latitude, mapLocation.longitude, 1).get(0);
+            cityState = Utils.formatCityState(address.getLocality(), address.getAdminArea());
+        } catch (IOException e) {e.printStackTrace();}
+
+        // Compare to saved locations
+        if(!"".equals(cityState)) {
+            for(WeatherProfile wp : Objects.requireNonNull(weatherVM.getSavedLocationWeatherProfiles().getValue())) {
+                if(cityState.equals(wp.getCityState())) {
+                    wpToLoad = wp;
+                    break;
+                }
+            }
+        }
+
+        // Hit
+        if(wpToLoad == null) {
+            ArrayList<LatLng> wrapper = new ArrayList<>();
+            wrapper.add(mapLocation);
+
+            Uri uri = new Uri.Builder()
+                    .scheme("https")
+                    .authority("team3-chatapp-backend.herokuapp.com")
+                    .appendPath("weather")
+                    .appendPath("batch")
+                    .appendQueryParameter("requests", Utils.buildWeatherProfileQuery(wrapper))
+                    .build();
+
+            Log.d("API_CALL_MAP", uri.toString());
+
+            new GetAsyncTask.Builder(uri.toString())
+                    .onPostExecute(this::fetchWeatherPost)
+                    .onCancelled(error -> Log.e("", error))
+                    .build().execute();
+        }
+    }
+
+    private void fetchWeatherPost(final String result) {
+        WeatherProfile wpToLoad = null;
+        try {
+            JSONObject root = new JSONObject(result).getJSONObject("response");
+            if(root.has("responses")) {
+                JSONArray data = root.getJSONArray("responses");
+
+                String obsJSONStr = data.getJSONObject(0).toString();
+                String dailyJSONStr = data.getJSONObject(1).toString();
+                String hourlyJSONStr = data.getJSONObject(2).toString();
+                String cityState = getCityState(obsJSONStr);
+
+                wpToLoad = new WeatherProfile(mMarker.getPosition(), obsJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
+
+                // Set current location to one chosen on map so it's loaded again when they go back to map
+                WeatherProfileViewModel weatherVm = ViewModelProviders
+                        .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
+                        .get(WeatherProfileViewModel.class);
+                weatherVm.setSelectedLocationWeatherProfile(wpToLoad);
+            }
+        } catch(JSONException e) {
+            e.printStackTrace();
+            Log.e("WEATHER_UPDATE_ERR", Objects.requireNonNull(e.getMessage()));
+        }
+
+        if(wpToLoad == null) {Toast.makeText(getContext(), "Oops, something went wrong. Please try again.", Toast.LENGTH_LONG).show();}
+
+        MapFragmentDirections.ActionNavMapToNavWeather directions = MapFragmentDirections.actionNavMapToNavWeather(wpToLoad);
+        Navigation.findNavController(Objects.requireNonNull(getView())).navigate(directions);
+    }
+
+    private String getCityState(final String theJSONasStr) {
+
+        String result = "";
+
+        try {
+            JSONObject theJSON = new JSONObject(theJSONasStr);
+            if (theJSON.has(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_response))) {
+                JSONObject response = theJSON.getJSONObject(getActivity().getString(R.string.keys_json_weather_response));
+                if(response.has(getActivity().getString(R.string.keys_json_weather_place))) {
+
+                    JSONObject place = response.getJSONObject(getActivity().getString(R.string.keys_json_weather_place));
+
+                    result = Utils.formatCityState(place.getString(getActivity().getString(R.string.keys_json_weather_name)),
+                            place.getString(getActivity().getString(R.string.keys_json_weather_state)).toUpperCase());
+
+                } else {
+                    Log.d("WEATHER_POST", "Either Place or Ob missing form Response: " + response.toString());
+                }
+            }
+        } catch(JSONException e){e.printStackTrace();}
+
+        return result;
     }
 }

@@ -3,7 +3,6 @@ package edu.uw.tcss450.team3chatapp.model;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.net.Uri;
 import android.util.Log;
 
@@ -13,6 +12,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,13 +33,16 @@ public class WeatherProfileViewModel extends AndroidViewModel {
 
     private static WeatherProfileViewModel mInstance;
     private MutableLiveData<WeatherProfile> mCurrentLocationWeatherProfile;
+    private MutableLiveData<WeatherProfile> mSelectedLocationWeatherProfile;
     private MutableLiveData<List<WeatherProfile>> mSavedLocationsWeatherProfiles;
+
     private long mLastUpdated;
-    private ArrayList<Location> mSavedLocations;
+    private ArrayList<LatLng> mSavedLocations;
 
     private WeatherProfileViewModel(Application theApp) {
         super(theApp);
         mCurrentLocationWeatherProfile = new MutableLiveData<>();
+        mSelectedLocationWeatherProfile = new MutableLiveData<>();
         mSavedLocationsWeatherProfiles = new MutableLiveData<>();
         mLastUpdated = System.currentTimeMillis() / 1000L;
     }
@@ -47,23 +50,23 @@ public class WeatherProfileViewModel extends AndroidViewModel {
     // Private setters
     private void setCurrentLocationWeatherProfile(final WeatherProfile theWP) {mCurrentLocationWeatherProfile.setValue(theWP);}
 
+    public void setSelectedLocationWeatherProfile(final WeatherProfile theWP) {mSelectedLocationWeatherProfile.setValue(theWP);}
+
     private void setSavedLocationWeatherProfile(final ArrayList<WeatherProfile> theWPs) {mSavedLocationsWeatherProfiles.setValue(theWPs);}
 
     private void setTimeStamp(final long theTime) {mLastUpdated = theTime;}
 
-    public LiveData<WeatherProfile> getCurrentLocationWeatherProfile() {
-        return mCurrentLocationWeatherProfile;
-    }
+    public LiveData<WeatherProfile> getCurrentLocationWeatherProfile() {return mCurrentLocationWeatherProfile;}
 
-    public LiveData<List<WeatherProfile>> getSavedLocationWeatherProfiles() {
-        return mSavedLocationsWeatherProfiles;
-    }
+    public LiveData<WeatherProfile> getSelectedLocationWeatherProfile() {return mSelectedLocationWeatherProfile;}
+
+    public LiveData<List<WeatherProfile>> getSavedLocationWeatherProfiles() {return mSavedLocationsWeatherProfiles;}
 
     public long getTimeStamp() {
         return mLastUpdated;
     }
 
-    public void update(ArrayList<Location> theLocationsToUpdate) {
+    public void update(ArrayList<LatLng> theLocationsToUpdate) {
         if(theLocationsToUpdate.size() > 0) {
             mSavedLocations = theLocationsToUpdate;
 
@@ -72,8 +75,10 @@ public class WeatherProfileViewModel extends AndroidViewModel {
                     .authority("team3-chatapp-backend.herokuapp.com")
                     .appendPath("weather")
                     .appendPath("batch")
-                    .appendQueryParameter("requests", buildWeatherQuery(theLocationsToUpdate))
+                    .appendQueryParameter("requests", Utils.buildWeatherProfileQuery(theLocationsToUpdate))
                     .build();
+
+            Log.d("API_CALL_FULL", uri.toString());
 
             new GetAsyncTask.Builder(uri.toString())
                     .onPostExecute(this::fetchWeatherPost)
@@ -93,7 +98,7 @@ public class WeatherProfileViewModel extends AndroidViewModel {
 
                 for(int i = 0; i < data.length(); i+=3) {
                     int id = i / 3;
-                    Location loc = mSavedLocations.get(id);
+                    LatLng loc = mSavedLocations.get(id);
                     String obsJSONStr = data.getJSONObject(i).toString();
                     String dailyJSONStr = data.getJSONObject(i+1).toString();
                     String hourlyJSONStr = data.getJSONObject(i+2).toString();
@@ -123,41 +128,6 @@ public class WeatherProfileViewModel extends AndroidViewModel {
             e.printStackTrace();
             Log.e("WEATHER_UPDATE_ERR", Objects.requireNonNull(e.getMessage()));
         }
-    }
-
-    private String buildWeatherQuery(ArrayList<Location> tSavedLocations) {
-        StringBuilder result = new StringBuilder();
-
-        String qm = "%3F";
-        String amp = "%26";
-
-        for(Location loc : tSavedLocations) {
-            StringBuilder req = new StringBuilder();
-            String locEP = loc.getLatitude() + "," + loc.getLongitude();
-
-            //append current weather request: '/observations/{locEP}?fields={obsFields},'
-            req.append("/observations/").append(locEP).append(qm)
-                    .append("fields=").append(Utils.OBS_FIELDS)
-                    .append(",");
-            //append 10-day forecast request: '/forecasts/{locEP}?limit=10&fields={dailyFields},'
-            req.append("/forecasts/").append(locEP).append(qm)
-                    .append("limit=10").append(amp)
-                    .append("fields=").append(Utils.DAILY_FIELDS)
-                    .append(",");
-            //append 24hr forecast request: '/forecasts/{locEP}?filter=1hr&limit=24&fields={hourlyFields},'
-            req.append("/forecasts/").append(locEP).append(qm)
-                    .append("filter=1hr").append(amp)
-                    .append("limit=24").append(amp)
-                    .append("fields=").append(Utils.HOURLY_FIELDS)
-                    .append(",");
-
-            //append query string for this location to entire request.
-            result.append(req);
-        }
-        //remove trailing comma:
-        result.deleteCharAt(result.length()-1);
-
-        return result.toString();
     }
 
     private String getCityState(final String theJSONasStr) {

@@ -38,8 +38,8 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getLocation().getProvider());
-        holder.mContentView.setText(mValues.get(position).getCurrentWeather().toString());
+        holder.mIdView.setText(mValues.get(position).getCityState());
+        holder.mContentView.setText(mValues.get(position).getCurrentWeather());
 
         holder.mView.setOnClickListener(v -> {
             if (null != mListener) {

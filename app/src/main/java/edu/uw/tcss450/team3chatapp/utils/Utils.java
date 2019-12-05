@@ -2,6 +2,8 @@ package edu.uw.tcss450.team3chatapp.utils;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -12,13 +14,13 @@ import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 public class Utils {
 
     public static final String OBS_FIELDS = "place.name,place.state,ob.tempC,ob.tempF,ob.humidity,ob.windSpeedKPH,ob.windSpeedMPH,ob.weather,ob.weatherShort,ob.cloudsCoded,ob.icon";
-    public static final String DAILY_FIELDS = "periods.timestamp,periods.minTempC,periods.minTempF,periods.maxTempC,periods.maxTempF,periods.pop,periods.sunrise,periods.sunset,periods.icon";
-    public static final String HOURLY_FIELDS = "periods.timestamp,periods.avgTempC,periods.avgTempF,periods.icon";
+    private static final String DAILY_FIELDS = "periods.timestamp,periods.minTempC,periods.minTempF,periods.maxTempC,periods.maxTempF,periods.pop,periods.sunrise,periods.sunset,periods.icon";
+    private static final String HOURLY_FIELDS = "periods.timestamp,periods.avgTempC,periods.avgTempF,periods.icon";
 
     private Utils() {}
 
     public static void updateWeatherIfNecessary(WeatherProfileViewModel theWeatherVM) {
-        ArrayList<Location> locationsToUpdate = new ArrayList<>();
+        ArrayList<LatLng> locationsToUpdate = new ArrayList<>();
         // Redundant code in branches because method will be called a lot without hitting them.
         if(theWeatherVM.getCurrentLocationWeatherProfile().getValue() == null) {
             // Add current location to list of locations to update
@@ -27,7 +29,7 @@ public class Utils {
                     .create(LocationViewModel.class)
                     .getCurrentLocation()
                     .getValue());
-            locationsToUpdate.add(curLoc);
+            locationsToUpdate.add(new LatLng(curLoc.getLatitude(), curLoc.getLongitude()));
 
             theWeatherVM.update(locationsToUpdate);
 
@@ -38,7 +40,7 @@ public class Utils {
                     .create(LocationViewModel.class)
                     .getCurrentLocation()
                     .getValue());
-            locationsToUpdate.add(curLoc);
+            locationsToUpdate.add(new LatLng(curLoc.getLatitude(), curLoc.getLongitude()));
 
             // Add saved locations from VM to list of locations to update
             if(theWeatherVM.getSavedLocationWeatherProfiles().getValue() != null) {
@@ -47,6 +49,38 @@ public class Utils {
                 }
             }
         }
+    }
+
+    public static String buildWeatherProfileQuery(ArrayList<LatLng> tLocations) {
+        StringBuilder result = new StringBuilder();
+
+        String qm = "%3F";
+        String amp = "%26";
+
+        for (LatLng loc : tLocations) {
+            String locEP = loc.latitude + "," + loc.longitude;
+
+            //append query string for this location to entire request.
+            String req = "/observations/" + locEP + qm +
+                    "fields=" + Utils.OBS_FIELDS +
+                    "," +
+                    //append 10-day forecast request: '/forecasts/{locEP}?limit=10&fields={dailyFields},'
+                    "/forecasts/" + locEP + qm +
+                    "limit=10" + amp +
+                    "fields=" + Utils.DAILY_FIELDS +
+                    "," +
+                    //append 24hr forecast request: '/forecasts/{locEP}?filter=1hr&limit=24&fields={hourlyFields},'
+                    "/forecasts/" + locEP + qm +
+                    "filter=1hr" + amp +
+                    "limit=24" + amp +
+                    "fields=" + Utils.HOURLY_FIELDS +
+                    ",";
+            result.append(req);
+        }
+        //remove trailing comma:
+        result.deleteCharAt(result.length() - 1);
+
+        return result.toString();
     }
 
     public static String formatCityState(String name, String state) {

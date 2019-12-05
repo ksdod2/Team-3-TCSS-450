@@ -20,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.R;
-import edu.uw.tcss450.team3chatapp.model.MapResultViewModel;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfile;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 import edu.uw.tcss450.team3chatapp.utils.Utils;
@@ -43,7 +40,6 @@ import edu.uw.tcss450.team3chatapp.utils.Utils;
 public class WeatherFragment extends Fragment {
 
     private String mUnits;
-    private LatLng mMapResult;
 
     public WeatherFragment() {/*Required empty public constructor*/}
 
@@ -60,10 +56,10 @@ public class WeatherFragment extends Fragment {
         // Check if weather should be updated first and set preferred units
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
 
-        WeatherProfileViewModel weatherVM = ViewModelProviders
+        WeatherProfileViewModel weatherVm = ViewModelProviders
                 .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
                 .get(WeatherProfileViewModel.class);
-        Utils.updateWeatherIfNecessary(weatherVM);
+        Utils.updateWeatherIfNecessary(weatherVm);
 
         if(prefs.contains(getString(R.string.keys_prefs_tempunit))) {
             mUnits = prefs.getString(getString(R.string.keys_prefs_tempunit), "F");
@@ -72,24 +68,22 @@ public class WeatherFragment extends Fragment {
             prefs.edit().putString(getString(R.string.keys_prefs_tempunit), "F").apply();
         }
 
-        // Set navigation to Map View
-        view.findViewById(R.id.tv_weather_map).setOnClickListener(v -> {
-            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavWeatherToNavMap());
-        });
-        // Set up observation for any map fragment interactions
-        MapResultViewModel.getFactory().create(MapResultViewModel.class).getResult().observe(this, this::getMapResult);
+        // Set navigation to Map View & Saved Locations Fragment
+        view.findViewById(R.id.tv_weather_map).setOnClickListener(v ->
+                Navigation.findNavController(Objects.requireNonNull(getView())).navigate(WeatherFragmentDirections.actionNavWeatherToNavMap()));
+        view.findViewById(R.id.tv_weather_viewSavedLocations).setOnClickListener(v ->
+                Navigation.findNavController(Objects.requireNonNull(getView())).navigate(WeatherFragmentDirections.actionNavWeatherToNavWeatherprofiles()));
 
-        // Setup fragment to display weather info
-        populateWeatherData(weatherVM.getCurrentLocationWeatherProfile().getValue());
-    }
+        // Check for passed in location to load from map fragment, instead of just the current location
+        WeatherFragmentArgs args = WeatherFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
+        WeatherProfile wpToLoad = args.getWeatherProfile();
 
-    /**
-     * Gets the result of selecting a location via the map fragment.
-     * @param tRes the LatLng selected on MapFragment
-     */
-    private void getMapResult(final LatLng tRes) {
-        mMapResult = tRes;
-        Log.i("MAP", mMapResult.toString());
+        //default to device location
+        if(wpToLoad == null) {
+            wpToLoad = weatherVm.getCurrentLocationWeatherProfile().getValue();}
+
+        //display weather info to user
+        populateWeatherData(wpToLoad);
     }
 
     private void populateWeatherData(final WeatherProfile theWP) {

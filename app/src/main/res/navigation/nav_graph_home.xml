@@ -120,6 +120,10 @@
         <action
             android:id="@+id/action_nav_weather_to_nav_weatherprofiles"
             app:destination="@id/nav_weatherprofiles" />
+        <argument
+            android:name="weatherProfile"
+            app:argType="edu.uw.tcss450.team3chatapp.model.WeatherProfile"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/nav_chat_create"
@@ -159,7 +163,11 @@
         android:id="@+id/nav_map"
         android:name="edu.uw.tcss450.team3chatapp.ui.MapFragment"
         android:label="Map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_nav_map_to_nav_weather"
+            app:destination="@id/nav_weather" />
+    </fragment>
     <fragment
         android:id="@+id/nav_weatherprofiles"
         android:name="edu.uw.tcss450.team3chatapp.ui.WeatherProfileFragment"
@@ -177,6 +185,6 @@
         <argument
             android:name="WeatherProfile"
             app:argType="edu.uw.tcss450.team3chatapp.model.WeatherProfile" />
-    </dialog>
+    </dialog><action android:id="@+id/action_global_nav_weather" app:destination="@id/nav_weather"/>
 
 </navigation>

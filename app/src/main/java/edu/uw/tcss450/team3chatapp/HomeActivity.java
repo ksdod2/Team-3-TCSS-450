@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -49,8 +50,10 @@ import edu.uw.tcss450.team3chatapp.model.ChatListViewModel;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.model.ConnectionListViewModel;
+import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 import edu.uw.tcss450.team3chatapp.ui.ChatFragmentDirections;
 import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
+import edu.uw.tcss450.team3chatapp.ui.WeatherFragmentDirections;
 import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
@@ -134,52 +137,6 @@ public class HomeActivity extends AppCompatActivity {
         fetchConnections();
         fetchChats();
 
-//        WeatherProfileViewModel model = ViewModelProviders
-//                .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getApplication())))
-//                .get(WeatherProfileViewModel.class);
-//        Utils.updateWeatherIfNecessary(model);
-
-
-
-
-
-//      private void updateWeatherIfNecessary() {
-//        WeatherProfileViewModel model = WeatherProfileViewModel.getFactory().create(WeatherProfileViewModel.class);
-//
-//        if(model.getAllWeatherProfiles().getValue() == null || model.getTimeStamp() < Utils.getTopOfLastHour()) {
-//            ArrayList<Location> savedLocations;
-//
-//            Location curLoc = Objects.requireNonNull(LocationViewModel.getFactory().create(LocationViewModel.class).getCurrentLocation().getValue());
-//            String locKey = getString(R.string.keys_prefs_savedlocations);
-//            Gson gson = new Gson();
-//
-//            if(mPrefs.contains(locKey)) {
-//                Type typeOfLocList = new TypeToken<List<Location>>(){}.getType();
-//
-//                String listAsJSON = mPrefs.getString(locKey, "");
-//                savedLocations = gson.fromJson(listAsJSON, typeOfLocList);
-//
-//                //Add current location to saved locations if current location is far enough away from any other saved locations.
-//                boolean containsCurLoc = false;
-//                for(Location savedLoc : savedLocations) {
-//                    if(Utils.areCloseTogether(savedLoc, curLoc)) {
-//                        containsCurLoc = true;
-//                        break;
-//                    }
-//                }
-//                if(!containsCurLoc) {
-//                    savedLocations.add(curLoc);
-//                    mPrefs.edit().putString(locKey, gson.toJson(savedLocations)).apply();
-//                }
-//            } else {
-//                savedLocations = new ArrayList<>();
-//                savedLocations.add(curLoc);
-//                mPrefs.edit().putString(locKey, gson.toJson(savedLocations)).apply();
-//            }
-//
-//            model.update(savedLocations);
-//        }
-
         mNavigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
         mDefault = Objects.requireNonNull(toolbar.getNavigationIcon()).getColorFilter();
 
@@ -251,7 +208,17 @@ public class HomeActivity extends AppCompatActivity {
                 menuItem.setTitle(R.string.menu_connections);
                 break;
             case R.id.nav_weather:
-                navController.navigate(R.id.nav_weather);
+                WeatherProfileViewModel weatherModel = ViewModelProviders
+                        .of(this, new WeatherProfileViewModel.WeatherFactory(getApplication()))
+                        .get(WeatherProfileViewModel.class);
+
+                MobileNavigationDirections.ActionGlobalNavWeather toWeather =
+                        WeatherFragmentDirections.actionGlobalNavWeather(weatherModel
+                                .getCurrentLocationWeatherProfile().getValue());
+
+                Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(toWeather);
+                menuItem.setTitle(R.string.menu_weather);
                 break;
         }
         //Close the drawer
