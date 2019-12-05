@@ -32,9 +32,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.uw.tcss450.team3chatapp.MyChatMessageRecyclerViewAdapter;
+import edu.uw.tcss450.team3chatapp.model.MyChatMessageRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
-import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.ChatListViewModel;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.utils.PushReceiver;

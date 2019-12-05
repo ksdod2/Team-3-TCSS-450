@@ -1,10 +1,11 @@
 package edu.uw.tcss450.team3chatapp.model;
 
-import android.location.Location;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class WeatherProfile implements Serializable {
 
@@ -34,4 +35,10 @@ public class WeatherProfile implements Serializable {
     public String get10DayForecast() {return m10DayForecastJSONStr;}
     public String get24hrForecast() {return m24hrForecastJSONStr;}
     public String getCityState() {return mCityState;}
+
+    @Override
+    public boolean equals(@Nullable Object theOther) {
+        WeatherProfile other = (WeatherProfile) theOther;
+        return mCityState.equals(Objects.requireNonNull(other).getCityState());
+    }
 }

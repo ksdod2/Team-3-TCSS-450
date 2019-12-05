@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3chatapp;
+package edu.uw.tcss450.team3chatapp.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Credentials;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 

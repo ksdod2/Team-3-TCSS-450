@@ -125,7 +125,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
         try {
             Address address = geocoder.getFromLocation(mapLocation.latitude, mapLocation.longitude, 1).get(0);
-            cityState = Utils.formatCityState(address.getLocality(), address.getAdminArea());
+            String area = address.getLocality();
+            String state = address.getAdminArea();
+            cityState = area == null || state == null
+                    ? "" : Utils.formatCityState(address.getLocality(), address.getAdminArea());
         } catch (IOException e) {e.printStackTrace();}
 
         // Compare to saved locations
@@ -187,8 +190,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         if(wpToLoad == null) {Toast.makeText(getContext(), "Oops, something went wrong. Please try again.", Toast.LENGTH_LONG).show();}
 
-        MapFragmentDirections.ActionNavMapToNavWeather directions = MapFragmentDirections.actionNavMapToNavWeather(wpToLoad);
-        Navigation.findNavController(Objects.requireNonNull(getView())).navigate(directions);
+        Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_global_nav_weather);
     }
 
     private String getCityState(final String theJSONasStr) {

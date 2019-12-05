@@ -78,6 +78,13 @@ public class WeatherProfileViewModel extends AndroidViewModel {
         saveToSharedPrefs();
     }
 
+    public void removeLocation(final int idx) {
+        List<WeatherProfile> savedLocations = mSavedLocationsWeatherProfiles.getValue();
+        Objects.requireNonNull(savedLocations).remove(idx);
+        mSavedLocationsWeatherProfiles.setValue(savedLocations);
+        saveToSharedPrefs();
+    }
+
     //Getters
     public LiveData<WeatherProfile> getCurrentLocationWeatherProfile() {return mCurrentLocationWeatherProfile;}
 

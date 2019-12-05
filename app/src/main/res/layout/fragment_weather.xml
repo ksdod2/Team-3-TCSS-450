@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/layout_weather_upperLayout"
         android:layout_width="0dp"
-        android:layout_height="86dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -37,15 +37,18 @@
                 android:paddingStart="0dp"
                 android:paddingEnd="4dp"
                 android:text="@string/tv_weather_currentLocation"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_weather_currentCityState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="0"
                 android:text="@string/tv_weather_currentCityState"
                 android:textAlignment="viewStart"
+                android:textColor="@color/darkModeButtonColor"
                 android:textStyle="italic" />
 
         </LinearLayout>
@@ -69,7 +72,8 @@
             <Button
                 android:id="@+id/btn_weather_search"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
                 android:layout_weight="1"
                 android:text="@string/btn_weather_search" />
         </LinearLayout>
@@ -89,10 +93,11 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:paddingTop="8dp"
                 android:text="@string/tv_weather_map"
                 android:textAlignment="center"
                 android:textIsSelectable="false"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_weather_saveCurrentLocation"
@@ -101,9 +106,10 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:paddingTop="8dp"
                 android:text="@string/tv_weather_saveLocation"
                 android:textAlignment="center"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_weather_viewSavedLocations"
@@ -112,9 +118,10 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:paddingTop="8dp"
                 android:text="@string/tv_weather_savedLocations"
                 android:textAlignment="center"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -136,7 +143,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_weather_currentConditions"
-            android:textSize="20sp"
+            android:textColor="@color/darkModeButtonColor"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/layout_weather_currentConditions"
             app:layout_constraintStart_toStartOf="parent"
@@ -448,7 +456,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/tv_weather_24hourForecast"
-            android:textSize="20sp"
+            android:textColor="@color/darkModeButtonColor"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -1302,7 +1311,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/tv_weather_10dayForecast"
-            android:textSize="20sp"
+            android:textColor="@color/darkModeButtonColor"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -2165,6 +2175,34 @@
                 </LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_wait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/PLACEHOLDER"
+            android:src="@color/darkModeBackgroundColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

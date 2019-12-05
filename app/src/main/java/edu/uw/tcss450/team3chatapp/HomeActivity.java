@@ -208,16 +208,7 @@ public class HomeActivity extends AppCompatActivity {
                 menuItem.setTitle(R.string.menu_connections);
                 break;
             case R.id.nav_weather:
-                WeatherProfileViewModel weatherModel = ViewModelProviders
-                        .of(this, new WeatherProfileViewModel.WeatherFactory(getApplication()))
-                        .get(WeatherProfileViewModel.class);
-
-                MobileNavigationDirections.ActionGlobalNavWeather toWeather =
-                        WeatherFragmentDirections.actionGlobalNavWeather(weatherModel
-                                .getCurrentLocationWeatherProfile().getValue());
-
-                Navigation.findNavController(this, R.id.nav_host_fragment)
-                        .navigate(toWeather);
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_global_nav_weather);
                 menuItem.setTitle(R.string.menu_weather);
                 break;
         }

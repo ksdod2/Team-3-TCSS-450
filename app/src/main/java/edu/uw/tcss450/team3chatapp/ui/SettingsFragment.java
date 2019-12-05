@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3chatapp;
+package edu.uw.tcss450.team3chatapp.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,6 +21,7 @@ import android.widget.PopupMenu;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
 
 

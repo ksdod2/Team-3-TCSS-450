@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import edu.uw.tcss450.team3chatapp.MyWeatherProfileRecyclerViewAdapter;
+import edu.uw.tcss450.team3chatapp.model.MyWeatherProfileRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfile;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
@@ -28,6 +28,7 @@ import java.util.Objects;
  */
 public class WeatherProfileFragment extends Fragment {
     private ArrayList<WeatherProfile> mProfiles = new ArrayList<>();
+    private WeatherProfileViewModel mModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -41,12 +42,13 @@ public class WeatherProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_weatherprofile_list, container, false);
 
         // Begin observing the ViewModel
-        WeatherProfileViewModel weatherVM = ViewModelProviders
+        mModel = ViewModelProviders
                 .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
                 .get(WeatherProfileViewModel.class);
-        weatherVM.getSavedLocationWeatherProfiles().observe(this, this::updateRecyclerView);
+        mModel.getSavedLocationWeatherProfiles().observe(this, this::updateRecyclerView);
 
-        mProfiles.addAll(Objects.requireNonNull(weatherVM.getSavedLocationWeatherProfiles().getValue()));
+        mProfiles.add(mModel.getCurrentLocationWeatherProfile().getValue());
+        mProfiles.addAll(Objects.requireNonNull(mModel.getSavedLocationWeatherProfiles().getValue()));
 
         RecyclerView profiles = view.findViewById(R.id.list_weatherprofile);
         profiles.setAdapter(new MyWeatherProfileRecyclerViewAdapter(mProfiles, this::displayMenu));
@@ -60,6 +62,7 @@ public class WeatherProfileFragment extends Fragment {
      */
     private void updateRecyclerView(List<WeatherProfile> tProfiles) {
         mProfiles.clear();
+        mProfiles.add(mModel.getCurrentLocationWeatherProfile().getValue());
         mProfiles.addAll(tProfiles);
 
         RecyclerView profileList = Objects.requireNonNull(getView()).findViewById(R.id.list_weatherprofile);

@@ -1,6 +1,9 @@
 package edu.uw.tcss450.team3chatapp.utils;
 
+import android.app.Activity;
 import android.location.Location;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -14,7 +17,7 @@ import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 public class Utils {
 
     public static final String OBS_FIELDS = "place.name,place.state,ob.tempC,ob.tempF,ob.humidity,ob.windSpeedKPH,ob.windSpeedMPH,ob.weather,ob.weatherShort,ob.cloudsCoded,ob.icon";
-    private static final String DAILY_FIELDS = "periods.timestamp,periods.minTempC,periods.minTempF,periods.maxTempC,periods.maxTempF,periods.pop,periods.sunrise,periods.sunset,periods.icon";
+    private static final String DAILY_FIELDS = "periods.timestamp,periods.weatherPrimary,periods.minTempC,periods.minTempF,periods.maxTempC,periods.maxTempF,periods.pop,periods.sunrise,periods.sunset,periods.icon";
     private static final String HOURLY_FIELDS = "periods.timestamp,periods.avgTempC,periods.avgTempF,periods.icon";
 
     private Utils() {}
@@ -35,12 +38,12 @@ public class Utils {
 
         } else if(theWeatherVM.getTimeStamp() < Utils.getTopOfLastHour()) {
             // Add current location to list of locations to update first:
-            Location curLoc = Objects.requireNonNull(LocationViewModel
+            Location curLoc = LocationViewModel
                     .getFactory()
                     .create(LocationViewModel.class)
                     .getCurrentLocation()
-                    .getValue());
-            locationsToUpdate.add(new LatLng(curLoc.getLatitude(), curLoc.getLongitude()));
+                    .getValue();
+            if(curLoc != null) {locationsToUpdate.add(new LatLng(curLoc.getLatitude(), curLoc.getLongitude()));}
 
             // Add saved locations from VM to list of locations to update
             if(theWeatherVM.getSavedLocationWeatherProfiles().getValue() != null) {
@@ -122,6 +125,17 @@ public class Utils {
 
     private static long getTopOfLastHour() {
         return (System.currentTimeMillis() / 1000L) - ((System.currentTimeMillis() / 1000L) % 3600);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
 

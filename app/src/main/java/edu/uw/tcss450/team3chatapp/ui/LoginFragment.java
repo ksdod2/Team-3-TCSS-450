@@ -3,7 +3,7 @@ TODO make layout "scroll" up as user clicks fields lower on screen so that they 
 TODO Add javadox on existing code so we don't have to document entire app at once
  */
 
-package edu.uw.tcss450.team3chatapp;
+package edu.uw.tcss450.team3chatapp.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.ChatMessageNotification;
@@ -28,7 +29,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;

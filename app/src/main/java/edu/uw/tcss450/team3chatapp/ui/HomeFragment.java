@@ -33,7 +33,7 @@ import java.util.Objects;
 import edu.uw.tcss450.team3chatapp.HomeActivity;
 import edu.uw.tcss450.team3chatapp.HomeActivityArgs;
 import edu.uw.tcss450.team3chatapp.MobileNavigationDirections;
-import edu.uw.tcss450.team3chatapp.MyChatRecyclerViewAdapter;
+import edu.uw.tcss450.team3chatapp.model.MyChatRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.ChatListViewModel;

@@ -77,6 +77,7 @@
     <string name="keys_json_weather_windspeed_metric">windSpeedKPH</string>
     <string name="keys_json_weather_windspeed_imperial">windSpeedMPH</string>
     <!-- for 10day forecast -->
+    <string name="keys_json_weather_primary">weatherPrimary</string>
     <string name="keys_json_weather_mintempc">minTempC</string>
     <string name="keys_json_weather_mintempf">minTempF</string>
     <string name="keys_json_weather_maxtempc">maxTempC</string>

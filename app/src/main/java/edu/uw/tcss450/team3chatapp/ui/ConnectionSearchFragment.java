@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import edu.uw.tcss450.team3chatapp.MyConnectionRecyclerViewAdapter;
+import edu.uw.tcss450.team3chatapp.model.MyConnectionRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;

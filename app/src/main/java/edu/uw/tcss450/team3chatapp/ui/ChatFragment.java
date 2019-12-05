@@ -20,7 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.uw.tcss450.team3chatapp.MyChatRecyclerViewAdapter;
+import edu.uw.tcss450.team3chatapp.model.MyChatRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.ChatListViewModel;

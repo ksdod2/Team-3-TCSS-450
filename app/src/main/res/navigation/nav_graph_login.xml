@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="edu.uw.tcss450.team3chatapp.LoginFragment"
+        android:name="edu.uw.tcss450.team3chatapp.ui.LoginFragment"
         android:label="nav_fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="edu.uw.tcss450.team3chatapp.RegisterFragment"
+        android:name="edu.uw.tcss450.team3chatapp.ui.RegisterFragment"
         android:label="nav_fragment_register"
         tools:layout="@layout/fragment_register">
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/verificationFragment"
-        android:name="edu.uw.tcss450.team3chatapp.VerificationFragment"
+        android:name="edu.uw.tcss450.team3chatapp.ui.VerificationFragment"
         android:label="nav_fragment_verification"
         tools:layout="@layout/fragment_verification">
         <action

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import edu.uw.tcss450.team3chatapp.MyConnectionRecyclerViewAdapter;
+import edu.uw.tcss450.team3chatapp.model.MyConnectionRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Chat;
 import edu.uw.tcss450.team3chatapp.model.Connection;

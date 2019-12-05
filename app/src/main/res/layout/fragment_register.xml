@@ -5,7 +5,7 @@
     android:id="@+id/fragment_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterFragment">
+    tools:context=".ui.RegisterFragment">
 
     <ImageView
         android:id="@+id/iv_register_bg"

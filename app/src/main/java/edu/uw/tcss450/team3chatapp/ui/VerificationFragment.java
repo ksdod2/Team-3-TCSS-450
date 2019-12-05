@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3chatapp;
+package edu.uw.tcss450.team3chatapp.ui;
 
 
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.Objects;
+
+import edu.uw.tcss450.team3chatapp.R;
 
 
 /**

@@ -1,4 +1,4 @@
-package edu.uw.tcss450.team3chatapp;
+package edu.uw.tcss450.team3chatapp.model;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.ui.ChatFragment.OnListFragmentInteractionListener;
 import edu.uw.tcss450.team3chatapp.model.Chat;
 
