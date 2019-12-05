@@ -20,20 +20,20 @@ import org.json.JSONObject;
 
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Connection;
+import edu.uw.tcss450.team3chatapp.model.ConnectionListViewModel;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
 /**
  * Fragment for displaying all a user's connections, with ability to move to searching for users
  * and viewing information about a given contact.
  * @author Kameron Dodd
- * @version 11/26/19
+ * @version 12/4/19
  */
 public class ConnectionViewFragment extends Fragment {
     private enum ConnectionChange {ACCEPT, INVITE, REMOVE}
 
     private int mMemberID;
     private String mJWT;
-    private TextView mStatus;
     private Button mAccept;
     private Button mReject;
     private Button mSend;
@@ -41,9 +41,7 @@ public class ConnectionViewFragment extends Fragment {
     private ConnectionChange mAction;
     private Connection mConn;
 
-    public ConnectionViewFragment() {
-        // Required empty public constructor
-    }
+    public ConnectionViewFragment() {/* Required empty public constructor */}
 
 
     @Override
@@ -65,7 +63,7 @@ public class ConnectionViewFragment extends Fragment {
         mSend.setVisibility(View.GONE);
         mRemove = view.findViewById(R.id.btn_connection_view_remove);
         mRemove.setVisibility(View.GONE);
-        mStatus = view.findViewById(R.id.tv_connection_view_status);
+        TextView mStatus = view.findViewById(R.id.tv_connection_view_status);
 
         ((TextView) view.findViewById(R.id.tv_connection_view_name)).setText(mConn.getFirstName() + " " + mConn.getLastName());
         ((TextView) view.findViewById(R.id.tv_connection_view_username)).setText("Username: " + mConn.getUsername());
@@ -83,7 +81,7 @@ public class ConnectionViewFragment extends Fragment {
         } else if(mConn.getRelation() == Connection.Relation.UNACCEPTED && !mConn.amSender()) { // Received
             mAccept.setVisibility(View.VISIBLE);
             mReject.setVisibility(View.VISIBLE);
-            mAccept.setOnClickListener(this::acceptConnection);
+            mAccept.setOnClickListener(v -> acceptConnection());
             mReject.setOnClickListener(this::removeConnection);
             mStatus.setText(R.string.tv_status_received);
         } else { // No relation, used when searching
@@ -97,9 +95,13 @@ public class ConnectionViewFragment extends Fragment {
 
     /**
      * Method used to accept a connection request.
-     * @param view The button used to initiate the request
      */
-    private void acceptConnection(final View view) {
+    private void acceptConnection() {
+        if (!ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                .getCurrentConnections().getValue().contains(mConn)) {
+            returnToConnections("This connection request no longer exists.");
+            return;
+        }
         Uri uri = new Uri.Builder()
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base))
@@ -138,6 +140,11 @@ public class ConnectionViewFragment extends Fragment {
      * @param view The button used to initiate the request
      */
     private void removeConnection(final View view) {
+        if (!ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                .getCurrentConnections().getValue().contains(mConn)) {
+            returnToConnections("This connection no longer exists.");
+            return;
+        }
         Uri uri = new Uri.Builder()
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base))
@@ -176,6 +183,11 @@ public class ConnectionViewFragment extends Fragment {
      * @param view The button used to initiate the request
      */
     private void sendConnection(final View view) {
+        if (ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                .getCurrentConnections().getValue().contains(mConn)) {
+            returnToConnections("There is already a connection request for this user.");
+            return;
+        }
         Uri uri = new Uri.Builder()
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base))
@@ -225,9 +237,8 @@ public class ConnectionViewFragment extends Fragment {
                     default:
                         txt = "SOMETHING HAS GONE WRONG";
                 }
-                Toast.makeText(getActivity(), txt, Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(getView()).popBackStack();
-                return;
+                returnToConnections(txt);
+                return; // Avoid triggering errors on buttons
             } else {
                 Log.e("ERROR", "Connection change error");
             }
@@ -241,5 +252,14 @@ public class ConnectionViewFragment extends Fragment {
         mAccept.setEnabled(true);
         mSend.setEnabled(true);
         mSend.setError("Could not send invitation at this time, please try again later.");
+    }
+
+    /**
+     * Displays a message to the user, then returns to the connections hub.
+     * @param tMessage the message to display
+     */
+    private void returnToConnections(final String tMessage) {
+        Toast.makeText(getActivity(), tMessage, Toast.LENGTH_LONG).show();
+        Navigation.findNavController(getView()).popBackStack();
     }
 }

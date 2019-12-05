@@ -63,8 +63,7 @@ public class ChatMessageFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ChatMessageFragment() {
-    }
+    public ChatMessageFragment() {/* Required empty public constructor */}
 
     @Override
     public void onResume() {
@@ -232,6 +231,8 @@ public class ChatMessageFragment extends Fragment {
                     // Update chat and scroll to newest message
                     mChatWindow.getAdapter().notifyDataSetChanged();
                     mChatWindow.scrollToPosition(mMessages.size() - 1);
+                    // Make sure this chat does not mark as having unread messages while in it
+                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(mChatID, false);
                 } catch (JSONException e) {
                     Log.e("CHAT_PUSH", e.getMessage());
                 }

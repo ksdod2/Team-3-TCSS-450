@@ -37,7 +37,7 @@ import static android.view.View.GONE;
 /**
  * Fragment to set information and members in creation of a new chat room.
  * @author Kameron Dodd
- * @version 11/20/19
+ * @version 12/4/19
  */
 public class ChatCreationFragment extends Fragment {
     private ArrayList<Connection> mAvailableConnections = new ArrayList<>();
@@ -92,7 +92,7 @@ public class ChatCreationFragment extends Fragment {
         } else {
             mNameInput.setVisibility(GONE);
             mDescInput.setVisibility(GONE);
-
+            mCreate.setVisibility(GONE);
             mChatName.setText(mChat.getName());
             mChatDescription.setText(mChat.getDescription());
         }
@@ -103,10 +103,8 @@ public class ChatCreationFragment extends Fragment {
         mToAddView = rootView.findViewById(R.id.list_chat_create_toadd);
         mToAddView.setAdapter(new MyConnectionRecyclerViewAdapter(mToAddConnections, this::removeFromInvitees));
 
-        mCreate.setOnClickListener(this::makeRoom);
-        mInvite.setOnClickListener(v -> {
-            inviteUsers(mChat.getChatID());
-        });
+        mCreate.setOnClickListener(tView -> makeRoom());
+        mInvite.setOnClickListener(v -> inviteUsers(mChat.getChatID()));
 
         mInviteURI = new Uri.Builder()
                 .scheme("https")
@@ -142,9 +140,8 @@ public class ChatCreationFragment extends Fragment {
 
     /**
      * Sends request to the web service to create a chat room with the given information.
-     * @param tView the button that triggered the request
      */
-    private void makeRoom(final View tView) {
+    private void makeRoom() {
         String chatName = mNameInput.getText().toString();
         String chatDesc = mDescInput.getText().toString();
         if (chatName.equals("")) {
@@ -207,7 +204,7 @@ public class ChatCreationFragment extends Fragment {
     }
 
     /**
-     * Invites all users whose IDs are contained in the array to the given chat.
+     * Invites all users whose IDs are contained in mToAddConnections to the given chat.
      * @param tChatID the ID of the chat to invite to
      */
     private void inviteUsers(final int tChatID) {

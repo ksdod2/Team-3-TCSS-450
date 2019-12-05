@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * Represents the information needed to display and retrieve chat information.
  * @author Kameron Dodd
- * @version 10/30/19
+ * @version 12/4/19
  */
 public class Chat implements Serializable, Parcelable {
     private final int mChatID;
@@ -49,8 +49,17 @@ public class Chat implements Serializable, Parcelable {
     public boolean hasNew() { return mNewFlag; }
     public boolean isFavorited() { return mFavorited; }
 
+    /**
+     * Sets whether or not this chat has new messages.
+     * @param tNewFlag whether the chat has new messages or not
+     */
     public void setNew(final boolean tNewFlag) { mNewFlag = tNewFlag; }
-    public void setFavorited(final boolean tFavoriteFlag) { mFavorited = tFavoriteFlag;}
+
+    /**
+     * Sets a chat's favorite status.
+     * @param tFavoriteFlag whether the chat is a favorite or not
+     */
+    void setFavorited(final boolean tFavoriteFlag) { mFavorited = tFavoriteFlag;}
 
     @Override
     public int describeContents() {

@@ -73,6 +73,12 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mArgs = HomeActivityArgs.fromBundle(Objects.requireNonNull(getIntent().getExtras()));
+
+        // Get information to populate ViewModels
+        fetchConnections();
+        fetchChats();
+
         //Apply user-preferred theme from shared preferences
         mPrefs = getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         if(mPrefs.contains(getString(R.string.keys_prefs_theme))) {
@@ -99,7 +105,6 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(mNavigationView, navController);
 
-        mArgs = HomeActivityArgs.fromBundle(Objects.requireNonNull(getIntent().getExtras()));
         // Check for unread messages; Navigate immediately to chatroom of pushed message or room
         if(mArgs.getChatMessage() != null || mArgs.getChat() != null) {
             Uri chatUri = new Uri.Builder()
@@ -132,10 +137,6 @@ public class HomeActivity extends AppCompatActivity {
                     MobileNavigationDirections.actionGlobalNavConnectionview(mArgs.getConnection(), mArgs.getUserId(), mArgs.getJwt());
             nc.navigate(connection);
         }
-
-        // Get information to populate ViewModels
-        fetchConnections();
-        fetchChats();
 
         mNavigationView.setNavigationItemSelectedListener(this::onNavigationSelected);
         mDefault = Objects.requireNonNull(toolbar.getNavigationIcon()).getColorFilter();
@@ -460,7 +461,7 @@ public class HomeActivity extends AppCompatActivity {
                     // Update ViewModel of connections with change based on chat
                     if (chtInfo.getBoolean("new")) {
                         ChatListViewModel.getFactory().create(ChatListViewModel.class).addChat(pushed);
-                        ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(pushed.getChatID());
+                        ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(pushed.getChatID(), true);
                         // Color navigation menu to show new chat received
                         if (Objects.requireNonNull(nd).getId() != R.id.nav_chats) {
                             ((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon()
@@ -481,7 +482,7 @@ public class HomeActivity extends AppCompatActivity {
                 try {
                     JSONObject msgInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
                     // Set chat where message came from to display as having unread messages
-                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(msgInfo.getInt("room"));
+                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(msgInfo.getInt("room"), true);
                     // Color navigation menu to show new message received
                     if (Objects.requireNonNull(nd).getId() != R.id.nav_chats) {
                         Objects.requireNonNull(((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon())

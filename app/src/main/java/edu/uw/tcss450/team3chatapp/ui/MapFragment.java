@@ -92,6 +92,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 : previouslySelected.getLocation();
         mMarker = mMap.addMarker(new MarkerOptions().position(current).title("Current Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 15.0f));
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
         mMap.setOnMapClickListener(this);
     }
@@ -105,6 +106,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
         } catch (IOException e) {
             e.printStackTrace();
+            mMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Selected Location"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
         }
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * A ViewModel for a list of chats associated with a user's account.
  * @author Kameron Dodd
- * @version 11/20/19
+ * @version 12/4/19
  */
 public class ChatListViewModel extends ViewModel {
 
@@ -70,11 +70,12 @@ public class ChatListViewModel extends ViewModel {
     /**
      * Sets a chat in the list of chats to recognize unread messages have occurred.
      * @param chatID the ID of the chat to flag
+     * @param hasUnread whether the chat now has unread messages
      */
-    public void setUnread(final int chatID) {
+    public void setUnread(final int chatID, final boolean hasUnread) {
         for(Chat c : mChats) {
             if(c.getChatID() == chatID)
-                c.setNew(true);
+                c.setNew(hasUnread);
         }
         chats.setValue(mChats);
     }

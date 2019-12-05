@@ -44,7 +44,7 @@ public class ChatFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ChatFragment() {}
+    public ChatFragment() {/* Required empty public constructor */}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,9 +77,6 @@ public class ChatFragment extends Fragment {
      * @param tChat the chat to display content from
      */
     private void displayChat(final Chat tChat) {
-        // Viewing the chat, remove alert that there are new messages in it
-        tChat.setNew(false);
-
         // Get all the prior messages of the chat asynchronously
         Uri chatUri = new Uri.Builder()
                 .scheme("https")
@@ -140,11 +137,14 @@ public class ChatFragment extends Fragment {
                             message.getString(getString(R.string.keys_json_chatmessage_timestamp)),
                             message.getString(getString(R.string.keys_json_chatmessage_message)));
                 }
+                // Viewing the chat, remove alert that there are new messages in it
+                ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(currentChat.getChatID(), false);
 
                 ChatFragmentDirections.ActionChatFragmentToChatMessageFragment chatroom =
                         ChatFragmentDirections.actionChatFragmentToChatMessageFragment(messages, mJWT, mMemberID,
-                                                                currentChat.getChatID(), currentChat.getName(),
-                                                                currentChat.isFavorited());
+                                                                        currentChat.getChatID(),
+                                                                        currentChat.getName(),
+                                                                        currentChat.isFavorited());
 
                 NavController nc = Navigation.findNavController(getView());
                 if (nc.getCurrentDestination().getId() != R.id.nav_chats) // Ensure back button doesn't break nav
