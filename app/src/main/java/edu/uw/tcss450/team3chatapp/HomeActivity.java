@@ -50,6 +50,7 @@ import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.model.ConnectionListViewModel;
 import edu.uw.tcss450.team3chatapp.ui.ChatFragmentDirections;
+import edu.uw.tcss450.team3chatapp.ui.ChatMessageFragment;
 import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
 import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
@@ -523,8 +524,13 @@ public class HomeActivity extends AppCompatActivity {
                     // Set chat where message came from to display as having unread messages
                     ChatListViewModel.getFactory().create(ChatListViewModel.class)
                             .setUnread(msgInfo.getInt("room"), true);
-                    // Color navigation menu to show new message received
-                    if (Objects.requireNonNull(nd).getId() != R.id.nav_chats) {
+                    // Color navigation menu to show new message received, if not in chat hub or that chat
+                    if (Objects.requireNonNull(nd).getId() != R.id.nav_chats // Not in chat hub
+                            && !(nd.getId() == R.id.nav_chatroom // In chatroom, check chat ID
+                            && ((ChatMessageFragment) Objects.requireNonNull(getSupportFragmentManager()
+                            .getPrimaryNavigationFragment()).getChildFragmentManager()
+                            .getFragments().get(0)).getChatID() ==  msgInfo.getInt("room"))){
+
                         Objects.requireNonNull(((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon())
                                 .setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
                         SpannableString s = new SpannableString(getString(R.string.menu_chats));

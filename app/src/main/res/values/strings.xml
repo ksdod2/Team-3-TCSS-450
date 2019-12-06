@@ -170,8 +170,7 @@
     <string name="et_connectionsearch_lastname">Last Name</string>
     <string name="et_connectionsearch_username">Username</string>
     <string name="et_connectionsearch_email">Email</string>
-    <string name="et_connectionsearch_name_error">Please input both a first and last name.</string>
-    <string name="et_connectionsearch_general_error">Please input a valid search term.</string>
+    <string name="et_connectionsearch_name_error">Please input both a first and last name, a username, or an email address.</string>
 
     <!-- Misc. Strings -->
     <string name="misc_temp_unit_symbol">°</string>

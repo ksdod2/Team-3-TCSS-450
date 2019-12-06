@@ -134,7 +134,7 @@ public class ConnectionSearchFragment extends Fragment {
             mWaitBar.setVisibility(View.VISIBLE);
 
         } else {
-            mFirstNameField.setError(getString(R.string.et_connectionsearch_general_error));
+            mFirstNameField.setError(getString(R.string.et_connectionsearch_name_error));
         }
     }
 

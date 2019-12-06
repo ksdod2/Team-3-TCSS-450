@@ -35,8 +35,9 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,9 +50,8 @@
 
             <EditText
                 android:id="@+id/et_connection_search_firstname"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/et_connectionsearch_firstname"
                 android:inputType="textPersonName"
@@ -67,30 +67,23 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/et_connection_search_username"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/et_connectionsearch_username"
+            android:inputType="textPersonName"
+            android:textAlignment="center" />
 
-            <EditText
-                android:id="@+id/et_connection_search_username"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="@string/et_connectionsearch_username"
-                android:inputType="textPersonName"
-                android:textAlignment="center" />
-
-            <EditText
-                android:id="@+id/et_connection_search_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/et_connectionsearch_email"
-                android:inputType="textEmailAddress"
-                android:textAlignment="center" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/et_connection_search_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/et_connectionsearch_email"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/btn_connection_search_search"
