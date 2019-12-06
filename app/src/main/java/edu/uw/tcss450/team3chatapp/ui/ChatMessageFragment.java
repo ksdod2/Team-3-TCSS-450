@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import edu.uw.tcss450.team3chatapp.model.MyChatMessageRecyclerViewAdapter;
@@ -40,30 +41,36 @@ import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
 /**
- * A fragment representing a list of Items.
+ * A fragment representing a list of ChatMessages.
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class ChatMessageFragment extends Fragment {
 
+    /** The RecyclerView that contains the ChatMessages. */
     private RecyclerView mChatWindow;
+    /** The List of ChatMessages. */
     private ArrayList<ChatMessage> mMessages;
+    /** The current user's MemberID. */
     private int mMemberID;
-    private int mChatID;
+    /** The current user's JWT. */
     private String mJWT;
+    /** The current chat's ID. */
+    private int mChatID;
+    /** The Url to use when sending messages. */
     private String mSendUrl;
+    /** Whether the current chat is favorited. */
     private boolean amFav;
+    /** EditText for the message to send. */
     private EditText mSendField;
+    /** The button to send messages with */
     private Button mSendButton;
-
+    /** A receiver for push notifications from PushReceiver. */
     private PushMessageReceiver mPushMessageReceiver;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public ChatMessageFragment() {/* Required empty public constructor */}
+    /** Required empty public constructor. */
+    public ChatMessageFragment() {}
 
     @Override
     public void onResume() {
@@ -72,14 +79,14 @@ public class ChatMessageFragment extends Fragment {
             mPushMessageReceiver = new PushMessageReceiver();
         }
         IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
-        getActivity().registerReceiver(mPushMessageReceiver, iFilter);
+        Objects.requireNonNull(getActivity()).registerReceiver(mPushMessageReceiver, iFilter);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         if (mPushMessageReceiver != null){
-            getActivity().unregisterReceiver(mPushMessageReceiver);
+            Objects.requireNonNull(getActivity()).unregisterReceiver(mPushMessageReceiver);
         }
     }
 
@@ -88,15 +95,16 @@ public class ChatMessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chatmessage_list, container, false);
 
-        ChatMessageFragmentArgs args = ChatMessageFragmentArgs.fromBundle(getArguments());
+        ChatMessageFragmentArgs args = ChatMessageFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
         mMemberID = args.getMemberID();
         mChatID = args.getChatID();
         mJWT = args.getJWT();
         amFav = args.getFavorite();
-        mMessages = new ArrayList(Arrays.asList(args.getMessages()));
+        mMessages = new ArrayList<>(Arrays.asList(args.getMessages()));
         Collections.reverse(mMessages);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(args.getChatname());
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity()))
+                .getSupportActionBar()).setTitle(args.getChatname());
 
         mChatWindow = view.findViewById(R.id.list_chatroom);
         // Clicking on an individual message does nothing
@@ -106,7 +114,7 @@ public class ChatMessageFragment extends Fragment {
 
         mSendField = view.findViewById(R.id.et_chatroom_send);
         mSendButton = view.findViewById(R.id.btn_chatroom_send);
-        mSendButton.setOnClickListener(this::sendMessage);
+        mSendButton.setOnClickListener(v -> sendMessage());
 
         mSendUrl = new Uri.Builder()
                 .scheme("https")
@@ -133,24 +141,28 @@ public class ChatMessageFragment extends Fragment {
         // Ensure the item selected was the one added by the fragment and not an activity's item
         if(item.getTitle() != null && (item.getTitle().equals("Favorite") || item.getTitle().equals("Unfavorite"))) {
             Set<String> favs = new HashSet<>();
-            SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+            SharedPreferences prefs = Objects.requireNonNull(getActivity())
+                    .getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
             if (!prefs.contains(getString(R.string.keys_prefs_favorites))) {
                 favs.add("" + mChatID);
                 prefs.edit().putStringSet(getString(R.string.keys_prefs_favorites), favs).apply();
                 item.setTitle("Unfavorite");
-                ChatListViewModel.getFactory().create(ChatListViewModel.class).setFavorite(mChatID, true);
+                ChatListViewModel.getFactory().create(ChatListViewModel.class)
+                        .setFavorite(mChatID, true);
             } else {
                 favs = prefs.getStringSet(getString(R.string.keys_prefs_favorites), null);
                 // Either set favorite or remove it if already exists
-                if(!favs.contains("" + mChatID)) {
+                if(!Objects.requireNonNull(favs).contains("" + mChatID)) {
                     favs.add("" + mChatID);
                     item.setTitle("Unfavorite");
-                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setFavorite(mChatID, true);
+                    ChatListViewModel.getFactory().create(ChatListViewModel.class)
+                            .setFavorite(mChatID, true);
                 }
                 else {
                     favs.remove("" + mChatID);
                     item.setTitle("Favorite");
-                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setFavorite(mChatID, false);
+                    ChatListViewModel.getFactory().create(ChatListViewModel.class)
+                            .setFavorite(mChatID, false);
                 }
                 prefs.edit().putStringSet(getString(R.string.keys_prefs_favorites), favs).apply();
             }
@@ -160,7 +172,8 @@ public class ChatMessageFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendMessage(final View tView) {
+    /** Hits the WS to send the entered message. */
+    private void sendMessage() {
         String msg = mSendField.getText().toString();
         if(msg.equals("")) { // Don't let users send blank messages and clog the room
             return;
@@ -172,7 +185,7 @@ public class ChatMessageFragment extends Fragment {
             body.put(getString(R.string.keys_json_chats_id), mChatID);
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR!", e.getMessage());
+            Log.e("ERROR!", Objects.requireNonNull(e.getMessage()));
         }
 
         new SendPostAsyncTask.Builder(mSendUrl, body)
@@ -184,6 +197,10 @@ public class ChatMessageFragment extends Fragment {
         mSendButton.setEnabled(false);
     }
 
+    /**
+     * Performs operations following WS response when sending a message.
+     * @param result the response from the WS
+     */
     private void handleSendOnPostExecute(final String result) {
         mSendButton.setEnabled(true);
         try {
@@ -197,7 +214,7 @@ public class ChatMessageFragment extends Fragment {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR!", e.getMessage());
+            Log.e("ERROR!", Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -215,6 +232,7 @@ public class ChatMessageFragment extends Fragment {
         void onListFragmentInteraction(ChatMessage item);
     }
 
+    /** A PushMessageReceiver for handling chat messages in the foreground. */
     private class PushMessageReceiver extends BroadcastReceiver {
 
         @Override
@@ -222,19 +240,20 @@ public class ChatMessageFragment extends Fragment {
             if(intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {
                 try {
                     // Immediately build out new chat message to add to RecyclerView
-                    JSONObject body = new JSONObject(intent.getStringExtra("MESSAGE"));
+                    JSONObject body = new JSONObject(Objects.requireNonNull(intent.getStringExtra("MESSAGE")));
                     ChatMessage newMessage = new ChatMessage(body.getInt("memberid")  == mMemberID,
                             intent.getStringExtra("SENDER"),
                             body.getString("stamp"),
                             body.getString("text"));
                     mMessages.add(newMessage);
                     // Update chat and scroll to newest message
-                    mChatWindow.getAdapter().notifyDataSetChanged();
+                    Objects.requireNonNull(mChatWindow.getAdapter()).notifyDataSetChanged();
                     mChatWindow.scrollToPosition(mMessages.size() - 1);
                     // Make sure this chat does not mark as having unread messages while in it
-                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(mChatID, false);
+                    ChatListViewModel.getFactory().create(ChatListViewModel.class)
+                            .setUnread(mChatID, false);
                 } catch (JSONException e) {
-                    Log.e("CHAT_PUSH", e.getMessage());
+                    Log.e("CHAT_PUSH", Objects.requireNonNull(e.getMessage()));
                 }
             }
         }

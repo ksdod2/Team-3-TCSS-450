@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -50,23 +49,29 @@ import edu.uw.tcss450.team3chatapp.model.ChatListViewModel;
 import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.model.ConnectionListViewModel;
-import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 import edu.uw.tcss450.team3chatapp.ui.ChatFragmentDirections;
 import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragmentDirections;
-import edu.uw.tcss450.team3chatapp.ui.WeatherFragmentDirections;
 import edu.uw.tcss450.team3chatapp.utils.PushReceiver;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
 import me.pushy.sdk.Pushy;
 
+/**
+ * The Activity to hold all fragments following the user logging in.
+ */
 public class HomeActivity extends AppCompatActivity {
 
+    /** The current shared preferences for this device. */
     private SharedPreferences mPrefs;
+    /** The configuration for the app's AppBar to use. */
     private AppBarConfiguration mAppBarConfiguration;
+    /** The app's NavigationView. */
     private NavigationView mNavigationView;
+    /** The arguments that the activity received from the login process. */
     public HomeActivityArgs mArgs;
+    /** The color filter used by default for the hamburger button. */
     private ColorFilter mDefault;
-
+    /** The PushReceiver for the entire activity to use. */
     private HomePushMessageReceiver mPushMessageReceiver;
 
     @Override
@@ -95,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each menu should be considered as top level destination.
+        // Passing each menu ID as a set of Ids as each fragment is a top level destination
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_chats, R.id.nav_connectionhome, R.id.nav_weather)
                 .setDrawerLayout(drawer)
@@ -134,7 +139,8 @@ public class HomeActivity extends AppCompatActivity {
         } else if (mArgs.getConnection() != null) {
             NavController nc = Navigation.findNavController(this, R.id.nav_host_fragment);
             MobileNavigationDirections.ActionGlobalNavConnectionview connection =
-                    MobileNavigationDirections.actionGlobalNavConnectionview(mArgs.getConnection(), mArgs.getUserId(), mArgs.getJwt());
+                    MobileNavigationDirections.actionGlobalNavConnectionview(mArgs.getConnection(),
+                                                                mArgs.getUserId(), mArgs.getJwt());
             nc.navigate(connection);
         }
 
@@ -143,8 +149,10 @@ public class HomeActivity extends AppCompatActivity {
 
         // Set navigation drawer header fields with user information
         View header = mNavigationView.getHeaderView(0);
-        ((TextView) header.findViewById(R.id.tv_nav_header)).setText(mArgs.getCredentials().getUsername());
-        ((TextView) header.findViewById(R.id.tv_verification_message)).setText(mArgs.getCredentials().getEmail());
+        ((TextView) header.findViewById(R.id.tv_nav_header))
+                .setText(mArgs.getCredentials().getUsername());
+        ((TextView) header.findViewById(R.id.tv_verification_message))
+                .setText(mArgs.getCredentials().getEmail());
     }
 
     @Override
@@ -181,6 +189,11 @@ public class HomeActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
+    /**
+     * Performs some navigation operation after an item is selected.
+     * @param menuItem the selected item
+     * @return <code>true</code> if the navigation is successful
+     */
     private boolean onNavigationSelected(final MenuItem menuItem) {
         // Regardless of action, user is now aware of a notification that arrived somewhere
         Objects.requireNonNull(((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon())
@@ -209,7 +222,8 @@ public class HomeActivity extends AppCompatActivity {
                 menuItem.setTitle(R.string.menu_connections);
                 break;
             case R.id.nav_weather:
-                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_global_nav_weather);
+                Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(R.id.action_global_nav_weather);
                 menuItem.setTitle(R.string.menu_weather);
                 break;
         }
@@ -218,6 +232,7 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+    /** Hits the WS to get the current user's connections.*/
     private void fetchConnections() {
         Uri connectionUri = new Uri.Builder()
                 .scheme("https")
@@ -239,7 +254,8 @@ public class HomeActivity extends AppCompatActivity {
                 .addHeaderField("authorization", mArgs.getJwt())
                 .build().execute();
     }
-
+    
+    /** Hits the WS to get the current user's chatrooms.*/
     private void fetchChats() {
         Uri chatUri = new Uri.Builder()
                 .scheme("https")
@@ -262,6 +278,10 @@ public class HomeActivity extends AppCompatActivity {
                 .build().execute();
     }
 
+    /**
+     * Performs operations following WS response when getting connections.
+     * @param result the response from the WS
+     */
     private void handleConnectionsOnPostExecute(final String result) {
         //parse JSON
         try {
@@ -280,7 +300,8 @@ public class HomeActivity extends AppCompatActivity {
                             jsonConn.getInt(getString(R.string.keys_json_connections_sender_int)) == mArgs.getUserId()));
                 }
                 // Set the list of connections in the ViewModel to the full set of user connections
-                ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).setConnections(connections);
+                ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                        .setConnections(connections);
             } else {
                 Log.e("ERROR!", "Database Error");
             }
@@ -291,9 +312,12 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Performs operations following WS response when getting chatrooms.
+     * @param result the response from the WS
+     */
     private void handleChatsOnPostExecute(final String result) {
         //parse JSON
-
         try {
             JSONObject root = new JSONObject(result);
             if (root.has(getString(R.string.keys_json_chats))) {
@@ -312,8 +336,9 @@ public class HomeActivity extends AppCompatActivity {
                 if(mPrefs.contains(getString(R.string.keys_prefs_favorites))) {
                     Set<String> favs = mPrefs.getStringSet(getString(R.string.keys_prefs_favorites), null);
                     for(Chat c : chats) {
-                        if(favs.contains("" + c.getChatID()))
-                            ChatListViewModel.getFactory().create(ChatListViewModel.class).setFavorite(c.getChatID(), true);
+                        if(Objects.requireNonNull(favs).contains("" + c.getChatID()))
+                            ChatListViewModel.getFactory().create(ChatListViewModel.class)
+                                    .setFavorite(c.getChatID(), true);
                     }
                 }
 
@@ -324,6 +349,10 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Performs operations following WS response when getting chat contents.
+     * @param result the response from the WS
+     */
     private void handleDisplayChatOnPostExecute(final String result) {
         //parse JSON
         try {
@@ -341,8 +370,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 MobileNavigationDirections.ActionGlobalNavChatroom chatroom =
                         MobileNavigationDirections.actionGlobalNavChatroom(messages, mArgs.getJwt(),
-                                                mArgs.getUserId(), Objects.requireNonNull(mArgs.getChatMessage()).getRoom(),
-                                                "Chatroom", false);
+                                            mArgs.getUserId(),
+                                            Objects.requireNonNull(mArgs.getChatMessage()).getRoom(),
+                                "Chatroom", false);
                 Navigation.findNavController(this, R.id.nav_host_fragment)
                         .navigate(chatroom);
             } else {
@@ -359,7 +389,8 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_settings:
-                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.nav_settings);
+                Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(R.id.nav_settings);
                 break;
             case R.id.action_logout:
                 logout();
@@ -368,12 +399,13 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /** Logs the current user out of the application. */
     private void logout() {
         new DeleteTokenAsyncTask().execute();
     }
 
     /**
-     * Performs asynchronous tasks associated with logging out of the application
+     * Performs asynchronous tasks associated with logging out of the application.
      */
     @SuppressLint("StaticFieldLeak")
     class DeleteTokenAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -400,17 +432,15 @@ public class HomeActivity extends AppCompatActivity {
         protected void onPostExecute(Void theVoid) {
             super.onPostExecute(theVoid);
 
-            // Alternatively, close current session and return to login fragments
+            // Close current session and return to login fragments
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
-            //Ends this Activity and removes it from the Activity back stack.
+            //Ends this Activity and removes it from the Activity back stack
             finish();
         }
     }
 
-    /**
-     * A BroadcastReceiver that listens for messages sent from PushReceiver.
-     */
+    /** A BroadcastReceiver that listens for messages sent from PushReceiver. */
     private class HomePushMessageReceiver extends BroadcastReceiver {
 
         @Override
@@ -423,8 +453,11 @@ public class HomeActivity extends AppCompatActivity {
                     && intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {
 
                 try {
-                    JSONObject msgInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
-                    boolean sender = Objects.requireNonNull(intent.getStringExtra("SENDER")).equals(mArgs.getCredentials().getUsername());
+                    JSONObject msgInfo =
+                            new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
+                    boolean sender =
+                            Objects.requireNonNull(intent.getStringExtra("SENDER"))
+                                    .equals(mArgs.getCredentials().getUsername());
                     Connection pushed =
                             new Connection(msgInfo.getInt(getString(R.string.keys_json_connections_memberid_int)),
                                     msgInfo.getString(getString(R.string.keys_json_connections_firstname_str)),
@@ -434,16 +467,17 @@ public class HomeActivity extends AppCompatActivity {
                                     msgInfo.getInt("relation"), sender);
                     // Update ViewModel of connections with change based on connection
                     if (msgInfo.getBoolean("new")) {
-                        ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).addConnection(pushed);
+                        ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                                .addConnection(pushed);
                         if(pushed.getRelation() == Connection.Relation.UNACCEPTED && !pushed.amSender()
                             && Objects.requireNonNull(nd).getId() != R.id.nav_connectionhome) {
 
                             Objects.requireNonNull(((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon())
-                                    .setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
-                            mNavigationView.getMenu().findItem(R.id.nav_connectionhome).setChecked(true);
+                                    .setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
                         }
                     } else
-                        ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).removeConnection(pushed);
+                        ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                                .removeConnection(pushed);
 
                 } catch (JSONException e) {
                     // Couldn't get the notification properly, just give up
@@ -454,20 +488,24 @@ public class HomeActivity extends AppCompatActivity {
                     && intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {
 
                 try {
-                    JSONObject chtInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
+                    JSONObject chtInfo =
+                            new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
                     Chat pushed = new Chat(chtInfo.getInt(getString(R.string.keys_json_chats_id)),
                             chtInfo.getString(getString(R.string.keys_json_chats_name)),
                             chtInfo.getString(getString(R.string.keys_json_chats_description)));
                     // Update ViewModel of connections with change based on chat
                     if (chtInfo.getBoolean("new")) {
-                        ChatListViewModel.getFactory().create(ChatListViewModel.class).addChat(pushed);
-                        ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(pushed.getChatID(), true);
+                        ChatListViewModel.getFactory().create(ChatListViewModel.class)
+                                .addChat(pushed);
+                        ChatListViewModel.getFactory().create(ChatListViewModel.class)
+                                .setUnread(pushed.getChatID(), true);
                         // Color navigation menu to show new chat received
                         if (Objects.requireNonNull(nd).getId() != R.id.nav_chats) {
-                            ((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon()
-                                    .setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                            Objects.requireNonNull(((Toolbar) findViewById(R.id.toolbar))
+                                    .getNavigationIcon())
+                                    .setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
                             SpannableString s = new SpannableString(getString(R.string.menu_chats));
-                            s.setSpan(new ForegroundColorSpan(Color.CYAN), 0, s.length(), 0);
+                            s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, s.length(), 0);
                             mNavigationView.getMenu().findItem(R.id.nav_chats).setTitle(s);
                         }
                     } else
@@ -480,15 +518,17 @@ public class HomeActivity extends AppCompatActivity {
             } else if (Objects.requireNonNull(intent.getAction()).equals(PushReceiver.RECEIVED_NEW_MESSAGE)
                     && intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {
                 try {
-                    JSONObject msgInfo = new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
+                    JSONObject msgInfo =
+                            new JSONObject(Objects.requireNonNull(intent.getStringExtra("message")));
                     // Set chat where message came from to display as having unread messages
-                    ChatListViewModel.getFactory().create(ChatListViewModel.class).setUnread(msgInfo.getInt("room"), true);
+                    ChatListViewModel.getFactory().create(ChatListViewModel.class)
+                            .setUnread(msgInfo.getInt("room"), true);
                     // Color navigation menu to show new message received
                     if (Objects.requireNonNull(nd).getId() != R.id.nav_chats) {
                         Objects.requireNonNull(((Toolbar) findViewById(R.id.toolbar)).getNavigationIcon())
-                                .setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+                                .setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
                         SpannableString s = new SpannableString(getString(R.string.menu_chats));
-                        s.setSpan(new ForegroundColorSpan(Color.CYAN), 0, s.length(), 0);
+                        s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, s.length(), 0);
                         mNavigationView.getMenu().findItem(R.id.nav_chats).setTitle(s);
                     }
                 } catch (JSONException e) {

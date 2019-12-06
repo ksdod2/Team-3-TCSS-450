@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.uw.tcss450.team3chatapp.R;
-import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.ui.ConnectionHomeFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
@@ -19,14 +18,26 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  */
 public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    /** Identifies if the contact is from a search result. */
     private static final int SEARCH_RESULT = 0;
+    /** Identifies if the contact already has some relation to the current user. */
     private static final int EXISTING_CONTACT = 1;
 
+    /** The list of Connections. */
     private final List<Connection> mConnections;
+    /** The Listener for normal interactions with RecyclerView items. */
     private final OnListFragmentInteractionListener mListener;
+    /** Flag for whether the items in the RecyclerView can be interacted with. */
     private boolean mClickEnabled = true;
 
-    public MyConnectionRecyclerViewAdapter(List<Connection> items, OnListFragmentInteractionListener listener) {
+    /**
+     * Constructs a new MyConnectionRecyclerViewAdapter.
+     * @param items the Connections to populate the RecyclerView with
+     * @param listener the Listener for clicks
+     */
+    public MyConnectionRecyclerViewAdapter(List<Connection> items,
+                                           OnListFragmentInteractionListener listener) {
         mConnections = items;
         mListener = listener;
     }
@@ -74,9 +85,7 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
      */
     public void setClickable(final boolean tFlag) { mClickEnabled = tFlag; }
 
-    /**
-     * Class for a ViewHolder containing an existing connection.
-     */
+    /** Class for a ViewHolder containing an existing connection. */
     public class ExistingViewHolder extends RecyclerView.ViewHolder {
         final View mView;
         final TextView mNameView;
@@ -114,9 +123,7 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         }
     }
 
-    /**
-     * Class for a ViewHolder containing an unestablished connection.
-     */
+    /** Class for a ViewHolder containing an unestablished connection. */
     public class SearchViewHolder extends RecyclerView.ViewHolder {
         final View mView;
         final TextView mNameView;

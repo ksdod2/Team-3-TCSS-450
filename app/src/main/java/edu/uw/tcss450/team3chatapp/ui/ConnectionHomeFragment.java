@@ -24,43 +24,42 @@ import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.model.ConnectionListViewModel;
 
 /**
- * A fragment representing a list of Items.
+ * A fragment to show all the current user's connections.
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class ConnectionHomeFragment extends Fragment {
 
+    /** The current user's MemberID. */
     private int mMemberID;
+    /** The current user's JWT. */
     private String mJWT;
+    /** The List of the current user's verified connections. */
     private ArrayList<Connection> mCurrent = new ArrayList<>();
+    /** The List of the current user's incoming connection requests. */
     private ArrayList<Connection> mIncoming = new ArrayList<>();
+    /** The List of the current user's pending sent connection requests. */
     private ArrayList<Connection> mPending = new ArrayList<>();
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public ConnectionHomeFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    /** Required empty public constructor. */
+    public ConnectionHomeFragment() {}
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_connection_list, container, false);
 
-        ConnectionHomeFragmentArgs args = ConnectionHomeFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
+        ConnectionHomeFragmentArgs args =
+                ConnectionHomeFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
 
         mMemberID = args.getMemberID();
         mJWT = args.getJWT();
 
         // Add this fragment as an observer to the connection ViewModel
-        ConnectionListViewModel model = ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class);
+        ConnectionListViewModel model =
+                ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class);
         model.getCurrentConnections().observe(this, this::updateRecyclerViews);
 
         // Build out initial RecyclerViews
@@ -111,20 +110,27 @@ public class ConnectionHomeFragment extends Fragment {
                 mIncoming.add(connection);
         }
 
-        RecyclerView currentContacts = rootView.findViewById(R.id.list_connections_accepted);
-        currentContacts.getAdapter().notifyDataSetChanged();
+        RecyclerView currentContacts =
+                Objects.requireNonNull(rootView).findViewById(R.id.list_connections_accepted);
+        Objects.requireNonNull(currentContacts.getAdapter()).notifyDataSetChanged();
 
         RecyclerView incomingContacts = rootView.findViewById(R.id.list_connections_incoming);
-        incomingContacts.getAdapter().notifyDataSetChanged();
+        Objects.requireNonNull(incomingContacts.getAdapter()).notifyDataSetChanged();
 
         RecyclerView pendingContacts = rootView.findViewById(R.id.list_connections_pending);
-        pendingContacts.getAdapter().notifyDataSetChanged();
+        Objects.requireNonNull(pendingContacts.getAdapter()).notifyDataSetChanged();
     }
 
+    /**
+     * Moves to display a given connection.
+     * @param tConn the Connection to display
+     */
     private void displayConnection(final Connection tConn) {
-        NavController nc = Navigation.findNavController(getView());
-        if (nc.getCurrentDestination().getId() != R.id.nav_connectionhome) // Ensure back button doesn't break nav
+        NavController nc = Navigation.findNavController(Objects.requireNonNull(getView()));
+        if (Objects.requireNonNull(nc.getCurrentDestination())
+                .getId() != R.id.nav_connectionhome) { // Ensure back button doesn't break nav
             nc.navigateUp();
+        }
         // Pass connection as arg, allow fragment to determine layout on its own
         ConnectionHomeFragmentDirections.ActionNavConnectionhomeToNavConnectionview connectionView =
             ConnectionHomeFragmentDirections.actionNavConnectionhomeToNavConnectionview(tConn, mMemberID, mJWT);

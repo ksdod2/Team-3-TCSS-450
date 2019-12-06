@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment {
     private String mUnits;
     private ArrayList<Chat> mFavs;
     private Chat currentChat;
-    private String mJWT;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,8 +82,8 @@ public class HomeFragment extends Fragment {
             if (c.isFavorited())
                 mFavs.add(c);
         }
-        RecyclerView roomList = getView().findViewById(R.id.list_home_favorites);
-        roomList.getAdapter().notifyDataSetChanged();
+        RecyclerView roomList = Objects.requireNonNull(getView()).findViewById(R.id.list_home_favorites);
+        Objects.requireNonNull(roomList.getAdapter()).notifyDataSetChanged();
     }
 
     @Override
@@ -111,7 +110,8 @@ public class HomeFragment extends Fragment {
         }
 
         // Get credentials from HomeActivityArgs
-        Credentials credentials = HomeActivityArgs.fromBundle(Objects.requireNonNull(getArguments())).getCredentials();
+        Credentials credentials = HomeActivityArgs.fromBundle(Objects.requireNonNull(getArguments()))
+                .getCredentials();
 
         // calendar for current time
         Calendar calendar = Calendar.getInstance();
@@ -267,10 +267,14 @@ public class HomeFragment extends Fragment {
         new SendPostAsyncTask.Builder(chatUri.toString(), chatInfo)
                 .onPostExecute(this::handleDisplayChatOnPostExecute)
                 .onCancelled(error -> Log.e("CHAT_ROOM_NAV", error))
-                .addHeaderField("authorization", ((HomeActivity) getActivity()).mArgs.getJwt())
+                .addHeaderField("authorization", ((HomeActivity) Objects.requireNonNull(getActivity())).mArgs.getJwt())
                 .build().execute();
     }
 
+    /**
+     * Performs operations following WS response when getting chat contents.
+     * @param result the response from the WS
+     */
     private void handleDisplayChatOnPostExecute(final String result) {
         //parse JSON
         try {
@@ -282,15 +286,18 @@ public class HomeFragment extends Fragment {
                     JSONObject message = data.getJSONObject(i);
 
                     messages[i] = new ChatMessage(message.getInt(getString(R.string.keys_json_connections_memberid_int)) ==
-                                                    ((HomeActivity) getActivity()).mArgs.getUserId(),
+                                                    ((HomeActivity) Objects.requireNonNull(getActivity())).mArgs.getUserId(),
                             message.getString(getString(R.string.keys_json_chatmessage_sender)),
                             message.getString(getString(R.string.keys_json_chatmessage_timestamp)),
                             message.getString(getString(R.string.keys_json_chatmessage_message)));
                 }
                 MobileNavigationDirections.ActionGlobalNavChatroom chatroom =
-                        MobileNavigationDirections.actionGlobalNavChatroom(messages, ((HomeActivity) getActivity()).mArgs.getJwt(),
-                                ((HomeActivity) getActivity()).mArgs.getUserId(), currentChat.getChatID(),
-                                currentChat.getName(), currentChat.isFavorited());
+                        MobileNavigationDirections.actionGlobalNavChatroom(messages,
+                                ((HomeActivity) Objects.requireNonNull(getActivity())).mArgs.getJwt(),
+                                ((HomeActivity) getActivity()).mArgs.getUserId(),
+                                currentChat.getChatID(),
+                                currentChat.getName(),
+                                currentChat.isFavorited());
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
                         .navigate(chatroom);
             } else {

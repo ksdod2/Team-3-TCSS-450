@@ -25,15 +25,13 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass for use in registering new users.
  */
 public class RegisterFragment extends Fragment {
 
-    public RegisterFragment() {
-        // Required empty public constructor
-    }
+    /** Required empty public constructor. */
+    public RegisterFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,12 +44,13 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button btnRegister = getView().findViewById(R.id.btn_register_register);
-        btnRegister.setOnClickListener(this::registerAttempt);
+        Button btnRegister = Objects.requireNonNull(getView()).findViewById(R.id.btn_register_register);
+        btnRegister.setOnClickListener(v -> registerAttempt());
     }
 
-    private void registerAttempt(final View tButton) {
-        EditText etFirstName = getView().findViewById(R.id.et_register_firstName);
+    /** Attempt to register the new user by hitting the WS. */
+    private void registerAttempt() {
+        EditText etFirstName = Objects.requireNonNull(getView()).findViewById(R.id.et_register_firstName);
         EditText etLastName = getView().findViewById(R.id.et_register_lastName);
         EditText etUsername = getView().findViewById(R.id.et_register_nickname);
         EditText etEmail = getView().findViewById(R.id.et_register_email);
@@ -63,7 +62,8 @@ public class RegisterFragment extends Fragment {
 
         if(isValid) {
             Credentials credentials = new Credentials
-                    .Builder(etEmail.getText().toString().toLowerCase().trim(), etPassword.getText().toString())
+                    .Builder(etEmail.getText().toString().toLowerCase().trim(),
+                                                etPassword.getText().toString())
                     .addFirstName(etFirstName.getText().toString().trim())
                     .addLastName(etLastName.getText().toString().trim())
                     .addUsername(etUsername.getText().toString().trim())
@@ -81,12 +81,22 @@ public class RegisterFragment extends Fragment {
                     .Builder(uri.toString(), msg)
                     .onPreExecute(this::handleRegisterPre)
                     .onPostExecute(this::handleRegisterPost)
-                    .onCancelled(this::handleRegisterCancelled)
+                    .onCancelled(s -> Log.e("ASYNC_TASK_ERROR", s))
                     .build()
                     .execute();
         }
     }
 
+    /**
+     * Determine if the user's input information is acceptable for registration.
+     * @param etFirstName the first name input field
+     * @param etLastName the last name input field
+     * @param etUsername the username input field
+     * @param etEmail the email input field
+     * @param etPassword the primary password input field
+     * @param etConfPass the re-entered password input field
+     * @return whether the credentials are usable for registration
+     */
     private boolean validateCredentials(EditText etFirstName,
                                         EditText etLastName,
                                         EditText etUsername,
@@ -143,24 +153,26 @@ public class RegisterFragment extends Fragment {
         return result;
     }
 
-    private void handleRegisterCancelled(String result) {
-        Log.e("ASYNC_TASK_ERROR", result);
-    }
-
+    /** Prepares the fragment to wait on completion of the AsyncTask by overlaying a loading screen. */
     private void handleRegisterPre() {
-        getActivity().findViewById(R.id.layout_register_wait).setVisibility(View.VISIBLE);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.layout_register_wait)
+                .setVisibility(View.VISIBLE);
         getActivity().findViewById(R.id.btn_register_register).setEnabled(false);
     }
 
+    /**
+     * Performs operations following WS response when registering user.
+     * @param result the response from the WS
+     */
     private void handleRegisterPost(String result) {
         try {
             JSONObject root = new JSONObject(result);
             if(root.has(getString(R.string.keys_json_register_success_bool))) {
                 boolean success = root.getBoolean(getString(R.string.keys_json_register_success_bool));
                 if(success) {
-                    Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.nav_action_registerToVerification);
+                    Navigation.findNavController(Objects.requireNonNull(getView()))
+                            .navigate(R.id.nav_action_registerToVerification);
                 } else {
-                    //TODO if duplicate email/username, set the corresponding field in error and make error message prettier.
                     Log.e("ERROR", "Unsuccessful");
                     JSONObject error = root.getJSONObject(getString(R.string.keys_json_register_error_json));
                     String detail = error.getString(getString(R.string.keys_json_register_detail_string));
@@ -169,7 +181,8 @@ public class RegisterFragment extends Fragment {
                             .findViewById(R.id.et_register_firstName))
                             .setError(detail);
                 }
-                getActivity().findViewById(R.id.layout_register_wait).setVisibility(View.GONE);
+                Objects.requireNonNull(getActivity()).findViewById(R.id.layout_register_wait)
+                        .setVisibility(View.GONE);
                 getActivity().findViewById(R.id.btn_register_register).setEnabled(true);
             } else {
                 Log.e("ERROR", "No Success");
@@ -179,10 +192,12 @@ public class RegisterFragment extends Fragment {
                     + System.lineSeparator()
                     + error.getMessage());
 
-            getActivity().findViewById(R.id.layout_register_wait).setVisibility(View.GONE);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.layout_register_wait)
+                    .setVisibility(View.GONE);
             getActivity().findViewById(R.id.btn_register_register).setEnabled(true);
 
-            ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_register_email)).setError("Unable to register, please try again later");
+            ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_register_email))
+                    .setError("Unable to register, please try again later");
         }
     }
 }

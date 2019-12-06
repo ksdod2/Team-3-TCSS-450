@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.ui.ChatMessageFragment.OnListFragmentInteractionListener;
-import edu.uw.tcss450.team3chatapp.model.ChatMessage;
 
 import java.util.List;
 
@@ -19,13 +18,19 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  */
 public class MyChatMessageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    /** Identifies if the message was sent by the current user. */
     private static final int MY_MESSAGE = 1;
+    /** Identifies if the message was not sent by the current user. */
     private static final int OTHER_MESSAGE = 0;
 
+    /** The list of chat messages. */
     private final List<ChatMessage> mValues;
+    /** The Listener for responding to interaction with RecyclerView items. */
     private final OnListFragmentInteractionListener mListener;
 
-    public MyChatMessageRecyclerViewAdapter(List<ChatMessage> items, OnListFragmentInteractionListener listener) {
+    public MyChatMessageRecyclerViewAdapter(List<ChatMessage> items,
+                                            OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -67,9 +72,7 @@ public class MyChatMessageRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         return mValues.size();
     }
 
-    /**
-     * Class for a ViewHolder containing a chat message sent by the logged in user.
-     */
+    /** Class for a ViewHolder containing a chat message sent by the logged in user. */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         final View mView;
         final TextView mSenderView;
@@ -107,9 +110,7 @@ public class MyChatMessageRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         }
     }
 
-    /**
-     * Class for a ViewHolder containing a chat message sent by another user.
-     */
+    /** Class for a ViewHolder containing a chat message sent by another user. */
     public class OtherViewHolder extends RecyclerView.ViewHolder {
         final View mView;
         final TextView mSenderView;

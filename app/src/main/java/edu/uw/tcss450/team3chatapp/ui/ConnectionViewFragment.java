@@ -18,6 +18,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.model.ConnectionListViewModel;
@@ -30,18 +32,29 @@ import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
  * @version 12/4/19
  */
 public class ConnectionViewFragment extends Fragment {
+
+    /** Enum to denote the three actions that can be performed on a connection. */
     private enum ConnectionChange {ACCEPT, INVITE, REMOVE}
 
+    /** The current user's MemberID. */
     private int mMemberID;
+    /** The current user's JWT. */
     private String mJWT;
+    /** The button for accepting a connection request. */
     private Button mAccept;
+    /** The button for rejecting a connection request. */
     private Button mReject;
+    /** The button for sending a new connection request. */
     private Button mSend;
+    /** The button for removing an existing connection. */
     private Button mRemove;
+    /** The action that will be performed when hitting the WS. */
     private ConnectionChange mAction;
+    /** The connection to act on. */
     private Connection mConn;
 
-    public ConnectionViewFragment() {/* Required empty public constructor */}
+    /** Required empty public constructor. */
+    public ConnectionViewFragment() {}
 
 
     @Override
@@ -49,10 +62,10 @@ public class ConnectionViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_connection_view, container, false);
-
-        mConn = ConnectionViewFragmentArgs.fromBundle(getArguments()).getConnectionDetails();
-        mMemberID = ConnectionViewFragmentArgs.fromBundle(getArguments()).getMemberID();
-        mJWT = ConnectionViewFragmentArgs.fromBundle(getArguments()).getJWT();
+        ConnectionViewFragmentArgs args = ConnectionViewFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
+        mConn = args.getConnectionDetails();
+        mMemberID = args.getMemberID();
+        mJWT = args.getJWT();
 
         // All buttons are GONE by default and made visible as needed
         mAccept = view.findViewById(R.id.btn_connection_view_accept);
@@ -65,9 +78,12 @@ public class ConnectionViewFragment extends Fragment {
         mRemove.setVisibility(View.GONE);
         TextView mStatus = view.findViewById(R.id.tv_connection_view_status);
 
-        ((TextView) view.findViewById(R.id.tv_connection_view_name)).setText(mConn.getFirstName() + " " + mConn.getLastName());
-        ((TextView) view.findViewById(R.id.tv_connection_view_username)).setText("Username: " + mConn.getUsername());
-        ((TextView) view.findViewById(R.id.tv_connection_view_email)).setText(mConn.getEmail());
+        ((TextView) view.findViewById(R.id.tv_connection_view_name))
+                .setText(mConn.getFirstName() + " " + mConn.getLastName());
+        ((TextView) view.findViewById(R.id.tv_connection_view_username))
+                .setText("Username: " + mConn.getUsername());
+        ((TextView) view.findViewById(R.id.tv_connection_view_email))
+                .setText(mConn.getEmail());
 
         // Make needed buttons visible based on connection details
         if(mConn.getRelation() == Connection.Relation.ACCEPTED) { // Existing
@@ -97,8 +113,8 @@ public class ConnectionViewFragment extends Fragment {
      * Method used to accept a connection request.
      */
     private void acceptConnection() {
-        if (!ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
-                .getCurrentConnections().getValue().contains(mConn)) {
+        if (!Objects.requireNonNull(ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                .getCurrentConnections().getValue()).contains(mConn)) {
             returnToConnections("This connection request no longer exists.");
             return;
         }
@@ -121,7 +137,7 @@ public class ConnectionViewFragment extends Fragment {
             body.put(getString(R.string.keys_json_connections_accepted_str), getString(R.string.keys_json_connections_accepted_yes_str));
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR", e.getMessage());
+            Log.e("ERROR", Objects.requireNonNull(e.getMessage()));
         }
 
         new SendPostAsyncTask.Builder(uri.toString(), body)
@@ -140,8 +156,8 @@ public class ConnectionViewFragment extends Fragment {
      * @param view The button used to initiate the request
      */
     private void removeConnection(final View view) {
-        if (!ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
-                .getCurrentConnections().getValue().contains(mConn)) {
+        if (!Objects.requireNonNull(ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                .getCurrentConnections().getValue()).contains(mConn)) {
             returnToConnections("This connection no longer exists.");
             return;
         }
@@ -164,7 +180,7 @@ public class ConnectionViewFragment extends Fragment {
             body.put(getString(R.string.keys_json_connections_accepted_str), getString(R.string.keys_json_connections_accepted_no_str));
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR", e.getMessage());
+            Log.e("ERROR", Objects.requireNonNull(e.getMessage()));
         }
 
         new SendPostAsyncTask.Builder(uri.toString(), body)
@@ -183,8 +199,8 @@ public class ConnectionViewFragment extends Fragment {
      * @param view The button used to initiate the request
      */
     private void sendConnection(final View view) {
-        if (ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
-                .getCurrentConnections().getValue().contains(mConn)) {
+        if (Objects.requireNonNull(ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                .getCurrentConnections().getValue()).contains(mConn)) {
             returnToConnections("There is already a connection request for this user.");
             return;
         }
@@ -201,7 +217,7 @@ public class ConnectionViewFragment extends Fragment {
             body.put(getString(R.string.keys_json_connections_receiver_int), mConn.getMemberID());
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR", e.getMessage());
+            Log.e("ERROR", Objects.requireNonNull(e.getMessage()));
         }
 
         new SendPostAsyncTask.Builder(uri.toString(), body)
@@ -260,6 +276,6 @@ public class ConnectionViewFragment extends Fragment {
      */
     private void returnToConnections(final String tMessage) {
         Toast.makeText(getActivity(), tMessage, Toast.LENGTH_LONG).show();
-        Navigation.findNavController(getView()).popBackStack();
+        Navigation.findNavController(Objects.requireNonNull(getView())).popBackStack();
     }
 }

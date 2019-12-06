@@ -35,27 +35,39 @@ import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 import static android.view.View.GONE;
 
 /**
- * Fragment to set information and members in creation of a new chat room.
+ * Fragment to set information and members in a chat room.
  * @author Kameron Dodd
  * @version 12/4/19
  */
 public class ChatCreationFragment extends Fragment {
+
+    /** The List of the current user's connections that can be added. */
     private ArrayList<Connection> mAvailableConnections = new ArrayList<>();
+    /** The List of connections that will be added to the chat. */
     private ArrayList<Connection> mToAddConnections = new ArrayList<>();
-
+    /** EditText for the name of the chat. */
     private EditText mNameInput;
+    /** EditText for the description of the chat. */
     private EditText mDescInput;
+    /** RecyclerView for contacts that can be added to the chat. */
     private RecyclerView mAvailableView;
+    /** RecyclerView for contacts that will be added to the chat. */
     private RecyclerView mToAddView;
+    /** Button to create a new chat. */
     private Button mCreate;
+    /** Button to invite users to an existing chat. */
     private Button mInvite;
+    /** The Chat being operated on. */
     private Chat mChat;
-
+    /** The current user's MemberID. */
     private int mMemberID;
+    /** The current user's JWT. */
     private String mJWT;
+    /** The URI to use when hitting the WS. */
     private String mInviteURI;
 
-    public ChatCreationFragment() {/* Required empty public constructor */}
+    /** Required empty public constructor. */
+    public ChatCreationFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,13 +75,15 @@ public class ChatCreationFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_chat_creation, container, false);
         List<Connection> contacts =
-                ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class).getCurrentConnections().getValue();
-        for(Connection connection: contacts) {
+                ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
+                        .getCurrentConnections().getValue();
+        for(Connection connection: Objects.requireNonNull(contacts)) {
             if(connection.getRelation() == Connection.Relation.ACCEPTED)
                 mAvailableConnections.add(connection);
         }
 
-        ChatCreationFragmentArgs args = ChatCreationFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
+        ChatCreationFragmentArgs args =
+                ChatCreationFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
         mMemberID = args.getMemberID();
         mJWT = args.getJWT();
         mChat = args.getChat();
@@ -123,8 +137,8 @@ public class ChatCreationFragment extends Fragment {
     private void addToInvitees(final Connection tConnection) {
         mAvailableConnections.remove(tConnection);
         mToAddConnections.add(tConnection);
-        mToAddView.getAdapter().notifyDataSetChanged();
-        mAvailableView.getAdapter().notifyDataSetChanged();
+        Objects.requireNonNull(mToAddView.getAdapter()).notifyDataSetChanged();
+        Objects.requireNonNull(mAvailableView.getAdapter()).notifyDataSetChanged();
     }
 
     /**
@@ -134,13 +148,11 @@ public class ChatCreationFragment extends Fragment {
     private void removeFromInvitees(final Connection tConnection) {
         mAvailableConnections.add(tConnection);
         mToAddConnections.remove(tConnection);
-        mToAddView.getAdapter().notifyDataSetChanged();
-        mAvailableView.getAdapter().notifyDataSetChanged();
+        Objects.requireNonNull(mToAddView.getAdapter()).notifyDataSetChanged();
+        Objects.requireNonNull(mAvailableView.getAdapter()).notifyDataSetChanged();
     }
 
-    /**
-     * Sends request to the web service to create a chat room with the given information.
-     */
+    /** Sends request to the web service to create a chat room with the given information. */
     private void makeRoom() {
         String chatName = mNameInput.getText().toString();
         String chatDesc = mDescInput.getText().toString();
@@ -150,8 +162,10 @@ public class ChatCreationFragment extends Fragment {
         }
         // Disable UI elements to prevent attempted double creation or change to list contents
         mCreate.setEnabled(false);
-        ((MyConnectionRecyclerViewAdapter) mAvailableView.getAdapter()).setClickable(false);
-        ((MyConnectionRecyclerViewAdapter) mToAddView.getAdapter()).setClickable(false);
+        ((MyConnectionRecyclerViewAdapter) Objects.requireNonNull(mAvailableView.getAdapter()))
+                .setClickable(false);
+        ((MyConnectionRecyclerViewAdapter) Objects.requireNonNull(mToAddView.getAdapter()))
+                .setClickable(false);
 
         Uri uri = new Uri.Builder()
                 .scheme("https")
@@ -182,18 +196,19 @@ public class ChatCreationFragment extends Fragment {
 
     /**
      * Invites users that were queued to be invited following creation of the chat.
-     * @param res the response from the web service
+     * @param res the response from the WS
      */
     private void inviteFromCreate(final String res) {
         try {
             // Get chat id from creation response, then move to invite using it
             JSONObject root = new JSONObject(res);
             if(root.getBoolean("success")) {
+                // If no other users to be added, immediately return
                 if (!mToAddConnections.isEmpty())
                     inviteUsers(root.getInt(getString(R.string.keys_json_chats_id)));
                 else {
                     Toast.makeText(getActivity(), "Chatroom created.", Toast.LENGTH_SHORT).show();
-                    Navigation.findNavController(getView()).popBackStack();
+                    Navigation.findNavController(Objects.requireNonNull(getView())).popBackStack();
                 }
             } else {
                 Log.e("ERROR", "Chat creation error");
@@ -242,6 +257,10 @@ public class ChatCreationFragment extends Fragment {
 
     }
 
+    /**
+     * Performs operations following WS response when inviting.
+     * @param res the response from the WS
+     */
     private void onInvitePostExecute(final String res) {
         try {
             JSONObject root = new JSONObject(res);
@@ -250,19 +269,22 @@ public class ChatCreationFragment extends Fragment {
                     Toast.makeText(getActivity(), "Users successfully invited.", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getActivity(), "Chatroom created and users successfully invited.", Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(getView()).popBackStack();
+                Navigation.findNavController(Objects.requireNonNull(getView())).popBackStack();
                 return;
             } else {
                 Log.e("ERROR", "Chat creation error");
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR!", e.getMessage());
+            Log.e("ERROR!", Objects.requireNonNull(e.getMessage()));
         }
+        // Reenable UI elements to allow retries
         mCreate.setEnabled(true);
         mInvite.setEnabled(true);
-        ((MyConnectionRecyclerViewAdapter) mAvailableView.getAdapter()).setClickable(true);
-        ((MyConnectionRecyclerViewAdapter) mToAddView.getAdapter()).setClickable(true);
+        ((MyConnectionRecyclerViewAdapter) Objects.requireNonNull(mAvailableView.getAdapter()))
+                .setClickable(true);
+        ((MyConnectionRecyclerViewAdapter) Objects.requireNonNull(mToAddView.getAdapter()))
+                .setClickable(true);
         mCreate.setError("Could not invite at this time, please try again later.");
         mInvite.setError("Could not invite at this time, please try again later.");
     }

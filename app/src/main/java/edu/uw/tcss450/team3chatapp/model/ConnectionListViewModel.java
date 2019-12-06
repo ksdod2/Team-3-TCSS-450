@@ -16,18 +16,14 @@ import java.util.List;
  */
 public class ConnectionListViewModel extends ViewModel {
 
-    // Using factory design pattern to ensure only one instance across application
+    /** Reference to the singular instance of this ViewModel. */
     private static ConnectionListViewModel mInstance;
-
-    // The list of connections, for ease of internal access
+    /** The list of connections. */
     private List<Connection> mConnections = new ArrayList<>();
-
-    // The mutable live data to store the connections and update observers
+    /** The MutableLiveData to allow observation of the chats. */
     private MutableLiveData<List<Connection>> connections;
 
-    /**
-     * Private constructor to force use of factory method for access.
-     */
+    /** Private constructor to implement factory design pattern. */
     private ConnectionListViewModel()  { connections = new MutableLiveData<>(); }
 
     /**

@@ -16,18 +16,14 @@ import java.util.List;
  */
 public class ChatListViewModel extends ViewModel {
 
-    // Using factory design pattern to ensure only one instance across application
+    /** Reference to the singular instance of this ViewModel. */
     private static ChatListViewModel mInstance;
-
-    // The list of connections, for ease of internal access
+    /** The list of chats. */
     private List<Chat> mChats = new ArrayList<>();
-
-    // The mutable live data to store the connections and update observers
+    /** The MutableLiveData to allow observation of the chats. */
     private MutableLiveData<List<Chat>> chats;
 
-    /**
-     * Private constructor to force use of factory method for access.
-     */
+    /** Private constructor to implement factory design pattern. */
     private ChatListViewModel() { chats = new MutableLiveData<>(); }
 
     /**
@@ -48,7 +44,7 @@ public class ChatListViewModel extends ViewModel {
     }
 
     /**
-     * Removes a new chat to the list of chats.
+     * Removes a new chat from the list of chats.
      * @param tChat the connection to remove
      */
     public void removeChat(final Chat tChat) {

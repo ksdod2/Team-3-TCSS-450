@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.model.MyConnectionRecyclerViewAdapter;
 import edu.uw.tcss450.team3chatapp.R;
@@ -28,27 +29,36 @@ import edu.uw.tcss450.team3chatapp.model.Connection;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass for searching for new connections.
  */
 public class ConnectionSearchFragment extends Fragment {
+
+    /** The MemberID of the current user */
     private int mMemberID;
+    /** The JWT of the current user */
     private String mJWT;
 
+    /** EditText for entering a user's first name. */
     private EditText mFirstNameField;
+    /** EditText for entering a user's last name. */
     private EditText mLastNameField;
+    /** EditText for entering a user's username. */
     private EditText mUsernameField;
+    /** EditText for entering a user's email. */
     private EditText mEmailField;
+    /** The button to initiate searches with. */
     private Button mSearchButton;
+    /** The RecyclerView to display connections resulting from the search. */
     private RecyclerView searchResults;
+    /** The list of resulting Connections from a search. */
     final private ArrayList<Connection> results = new ArrayList<>();
-
+    /** The background to use with the loading screen layout. */
     private View mWaitScreen;
+    /** The loading bar for the loading screen layout. */
     private View mWaitBar;
 
-
-    public ConnectionSearchFragment() {
-        // Required empty public constructor
-    }
+    /** Required empty public constructor. */
+    public ConnectionSearchFragment() {}
 
 
     @Override
@@ -57,7 +67,7 @@ public class ConnectionSearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_connection_search, container, false);
 
-        ConnectionSearchFragmentArgs args = ConnectionSearchFragmentArgs.fromBundle(getArguments());
+        ConnectionSearchFragmentArgs args = ConnectionSearchFragmentArgs.fromBundle(Objects.requireNonNull(getArguments()));
         mMemberID = args.getMemberID();
         mJWT = args.getJWT();
 
@@ -66,7 +76,7 @@ public class ConnectionSearchFragment extends Fragment {
         mUsernameField = rootView.findViewById(R.id.et_connection_search_username);
         mEmailField = rootView.findViewById(R.id.et_connection_search_email);
         mSearchButton = rootView.findViewById(R.id.btn_connection_search_search);
-        mSearchButton.setOnClickListener(this::doSearch);
+        mSearchButton.setOnClickListener(v -> doSearch());
         mWaitScreen = rootView.findViewById(R.id.layout_connection_search_wait);
         mWaitBar = rootView.findViewById(R.id.pb_search);
 
@@ -80,11 +90,11 @@ public class ConnectionSearchFragment extends Fragment {
     /**
      * Makes a search request to the backend API using entered information. Users must input at least
      * one valid set of search information, but more can be combined for refinement of results.
-     * @param view The button triggering the search
      */
-    private void doSearch(View view) {
+    private void doSearch() {
         // Make sure at least one search criteria has been entered
-        boolean nameSearch = (!mFirstNameField.getText().toString().equals("") && !mLastNameField.getText().toString().equals(""));
+        boolean nameSearch = (!mFirstNameField.getText().toString().equals("")
+                && !mLastNameField.getText().toString().equals(""));
         boolean usernameSearch = !mUsernameField.getText().toString().equals("");
         boolean emailSearch = !mEmailField.getText().toString().equals("");
         if (nameSearch || usernameSearch || emailSearch) {
@@ -109,7 +119,7 @@ public class ConnectionSearchFragment extends Fragment {
                     body.put(getString(R.string.keys_json_connections_email_str), mEmailField.getText().toString());
 
             } catch (JSONException e) {
-                Log.e("SEARCH_ERR", e.getMessage());
+                Log.e("SEARCH_ERR", Objects.requireNonNull(e.getMessage()));
             }
 
             new SendPostAsyncTask.Builder(uri.toString(), body)
@@ -128,6 +138,10 @@ public class ConnectionSearchFragment extends Fragment {
         }
     }
 
+    /**
+     * Performs operations following WS response when getting search results.
+     * @param result the response from the WS
+     */
     private void doSearchOnPostExecute (final String result) {
         try {
             JSONObject root = new JSONObject(result);
@@ -146,7 +160,7 @@ public class ConnectionSearchFragment extends Fragment {
                             jsonConn.optInt(getString(R.string.keys_json_connections_verified_int), -1),
                             false));
                 }
-                searchResults.getAdapter().notifyDataSetChanged();
+                Objects.requireNonNull(searchResults.getAdapter()).notifyDataSetChanged();
 
             } else {
                 Log.e("ERROR!", "Database Error");
@@ -155,7 +169,7 @@ public class ConnectionSearchFragment extends Fragment {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("ERROR!", e.getMessage());
+            Log.e("ERROR!", Objects.requireNonNull(e.getMessage()));
         }
 
         // Return screen to fully visible and usable
@@ -164,11 +178,17 @@ public class ConnectionSearchFragment extends Fragment {
         mWaitBar.setVisibility(View.GONE);
     }
 
+    /**
+     * Moves to display a given connection.
+     * @param tConn the Connection to display
+     */
     private void displayConnection(final Connection tConn) {
-        NavController nc = Navigation.findNavController(getView());
-        if (nc.getCurrentDestination().getId() != R.id.nav_connectionsearch) // Ensure back button doesn't break nav
+        NavController nc = Navigation.findNavController(Objects.requireNonNull(getView()));
+        if (Objects.requireNonNull(nc.getCurrentDestination())
+                .getId() != R.id.nav_connectionsearch) { // Ensure back button doesn't break nav
             nc.navigateUp();
-        // Pass connection as arg, allow fragment to determine layout on its own
+        }
+        // Pass connection as arg, allow fragment to determine layout based on that
         ConnectionSearchFragmentDirections.ActionConnectionSearchFragmentToNavConnectionview connectionView =
                 ConnectionSearchFragmentDirections.actionConnectionSearchFragmentToNavConnectionview(tConn, mMemberID, mJWT);
         nc.navigate(connectionView);

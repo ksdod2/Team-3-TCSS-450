@@ -1,6 +1,5 @@
 package edu.uw.tcss450.team3chatapp.ui;
 
-
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -18,16 +17,13 @@ import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.R;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass to display instructions for the user after registering.
  */
 public class VerificationFragment extends Fragment {
 
-
-    public VerificationFragment() {
-        // Required empty public constructor
-    }
+    /** Required empty public constructor. */
+    public VerificationFragment() {}
 
 
     @Override
@@ -52,10 +48,14 @@ public class VerificationFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
         //Set OK button to go back to login screen
-        Button btnOk = getView().findViewById(R.id.btn_verification_ok);
+        Button btnOk = Objects.requireNonNull(getView()).findViewById(R.id.btn_verification_ok);
         btnOk.setOnClickListener(this::navigateToLogin);
     }
 
+    /**
+     * Returns to the login screen.
+     * @param view the button triggering the navigation
+     */
     private void navigateToLogin(final View view) {
         Navigation.findNavController(view).navigate(R.id.nav_action_verificationToLogin);
     }

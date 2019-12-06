@@ -3,7 +3,6 @@ package edu.uw.tcss450.team3chatapp.ui;
 
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -38,7 +37,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.R;
-import edu.uw.tcss450.team3chatapp.model.LocationViewModel;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfile;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
@@ -47,13 +45,20 @@ import edu.uw.tcss450.team3chatapp.utils.Utils;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback,
+                                                        GoogleMap.OnMapClickListener {
+
+    /** The Google Maps object to use for the fragment's interactions. */
     private GoogleMap mMap;
+    /** A Google Maps API Geocoder object to use with locations. */
     private Geocoder mCoder;
-    private Marker mMarker;  // Only use one marker at a time for clarity
+    /** The marker to display the selected location. */
+    private Marker mMarker;
+    /** The WeatherProfileViewModel to update with information from the map. */
     private WeatherProfileViewModel mWeatherVM;
 
-    public MapFragment() { /* Required empty public constructor */}
+    /** Required empty public constructor. */
+    public MapFragment() {}
 
 
     @Override
@@ -111,9 +116,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
     }
 
-    /**
-     * Returns the currently selected location as the one to be used in WeatherFragment.
-     */
+    /** Returns the currently selected location as the one to be used in WeatherFragment. */
     private void returnLocation() {
         LatLng mapLocation = mMarker.getPosition();
         WeatherProfile wpToLoad = null;
