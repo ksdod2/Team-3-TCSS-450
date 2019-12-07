@@ -48,6 +48,7 @@ public class ChatFragment extends Fragment {
     /** Required empty public constructor. */
     public ChatFragment() {}
 
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

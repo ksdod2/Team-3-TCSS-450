@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+/** ViewModel to keep track of device location throughout lifecycle of app */
 public class LocationViewModel extends ViewModel {
 
     /**
@@ -60,6 +61,8 @@ public class LocationViewModel extends ViewModel {
     public static ViewModelProvider.Factory getFactory() {
         return new ViewModelProvider.Factory() {
 
+            /** {@inheritDoc} */
+            @SuppressWarnings("unchecked")
             @NonNull
             @Override
             public LocationViewModel create(@NonNull Class modelClass) {

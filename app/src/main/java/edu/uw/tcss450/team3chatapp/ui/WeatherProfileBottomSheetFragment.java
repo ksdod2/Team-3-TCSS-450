@@ -1,9 +1,7 @@
 package edu.uw.tcss450.team3chatapp.ui;
 
-
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -11,7 +9,6 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -22,9 +19,7 @@ import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfile;
 import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+/**  */
 public class WeatherProfileBottomSheetFragment extends BottomSheetDialogFragment {
     private WeatherProfileViewModel mModel;
     private WeatherProfile mProfile;
@@ -45,22 +40,18 @@ public class WeatherProfileBottomSheetFragment extends BottomSheetDialogFragment
                         .get(WeatherProfileViewModel.class);
         if(Objects.requireNonNull(mModel.getCurrentLocationWeatherProfile().getValue()).equals(mProfile)) {
             root.findViewById(R.id.btn_profilemenu_remove).setVisibility(View.GONE);
-            root.findViewById(R.id.btn_profilemenu_use).setOnClickListener(this::useProfile);
+            root.findViewById(R.id.btn_profilemenu_use).setOnClickListener(tView -> useProfile());
         } else {
-            root.findViewById(R.id.btn_profilemenu_use).setOnClickListener(this::useProfile);
-            root.findViewById(R.id.btn_profilemenu_remove).setOnClickListener(this::removeProfile);
+            root.findViewById(R.id.btn_profilemenu_use).setOnClickListener(tView -> useProfile());
+            root.findViewById(R.id.btn_profilemenu_remove).setOnClickListener(tView -> removeProfile());
         }
-
-
-
         return root;
     }
 
     /**
      * Removes the selected location from the list of stored locations.
-     * @param tView the view triggering the event
      */
-    private void removeProfile(final View tView) {
+    private void removeProfile() {
         //get index of WP to remove in list and remove it
         List<WeatherProfile> list = mModel.getSavedLocationWeatherProfiles().getValue();
         int index = Objects.requireNonNull(list).indexOf(mProfile);
@@ -78,9 +69,8 @@ public class WeatherProfileBottomSheetFragment extends BottomSheetDialogFragment
 
     /**
      * Confirms using the selected location as the one for other purposes.
-     * @param tView the view triggering the event
      */
-    private void useProfile(final View tView) {
+    private void useProfile() {
         mModel.setSelectedLocationWeatherProfile(mProfile);
 
         NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);

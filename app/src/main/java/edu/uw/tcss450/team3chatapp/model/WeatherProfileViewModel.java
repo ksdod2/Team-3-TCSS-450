@@ -29,16 +29,33 @@ import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
 import edu.uw.tcss450.team3chatapp.utils.Utils;
 
+/**
+ * ViewModel for keeping track of current, selected & saved location weather profiles
+ * throughout the lifecycle of the app while user is logged in.
+ *
+ * @author Alex Bledsoe
+ */
 public class WeatherProfileViewModel extends AndroidViewModel {
 
+    /** Current instance of ViewModel with most recent wetaher profile info. */
     private static WeatherProfileViewModel mInstance;
+
+    /** Keeps track of the device's location weather profile. */
     private MutableLiveData<WeatherProfile> mCurrentLocationWeatherProfile;
+    /** Keeps track of the weather profile selected by the user (e.g. through zip code search */
     private MutableLiveData<WeatherProfile> mSelectedLocationWeatherProfile;
+    /** Keeps Keeps track of weather profiles for user's saved locations. */
     private MutableLiveData<List<WeatherProfile>> mSavedLocationsWeatherProfiles;
 
+    /** UNIX timestamp, in seconds, for last time weather profiles were updated. */
     private long mLastUpdated;
+    /** Keeps track of saved location list passed into update method for use in post method of AsyncTask */
     private ArrayList<LatLng> mSavedLocations;
 
+    /**
+     * Private constructor instantiates MutableLiveData objects and sets timestamp to now.
+     * @param theApp instance of application
+     */
     private WeatherProfileViewModel(Application theApp) {
         super(theApp);
         mCurrentLocationWeatherProfile = new MutableLiveData<>();
@@ -48,6 +65,10 @@ public class WeatherProfileViewModel extends AndroidViewModel {
     }
 
     // Public methods
+    /**
+     * Makes API call to update weather profiles for current and/or saved locations.
+     * @param theLocationsToUpdate list of locations to get weather info for.
+     */
     public void update(ArrayList<LatLng> theLocationsToUpdate) {
         if(theLocationsToUpdate.size() > 0) {
             mSavedLocations = theLocationsToUpdate;
@@ -71,6 +92,10 @@ public class WeatherProfileViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Saves given location to list of saved locations.
+     * @param theWP weather profile to save.
+     */
     public void saveLocation(final WeatherProfile theWP) {
         List<WeatherProfile> savedLocations = mSavedLocationsWeatherProfiles.getValue();
         Objects.requireNonNull(savedLocations).add(theWP);
@@ -78,6 +103,10 @@ public class WeatherProfileViewModel extends AndroidViewModel {
         saveToSharedPrefs();
     }
 
+    /**
+     * Removes specified location from list of saved locations.
+     * @param idx index of saved location to remove in list.
+     */
     public void removeLocation(final int idx) {
         List<WeatherProfile> savedLocations = mSavedLocationsWeatherProfiles.getValue();
         Objects.requireNonNull(savedLocations).remove(idx);
@@ -86,33 +115,54 @@ public class WeatherProfileViewModel extends AndroidViewModel {
     }
 
     //Getters
+    /** @return current location weather profile. */
     public LiveData<WeatherProfile> getCurrentLocationWeatherProfile() {return mCurrentLocationWeatherProfile;}
 
+    /** @return selected location weather profile. */
     public LiveData<WeatherProfile> getSelectedLocationWeatherProfile() {return mSelectedLocationWeatherProfile;}
 
+    /** @return list of saved location weather profiles. */
     public LiveData<List<WeatherProfile>> getSavedLocationWeatherProfiles() {return mSavedLocationsWeatherProfiles;}
 
-    public long getTimeStamp() {
-        return mLastUpdated;
-    }
+    /** @return UNIX timestamp from when instance was instantiated.*/
+    public long getTimeStamp() { return mLastUpdated; }
 
-    // Public setter for location selected on map
+    /**
+     * Updates weather profile for user selection (through zip search, map selection or from saved locations).
+     * @param theWP new weather profile.
+     */
     public void setSelectedLocationWeatherProfile(final WeatherProfile theWP) {mSelectedLocationWeatherProfile.setValue(theWP);}
 
-    //Private setters
+    /**
+     * Updates weather profile for device location and updates shared preferences to reflect change.
+     * @param theWP new weather profile.
+     */
     private void setCurrentLocationWeatherProfile(final WeatherProfile theWP) {
         mCurrentLocationWeatherProfile.setValue(theWP);
         saveToSharedPrefs();
     }
 
+    /**
+     * Updates weather profiles for saved locations and also shared preferences to reflect change.
+     * @param theWPs list of updated weather profiles.
+     */
     private void setSavedLocationWeatherProfile(final ArrayList<WeatherProfile> theWPs) {mSavedLocationsWeatherProfiles.setValue(theWPs);}
 
+    /**
+     * Updates timestamp of last weather update.
+     * @param theTime UNIX timestamp in seconds.
+     */
     private void setTimeStamp(final long theTime) {
         mLastUpdated = theTime;
         saveToSharedPrefs();
     }
 
     //Private helpers
+    /**
+     * Post execute for AsyncTask that gets weather info from API. Parses JSON response and sets up weather profiles
+     * for current and saved locations, then updates live data, timestamp & shared preferences.
+     * @param result JSON response.
+     */
     private void fetchWeatherPost(final String result) {
         try {
             JSONObject root = new JSONObject(result).getJSONObject("response");
@@ -149,6 +199,7 @@ public class WeatherProfileViewModel extends AndroidViewModel {
         }
     }
 
+    /** Writes timestamp, current & saved location weather profiles to shared preferences. */
     private void saveToSharedPrefs() {
         SharedPreferences prefs = getApplication().getSharedPreferences(getApplication().getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         Gson gson = new Gson();
@@ -159,6 +210,11 @@ public class WeatherProfileViewModel extends AndroidViewModel {
 
     }
 
+    /**
+     * Parses JSON from for the city and state information of location.
+     * @param theJSONasStr JSON object representing API's observation endpoint response.
+     * @return the city and state information, formatted as "{City}, {State}".
+     */
     private String getCityState(final String theJSONasStr) {
 
         String result = "";
@@ -183,14 +239,25 @@ public class WeatherProfileViewModel extends AndroidViewModel {
         return result;
     }
 
-    // Factory class
+    /** Static factory class for building view model. */
     public static class WeatherFactory extends ViewModelProvider.NewInstanceFactory {
+
+        /** The application instance. */
         private final Application mApplication;
 
+        /**
+         * Constructor
+         * @param theApplication application instance.
+         */
         public WeatherFactory(Application theApplication) {
             mApplication = theApplication;
         }
 
+        /**
+         * {@inheritDoc}
+         * If creating new instance, checks shared preferences for
+         * weather profiles first before creating new instance.
+         */
         @SuppressWarnings("unchecked")
         @NonNull
         @Override

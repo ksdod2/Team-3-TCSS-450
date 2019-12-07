@@ -120,6 +120,7 @@ public class Connection implements Serializable, Parcelable {
      */
     public boolean amSender() { return mAmSender; }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(@Nullable Object obj) {
         if (!(obj instanceof Connection))
@@ -129,22 +130,27 @@ public class Connection implements Serializable, Parcelable {
 
     /** A Creator for use with producing Connections. */
     public static final Creator<Connection> CREATOR = new Creator<Connection>() {
+
+        /** {@inheritDoc} */
         @Override
         public Connection createFromParcel(Parcel in) {
             return new Connection(in);
         }
 
+        /** {@inheritDoc} */
         @Override
         public Connection[] newArray(int size) {
             return new Connection[size];
         }
     };
 
+    /** {@inheritDoc} */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mMemberID);
@@ -155,5 +161,4 @@ public class Connection implements Serializable, Parcelable {
         dest.writeInt(mAmSender ? 1 : 0);
         dest.writeInt(0);
     }
-
 }

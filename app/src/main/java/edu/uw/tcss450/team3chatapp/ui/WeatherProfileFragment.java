@@ -36,9 +36,12 @@ public class WeatherProfileFragment extends Fragment {
      */
     public WeatherProfileFragment() {}
 
+    /**
+     * {@inheritDoc}
+     * Sets up view.
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weatherprofile_list, container, false);
 
         // Begin observing the ViewModel

@@ -38,7 +38,7 @@ public class ChatBottomSheetFragment extends BottomSheetDialogFragment {
     /** Required empty public constructor. */
     public ChatBottomSheetFragment() {}
 
-
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

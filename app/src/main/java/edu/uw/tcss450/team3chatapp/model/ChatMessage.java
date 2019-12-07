@@ -49,11 +49,14 @@ public class ChatMessage implements Serializable, Parcelable {
 
     /** A Creator for use with producing chats. */
     public static final Creator<ChatMessage> CREATOR = new Creator<ChatMessage>() {
+
+        /** {@inheritDoc} */
         @Override
         public ChatMessage createFromParcel(Parcel in) {
             return new ChatMessage(in);
         }
 
+        /** {@inheritDoc} */
         @Override
         public ChatMessage[] newArray(int size) {
             return new ChatMessage[size];
@@ -74,7 +77,7 @@ public class ChatMessage implements Serializable, Parcelable {
 
     /**
      * Gets the content of the message.
-     * @return
+     * @return the message
      */
     public String getMessage() { return mMessage; }
 
@@ -84,11 +87,13 @@ public class ChatMessage implements Serializable, Parcelable {
      */
     boolean amSender() { return amSender; }
 
+    /** {@inheritDoc} */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(amSender ? 1 : 0);

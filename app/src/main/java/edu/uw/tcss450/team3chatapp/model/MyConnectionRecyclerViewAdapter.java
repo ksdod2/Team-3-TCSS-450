@@ -42,6 +42,7 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         mListener = listener;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getItemViewType(int position) {
         if(mConnections.get(position).getRelation() == Connection.Relation.NONE)
@@ -49,6 +50,7 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         else return EXISTING_CONTACT;
     }
 
+    /** {@inheritDoc} */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -65,6 +67,7 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == EXISTING_CONTACT) {
@@ -74,6 +77,7 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getItemCount() {
         return mConnections.size();
@@ -101,6 +105,7 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
             mEmail = view.findViewById(R.id.tv_connection_list_email);
         }
 
+        /** {@inheritDoc} */
         @NonNull
         @Override
         public String toString() {
@@ -108,9 +113,12 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         }
 
         void setInfo(Connection item) {
+            String nameText = item.getFirstName() + " " + item.getLastName();
+            String usernameText = "Username: " + item.getUsername();
+
             mItem = item;
-            mNameView.setText(item.getFirstName() + " " + item.getLastName());
-            mUsername.setText("Username: " + item.getUsername());
+            mNameView.setText(nameText);
+            mUsername.setText(usernameText);
             mEmail.setText(item.getEmail());
 
             mView.setOnClickListener(v -> {
@@ -139,16 +147,20 @@ public class MyConnectionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
             mEmail = view.findViewById(R.id.tv_connectionsearch_list_email);
         }
 
-
+        /** {@inheritDoc} */
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " '" + mUsername.getText() + "'";
         }
 
         void setInfo(Connection item) {
+            String nameText = item.getFirstName() + " " + item.getLastName();
+            String usernameText = "Username: " + item.getUsername();
+
             mItem = item;
-            mNameView.setText(item.getFirstName() + " " + item.getLastName());
-            mUsername.setText("Username: "+ item.getUsername());
+            mNameView.setText(nameText);
+            mUsername.setText(usernameText);
             mEmail.setText(item.getEmail());
 
             mView.setOnClickListener(v -> {

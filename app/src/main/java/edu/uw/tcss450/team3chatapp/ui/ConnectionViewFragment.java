@@ -56,7 +56,7 @@ public class ConnectionViewFragment extends Fragment {
     /** Required empty public constructor. */
     public ConnectionViewFragment() {}
 
-
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,10 +78,12 @@ public class ConnectionViewFragment extends Fragment {
         mRemove.setVisibility(View.GONE);
         TextView mStatus = view.findViewById(R.id.tv_connection_view_status);
 
+        String nameText = mConn.getFirstName() + " " + mConn.getLastName();
         ((TextView) view.findViewById(R.id.tv_connection_view_name))
-                .setText(mConn.getFirstName() + " " + mConn.getLastName());
+                .setText(nameText);
+        String UsernameText = "Username: " + mConn.getUsername();
         ((TextView) view.findViewById(R.id.tv_connection_view_username))
-                .setText("Username: " + mConn.getUsername());
+                .setText(UsernameText);
         ((TextView) view.findViewById(R.id.tv_connection_view_email))
                 .setText(mConn.getEmail());
 
@@ -109,9 +111,7 @@ public class ConnectionViewFragment extends Fragment {
         return view;
     }
 
-    /**
-     * Method used to accept a connection request.
-     */
+    /** Method used to accept a connection request. */
     private void acceptConnection() {
         if (!Objects.requireNonNull(ConnectionListViewModel.getFactory().create(ConnectionListViewModel.class)
                 .getCurrentConnections().getValue()).contains(mConn)) {
@@ -275,7 +275,7 @@ public class ConnectionViewFragment extends Fragment {
      * @param tMessage the message to display
      */
     private void returnToConnections(final String tMessage) {
-        Toast.makeText(getActivity(), tMessage, Toast.LENGTH_LONG).show();
+        Toast.makeText(Objects.requireNonNull(getActivity()), tMessage, Toast.LENGTH_LONG).show();
         Navigation.findNavController(Objects.requireNonNull(getView())).popBackStack();
     }
 }

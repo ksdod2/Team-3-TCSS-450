@@ -69,6 +69,7 @@ public class ChatCreationFragment extends Fragment {
     /** Required empty public constructor. */
     public ChatCreationFragment() {}
 
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -207,7 +208,7 @@ public class ChatCreationFragment extends Fragment {
                 if (!mToAddConnections.isEmpty())
                     inviteUsers(root.getInt(getString(R.string.keys_json_chats_id)));
                 else {
-                    Toast.makeText(getActivity(), "Chatroom created.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()), "Chatroom created.", Toast.LENGTH_SHORT).show();
                     Navigation.findNavController(Objects.requireNonNull(getView())).popBackStack();
                 }
             } else {
@@ -266,9 +267,9 @@ public class ChatCreationFragment extends Fragment {
             JSONObject root = new JSONObject(res);
             if(root.getBoolean("success")) {
                 if(mNameInput.getText().toString().equals(""))
-                    Toast.makeText(getActivity(), "Users successfully invited.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()), "Users successfully invited.", Toast.LENGTH_SHORT).show();
                 else
-                    Toast.makeText(getActivity(), "Chatroom created and users successfully invited.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Objects.requireNonNull(getActivity()), "Chatroom created and users successfully invited.", Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(Objects.requireNonNull(getView())).popBackStack();
                 return;
             } else {
@@ -288,5 +289,4 @@ public class ChatCreationFragment extends Fragment {
         mCreate.setError("Could not invite at this time, please try again later.");
         mInvite.setError("Could not invite at this time, please try again later.");
     }
-
 }

@@ -42,11 +42,8 @@ import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
 import edu.uw.tcss450.team3chatapp.utils.Utils;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class MapFragment extends Fragment implements OnMapReadyCallback,
-                                                        GoogleMap.OnMapClickListener {
+/** Handles logic for map view. */
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     /** The Google Maps object to use for the fragment's interactions. */
     private GoogleMap mMap;
@@ -60,14 +57,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     /** Required empty public constructor. */
     public MapFragment() {}
 
-
+    /** {@inheritDoc} */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
+    /**
+     * {@inheritDoc}
+     * Setup instance fields and set onClickListeners.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -86,6 +85,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     }
 
+    /**
+     * {@inheritDoc}
+     * Add marker to user selected location if set, otherwise the device location.
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -102,6 +105,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mMap.setOnMapClickListener(this);
     }
 
+    /**
+     * {@inheritDoc}
+     * Move move marker and update map.
+     */
     @Override
     public void onMapClick(LatLng latLng) {
         mMarker.remove();
@@ -169,6 +176,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
     }
 
+    /**
+     * Parses JSON for information to load in weather fragment.
+     * @param result the JSON response from weather API
+     */
     private void fetchWeatherPost(final String result) {
         WeatherProfile wpToLoad = null;
         try {
@@ -199,27 +210,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_global_nav_weather);
     }
 
+    /**
+     * Parses JSON from for the city and state information of location.
+     * @param theJSONasStr JSON object representing API's observation endpoint response.
+     * @return the city and state information, formatted as "{City}, {State}".
+     */
     private String getCityState(final String theJSONasStr) {
-
         String result = "";
-
         try {
             JSONObject theJSON = new JSONObject(theJSONasStr);
             if (theJSON.has(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_response))) {
-                JSONObject response = theJSON.getJSONObject(getActivity().getString(R.string.keys_json_weather_response));
-                if(response.has(getActivity().getString(R.string.keys_json_weather_place))) {
+                JSONObject response = theJSON.getJSONObject(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_response));
+                if(response.has(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_place))) {
 
-                    JSONObject place = response.getJSONObject(getActivity().getString(R.string.keys_json_weather_place));
+                    JSONObject place = response.getJSONObject(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_place));
 
-                    result = Utils.formatCityState(place.getString(getActivity().getString(R.string.keys_json_weather_name)),
-                            place.getString(getActivity().getString(R.string.keys_json_weather_state)).toUpperCase());
+                    result = Utils.formatCityState(place.getString(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_name)),
+                            place.getString(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_state)).toUpperCase());
 
                 } else {
                     Log.d("WEATHER_POST", "Either Place or Ob missing form Response: " + response.toString());
                 }
             }
         } catch(JSONException e){e.printStackTrace();}
-
         return result;
     }
 }

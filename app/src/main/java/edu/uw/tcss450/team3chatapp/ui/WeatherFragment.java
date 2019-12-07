@@ -1,6 +1,5 @@
 package edu.uw.tcss450.team3chatapp.ui;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,9 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.provider.Telephony;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +30,6 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,27 +43,35 @@ import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
 import edu.uw.tcss450.team3chatapp.utils.Utils;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+/** Handes logic for WeatherHub landing screen. */
 @SuppressLint("SimpleDateFormat")
 public class WeatherFragment extends Fragment {
 
+    /**  */
     private static final int SAVED_LOCATIONS_LIMIT = 10;
 
+    /** ViewModel for weather profiles */
     private WeatherProfileViewModel mWeatherVM;
+    /** weather profile information top be shown when fragment loads */
     private WeatherProfile mWPtoLoad;
+    /** user-preferred unit choice (imperial/metric) */
     private String mUnits;
+    /** LatLng object created from the zip code entered by user. */
     private LatLng mFromZip;
 
+    /** Required empty public constructor */
     public WeatherFragment() {/*Required empty public constructor*/}
 
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_weather, container, false);
     }
 
+    /**
+     * {@inheritDoc}
+     * Sets up view and sets onClickListener.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -111,11 +114,12 @@ public class WeatherFragment extends Fragment {
         btnSearch.setOnClickListener(v -> searchZip(etZipSearch.getText().toString()));
     }
 
+    /** Searches for location information by user-entered zip code, then hits API to get weather information. */
     private void searchZip(String tZip) {
         if(tZip.length() != 5) {
             Toast.makeText(getContext(), "Zip-code invalid: Must be 5 digits", Toast.LENGTH_LONG).show();
         } else {
-            Utils.hideKeyboard(getActivity());
+            Utils.hideKeyboard(Objects.requireNonNull(getActivity()));
             Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
             try {
                 List<Address> list = geo.getFromLocationName(tZip, 1);
@@ -124,9 +128,9 @@ public class WeatherFragment extends Fragment {
                     String cityState = Utils.formatCityState(add.getLocality(), add.getAdminArea());
 
                     //compare to current and saved locations
-                    if(!mWeatherVM.getCurrentLocationWeatherProfile().getValue().getCityState().equals(cityState)) {
+                    if(!Objects.requireNonNull(mWeatherVM.getCurrentLocationWeatherProfile().getValue()).getCityState().equals(cityState)) {
                         boolean noMatch = true;
-                        for(WeatherProfile wp : mWeatherVM.getSavedLocationWeatherProfiles().getValue()) {
+                        for(WeatherProfile wp : Objects.requireNonNull(mWeatherVM.getSavedLocationWeatherProfiles().getValue())) {
                             if(cityState.equals(wp.getCityState())) {
                                 noMatch = false;
                                 break;
@@ -164,20 +168,23 @@ public class WeatherFragment extends Fragment {
 
     }
 
+    /** onPre */
     private void searchZipPre() {
-        getActivity().findViewById(R.id.btn_weather_search).setEnabled(false);
-        getActivity().findViewById(R.id.layout_wait).setVisibility(View.VISIBLE);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.btn_weather_search).setEnabled(false);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.layout_wait).setVisibility(View.VISIBLE);
     }
 
+    /** onCancel */
     private void searchZipCancel(final String result) {
         populateWeatherData(mWeatherVM.getCurrentLocationWeatherProfile().getValue());
 
-        getActivity().findViewById(R.id.btn_weather_search).setEnabled(true);
-        getActivity().findViewById(R.id.layout_wait).setVisibility(View.GONE);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.btn_weather_search).setEnabled(true);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.layout_wait).setVisibility(View.GONE);
 
         Log.d("ZIP", result);
     }
 
+    /** onPost */
     private void searchZipPost(final String result) {
         WeatherProfile wpToLoad = null;
         try {
@@ -202,8 +209,8 @@ public class WeatherFragment extends Fragment {
             e.printStackTrace();
             Log.e("WEATHER_UPDATE_ERR", Objects.requireNonNull(e.getMessage()));
 
-            getActivity().findViewById(R.id.btn_weather_search).setEnabled(true);
-            getActivity().findViewById(R.id.layout_wait).setVisibility(View.GONE);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.btn_weather_search).setEnabled(true);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.layout_wait).setVisibility(View.GONE);
         }
 
         if(wpToLoad == null) {
@@ -215,10 +222,11 @@ public class WeatherFragment extends Fragment {
         mWPtoLoad = wpToLoad;
         populateWeatherData(wpToLoad);
 
-        getActivity().findViewById(R.id.btn_weather_search).setEnabled(true);
-        getActivity().findViewById(R.id.layout_wait).setVisibility(View.GONE);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.btn_weather_search).setEnabled(true);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.layout_wait).setVisibility(View.GONE);
     }
 
+    /** Attempts to save location to ViewModel */
     private void saveLocationAttempt(WeatherProfileViewModel tWPVM) {
 
         // Check if location they're trying to save is near already saved location
@@ -226,7 +234,7 @@ public class WeatherFragment extends Fragment {
         List<WeatherProfile> savedLocationWPs = tWPVM.getSavedLocationWeatherProfiles().getValue();
         if (Objects.requireNonNull(savedLocationWPs).size() >= SAVED_LOCATIONS_LIMIT) {
             Toast.makeText(getContext(), "Maximum number of saved locations already reached.", Toast.LENGTH_LONG).show();
-        } else if(tWPVM.getCurrentLocationWeatherProfile().getValue().equals(mWPtoLoad)) {
+        } else if(Objects.requireNonNull(tWPVM.getCurrentLocationWeatherProfile().getValue()).equals(mWPtoLoad)) {
             Toast.makeText(getContext(), "Saved " + mWPtoLoad.getCityState() + " to your saved locations!", Toast.LENGTH_LONG).show();
         } else {
             for(WeatherProfile wp : savedLocationWPs) {
@@ -245,6 +253,7 @@ public class WeatherFragment extends Fragment {
         }
     }
 
+    /** Controller for setting up views with weather info. */
     private void populateWeatherData(final WeatherProfile theWP) {
         if(theWP != null) {
             try {
@@ -261,6 +270,7 @@ public class WeatherFragment extends Fragment {
         }
     }
 
+    /** Sets up current conditions section in fragment. */
     private void setupCurrent(final JSONObject theCurrentConditionsJSON, final JSONObject theDaysForecastJSON) {
         // Get TextViews to populate from layout
         TextView tvCurrentTempUnits = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_current_tempunits);
@@ -343,6 +353,7 @@ public class WeatherFragment extends Fragment {
         }
     }
 
+    /** Sets up 24 hour forecast section in fragment. */
     private void setup24Hour(final JSONObject the24HourForecastJSON) {
         LinearLayout container = Objects.requireNonNull(getView()).findViewById(R.id.layout_weather_24hourForecast);
         ArrayList<ArrayList<View>> lists = build24HourLists(container);
@@ -385,6 +396,7 @@ public class WeatherFragment extends Fragment {
         }
     }
 
+    /** Sets up 10 day forecast section in fragment. */
     private void setup10Day(final JSONObject the10DayJSON) {
         LinearLayout container = Objects.requireNonNull(getView()).findViewById(R.id.layout_weather_10dayForecast);
         ArrayList<ArrayList<View>> lists = build10DayLists(container);
@@ -460,6 +472,7 @@ public class WeatherFragment extends Fragment {
         return first;
     }
 
+    /** Helper method gets lists of views to populate for 24 hour forecast section. */
     private ArrayList<ArrayList<View>> build24HourLists(final LinearLayout theParent) {
         ArrayList<ArrayList<View>> lists = new ArrayList<>();
         ArrayList<View> hours = new ArrayList<>();
@@ -492,6 +505,7 @@ public class WeatherFragment extends Fragment {
         return lists;
     }
 
+    /** Helper method gets lists of views to populate for 24 hour forecast section. */
     private ArrayList<ArrayList<View>> build10DayLists(final LinearLayout theParent) {
         ArrayList<ArrayList<View>> lists = new ArrayList<>();
         ArrayList<View> dates = new ArrayList<>();
@@ -537,6 +551,11 @@ public class WeatherFragment extends Fragment {
         return lists;
     }
 
+    /**
+     * Parses JSON from for the city and state information of location.
+     * @param theJSONasStr JSON object representing API's observation endpoint response.
+     * @return the city and state information, formatted as "{City}, {State}".
+     */
     private String getCityState(final String theJSONasStr) {
 
         String result = "";
@@ -544,13 +563,13 @@ public class WeatherFragment extends Fragment {
         try {
             JSONObject theJSON = new JSONObject(theJSONasStr);
             if (theJSON.has(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_response))) {
-                JSONObject response = theJSON.getJSONObject(getActivity().getString(R.string.keys_json_weather_response));
-                if(response.has(getActivity().getString(R.string.keys_json_weather_place))) {
+                JSONObject response = theJSON.getJSONObject(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_response));
+                if(response.has(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_place))) {
 
-                    JSONObject place = response.getJSONObject(getActivity().getString(R.string.keys_json_weather_place));
+                    JSONObject place = response.getJSONObject(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_place));
 
-                    result = Utils.formatCityState(place.getString(getActivity().getString(R.string.keys_json_weather_name)),
-                            place.getString(getActivity().getString(R.string.keys_json_weather_state)).toUpperCase());
+                    result = Utils.formatCityState(place.getString(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_name)),
+                            place.getString(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_state)).toUpperCase());
 
                 } else {
                     Log.d("WEATHER_POST", "Either Place or Ob missing form Response: " + response.toString());
