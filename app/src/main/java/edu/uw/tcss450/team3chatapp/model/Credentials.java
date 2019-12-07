@@ -12,7 +12,6 @@ import java.io.Serializable;
  *
  *
  * @author Charles Bryan
- * @author Alexander Bledsoe
  * @version 29 October 2019
  */
 public class Credentials implements Serializable {
@@ -57,7 +56,7 @@ public class Credentials implements Serializable {
         /**
          * Add an optional first name.
          * @param val an optional first name
-         * @return
+         * @return credentials with first name added
          */
         public Builder addFirstName(final String val) {
             mFirstName = val;
@@ -67,7 +66,7 @@ public class Credentials implements Serializable {
         /**
          * Add an optional last name.
          * @param val an optional last name
-         * @return
+         * @return credentials with last name added
          */
         public Builder addLastName(final String val) {
             mLastName = val;
@@ -77,7 +76,7 @@ public class Credentials implements Serializable {
         /**
          * Add an optional Uuername.
          * @param val an optional Uuername
-         * @return
+         * @return credentials with first name added
          */
         public Builder addUsername(final String val) {
             mUsername = val;

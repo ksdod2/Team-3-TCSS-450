@@ -1,15 +1,18 @@
 <resources>
-    // App name (Tentative)
-    <string name="app_name">ChatHub</string>
+    <!--App name (Tentative)-->
+    <string name="app_name">Current</string>
+    <string name="PLACEHOLDER">PLACEHOLDER</string>
 
-    //login fragment strings
+    <!--login fragment strings-->
     <string name="et_login_email">Email Address</string>
     <string name="et_login_password">Password</string>
-    <string name="btn_login_register">Register</string>
+    <string name="tv_login_register"><u>Create Account</u></string>
     <string name="btn_login_login">Login</string>
     <string name="cb_login_staySignedIn">Stay signed in</string>
+    <string name="iv_login_logo">Main Logo</string>
+    <string name="iv_login_bg">Background Image</string>
 
-    //register fragment strings
+    <!--register fragment strings-->
     <string name="et_register_email">Email Address</string>
     <string name="et_register_password">Password</string>
     <string name="et_register_confirmPass">Retype Password</string>
@@ -17,11 +20,92 @@
     <string name="et_register_lastName">Last Name</string>
     <string name="et_register_nickname">Nickname</string>
     <string name="btn_register_register">Register</string>
+    <string name="iv_register_logo">Main Logo</string>
+    <string name="iv_register_bg">Background Image</string>
 
-    //verification fragment strings
+    <!--verification fragment strings-->
     <string name="tv_verification_verificationMessage">A verification link has been sent to your Email address.
         Please check your inbox and follow the instructions to verify your account.</string>
     <string name="btn_verification_ok">OK</string>
+
+    <!--home fragment strings-->
+    <string name="tv_home_weatherMessage">Current Weather in:</string>
+    <string name="tv_home_chats">Your Favorite Chats</string>
+
+    <!--weather fragment strings-->
+    <string name="tv_weather_weatherHub">WeatherHub</string>
+    <string name="tv_weather_currentLocation">"Current Location: "</string>
+    <string name="tv_weather_currentCityState">Tacoma, WA</string>
+    <string name="et_weather_searchByZip">Search by Zip</string>
+    <string name="tv_weather_map"><u>Map View</u></string>
+    <string name="tv_weather_saveLocation"><u>Save Current Location</u></string>
+    <string name="tv_weather_savedLocations"><u>View Saved Locations</u></string>
+    <string name="tv_weather_currentConditions">Current Conditions</string>
+    <string name="tv_weather_24hourForecast">24-Hour Forecast</string>
+    <string name="tv_weather_10dayForecast">10-Day Forecast</string>
+    <string name="btn_weather_search">Search</string>
+    <string name="btn_map_use">Use This Location</string>
+    <!--current conditions strings-->
+    <string name="tv_weather_temperature">Temperature:</string>
+    <string name="tv_weather_tempMin">Today\'s High:</string>
+    <string name="tv_weather_tempMax">Today\'s Low:</string>
+    <string name="tv_weather_wind">Wind:</string>
+    <string name="tv_weather_description">Looks like its:</string>
+    <string name="tv_weather_precipitation">Precipitation:</string>
+    <string name="tv_weather_humidity">Humidity:</string>
+    <string name="tv_weather_sunrise">Sunrise:</string>
+    <string name="tv_weather_sunset">Sunset:</string>
+    <!--current conditions default strings-->
+    <string name="tv_weather_windunits_imperial">MPH</string>
+    <string name="tv_weather_windunits_metric">KPH</string>
+    <string name="tv_weather_temperatureDefault">72\u00A0</string>
+    <string name="tv_weather_tempMinDefault">60°</string>
+    <string name="tv_weather_tempMaxDefault">80°</string>
+    <string name="tv_weather_windDefault">5</string>
+
+    <string name="tv_weather_descriptionDefault">Sunny</string>
+    <string name="tv_weather_descriptionDefaultLong">It\'s Windy Out Tonight</string>
+    <string name="tv_weather_precipitationDefault">85%</string>
+    <string name="tv_weather_humidityDefault">50%</string>
+    <string name="tv_weather_sunriseDefault">8 AM</string>
+    <string name="tv_weather_sunsetDefault">6 PM</string>
+
+    <!--24-hour strings-->
+    <string name="tv_weather_24hourNow">Now</string>
+    <string name="tv_weather_24hour2">Hour 2</string>
+    <string name="tv_weather_24hour3">Hour 3</string>
+    <string name="tv_weather_24hour4">Hour 4</string>
+    <string name="tv_weather_24hour5">Hour 5</string>
+    <string name="tv_weather_24hour6">Hour 6</string>
+    <string name="tv_weather_24hour7">Hour 7</string>
+    <string name="tv_weather_24hour8">Hour 8</string>
+    <string name="tv_weather_24hour9">Hour 9</string>
+    <string name="tv_weather_24hour10">Hour 10</string>
+    <string name="tv_weather_24hour11">Hour 11</string>
+    <string name="tv_weather_24hour12">Hour 12</string>
+    <string name="tv_weather_24hour13">Hour 13</string>
+    <string name="tv_weather_24hour14">Hour 14</string>
+    <string name="tv_weather_24hour15">Hour 15</string>
+    <string name="tv_weather_24hour16">Hour 16</string>
+    <string name="tv_weather_24hour17">Hour 17</string>
+    <string name="tv_weather_24hour18">Hour 18</string>
+    <string name="tv_weather_24hour19">Hour 19</string>
+    <string name="tv_weather_24hour20">Hour 20</string>
+    <string name="tv_weather_24hour21">Hour 21</string>
+    <string name="tv_weather_24hour22">Hour 22</string>
+    <string name="tv_weather_24hour23">Hour 23</string>
+    <string name="tv_weather_24hour24">Hour 24</string>
+    <!--image strings-->
+    <string name="iv_weather_24hourDefault">06:30</string>
+
+    <!--default weather frag descriptions-->
+    <string name="tv_weather_24hourDescriptionDefault">Sunny</string>
+    <string name="tv_weather_24hourTemperatureDefault">72°</string>
+    <string name="tv_weather_10dayDate_today">Today</string>
+    <string name="tv_weather_10dayDate_date">Wed, Dec 25</string>
+    <string name="iv_weather_10dayIcon">Day 1 Image</string>
+    <string name="tv_weather_10dayTempHighDefault">72°</string>
+    <string name="tv_weather_10dayTempLowDefault">32°</string>
 
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -30,10 +114,78 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="action_logout">Log Out</string>
 
+    <!-- Nav drawer labels -->
     <string name="menu_home">Home</string>
     <string name="menu_chats">My Chats</string>
+    <string name="menu_connections">My Connections</string>
+    <string name="menu_weather">WeatherHub</string>
 
+    <!-- Chat strings -->
+    <string name="btn_sheet_invite">Invite From Contacts</string>
+    <string name="btn_sheet_leave">Leave Chat</string>
+    <string name="btn_chat_create">Create New Chatroom</string>
+    <string name="btn_chat_invite">Invite Users</string>
     <string name="btn_chatroom_send">Send</string>
+    <string name="et_chat_create_name">Chatroom Name</string>
+    <string name="et_chat_create_description">Chatroom Description (Optional)</string>
+    <string name="btn_chat_create_create">Create Chatroom</string>
+    <string name="tv_chat_create_contacts">Contacts</string>
+    <string name="tv_chat_create_add">Contacts to invite to this room</string>
+
+    <!-- Settings menu strings -->
+    <!-- Theme settings strings -->
+    <string name="settings_theme_currentIsDark">"Current Theme: Dark Mode"</string>
+    <string name="settings_theme_currentIsLight">"Current Theme: Light Mode"</string>
+    <string name="tv_settings_themechange">Change App Theme</string>
+    <string name="tv_settings_themecurrent">Current Theme</string>
+    <string name="tv_settings_temp">Change Temperature Units</string>
+    <string name="theme_option_default">Default Android</string>
+    <string name="theme_option_spookyorange">Spooky Orange</string>
+    <string name="theme_option_bashfulblue">Bashful Blue</string>
+    <string name="theme_option_huskypride">Husky Pride</string>
+    <!-- Temperature unit strings -->
+    <string name="rb_settings_fahrenheit">F</string>
+    <string name="rb_settings_celcius">C</string>
+
+    <!-- Connections home fragment strings -->
+    <string name="tv_connections_accepted">Connections</string>
+    <string name="tv_connections_pending">Sent Connection Invites</string>
+    <string name="tv_connections_incoming">Connection Invitations</string>
+    <string name="btn_connections_search">Search For Users</string>
+
+    <!-- Connection view fragment strings -->
+    <string name="btn_connection_view_remove">Remove Connection</string>
+    <string name="btn_connection_view_send">Send Connection Request</string>
+    <string name="btn_connection_view_accept">Accept Connection</string>
+    <string name="btn_connection_view_reject">Reject Connection</string>
+    <string name="tv_status_accepted">This user is currently in your connections.</string>
+    <string name="tv_status_sent">Waiting for this user to accept your invitation.</string>
+    <string name="tv_status_received">Do you want to accept the connection to this user?</string>
+    <string name="tv_status_sendnew">Send a connection request to this user?</string>
+
+    <!-- Connection search fragment strings -->
+    <string name="tv_connectionsearch_searchResults">User Found:</string>
+    <string name="btn_connectionsearch_search">Search</string>
+    <string name="et_connectionsearch_firstname">First Name</string>
+    <string name="et_connectionsearch_lastname">Last Name</string>
+    <string name="et_connectionsearch_username">Username</string>
+    <string name="et_connectionsearch_email">Email</string>
+    <string name="et_connectionsearch_name_error">Please input both a first and last name, a username, or an email address.</string>
+
+    <!-- Misc. Strings -->
+    <string name="misc_temp_unit_symbol">°</string>
+    <string name="misc_arrow_up">↑</string>
+    <string name="misc_arrow_down">↓</string>
+    <string name="misc_middle_dot">•</string>
+    <!-- No-break space added because italics on string w/wrap content causes clipping-->
+    <string name="misc_temp_unit_display_imperial">°F\u00A0</string>
+    <string name="misc_temp_unit_display_metric">°C\u00A0</string>
+
+    <string name="title_activity_maps">Map</string>
+
+    <string name="btn_weatheprofile_use">Use Location</string>
+    <string name="btn_weatherprofile_remove">Remove</string>
 
 </resources>

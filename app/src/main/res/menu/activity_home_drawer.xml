@@ -12,6 +12,15 @@
             android:id="@+id/nav_chats"
             android:icon="@drawable/ic_menu_chats"
             android:title="@string/menu_chats" />
+        <item
+            android:id="@+id/nav_connectionhome"
+            android:icon="@drawable/ic_menu_connections"
+            android:title="@string/menu_connections" />
+
+        <item
+            android:id="@+id/nav_weather"
+            android:icon="@drawable/ic_menu_weather"
+            android:title="@string/tv_weather_weatherHub"/>
     </group>
 
 </menu>

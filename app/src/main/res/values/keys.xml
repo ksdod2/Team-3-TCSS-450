@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources tools:ignore="ExtraTranslation" xmlns:tools="http://schemas.android.com/tools">
     <string name="keys_shared_prefs">edu.uw.tcss450.teamchatapp.PREFS</string>
+    <string name="keys_prefs_theme">theme</string>
+    <string name="keys_prefs_tempunit">tempunit</string>
+    <string name="keys_prefs_email">email</string>
+    <string name="keys_prefs_password">password</string>
     <string name="keys_prefs_username">username</string>
     <string name="keys_prefs_stay_logged_in">loggedIn</string>
+    <string name="keys_prefs_favorites">favorites</string>
+    <!-- Keys for current and saved location weather profiles, and timestamp -->
+    <string name="keys_prefs_weathervm_current">current</string>
+    <string name="keys_prefs_weathervm_saved">saved</string>
+    <string name="keys_prefs_weathervm_lastupdated">lastupdated</string>
 
     <!-- JSON response keys from "/register" end point -->
     <string name="keys_json_register_success_bool">success</string>
@@ -15,5 +24,71 @@
     <string name="keys_json_login_username_str">username</string>
     <string name="keys_json_login_memberid_int">memberid</string>
     <string name="keys_json_login_jwt_str">jwt</string>
+    <string name="keys_json_login_pushtoken_str">token</string>
+
+    <!-- JSON response keys from "/chat" endpoints -->
+    <string name="keys_json_chats">chats</string>
+    <string name="keys_json_chats_id">chatid</string>
+    <string name="keys_json_chats_name">name</string>
+    <string name="keys_json_chats_description">description</string>
+    <string name="keys_json_chats_messages">messages</string>
+    <string name="keys_json_chats_invitees">invitees</string>
+    <string name="keys_json_chatmessage_sender">username</string>
+    <string name="keys_json_chatmessage_message">message</string>
+    <string name="keys_json_chatmessage_timestamp">timestamp</string>
+    <string name="keys_json_push_chatmessage_room">room</string>
+    <string name="keys_json_push_chatmessage_text">text</string>
+    <string name="keys_json_push_chatmessage_time">stamp</string>
+
+    <!-- JSON response keys from "/connections" end points -->
+    <string name="keys_json_connections_rows">connections</string>
+    <string name="keys_json_connections_search_rows">users</string>
+    <string name="keys_json_connections_memberid_int">memberid</string>
+    <string name="keys_json_connections_firstname_str">firstname</string>
+    <string name="keys_json_connections_lastname_str">lastname</string>
+    <string name="keys_json_connections_email_str">email</string>
+    <string name="keys_json_connections_username_str">username</string>
+    <string name="keys_json_connections_verified_int">verified</string>
+    <string name="keys_json_connections_sender_int">sender</string>
+    <string name="keys_json_connections_receiver_int">receiver</string>
+    <string name="keys_json_connections_accepted_str">accepted</string>
+    <string name="keys_json_connections_accepted_yes_str">true</string>
+    <string name="keys_json_connections_accepted_no_str">false</string>
+
+    <!-- JSON response keys from "/weather" endpoint -->
+    <string name="keys_json_weather_response">response</string>
+    <string name="keys_json_weather_response_array">responses</string>
+    <string name="keys_json_weather_desc">weatherShort</string>
+    <string name="keys_json_weather_desc_long">weather</string>
+    <string name="keys_json_weather_icon">icon</string>
+    <string name="keys_json_weather_periods_array">periods</string>
+    <!-- for current weather -->
+    <string name="keys_json_weather_loc">loc</string>
+    <string name="keys_json_weather_lat">lat</string>
+    <string name="keys_json_weather_long">long</string>
+    <string name="keys_json_weather_place">place</string>
+    <string name="keys_json_weather_name">name</string>
+    <string name="keys_json_weather_state">state</string>
+    <string name="keys_json_weather_ob">ob</string>
+    <string name="keys_json_weather_tempc">tempC</string>
+    <string name="keys_json_weather_tempf">tempF</string>
+    <string name="keys_json_weather_cloudcode">cloudsCoded</string>
+    <string name="keys_json_weather_humidity">humidity</string>
+    <string name="keys_json_weather_windspeed_metric">windSpeedKPH</string>
+    <string name="keys_json_weather_windspeed_imperial">windSpeedMPH</string>
+    <!-- for 10day forecast -->
+    <string name="keys_json_weather_primary">weatherPrimary</string>
+    <string name="keys_json_weather_mintempc">minTempC</string>
+    <string name="keys_json_weather_mintempf">minTempF</string>
+    <string name="keys_json_weather_maxtempc">maxTempC</string>
+    <string name="keys_json_weather_maxtempf">maxTempF</string>
+    <string name="keys_json_weather_precipitation">pop</string>
+    <string name="keys_json_weather_sunrise">sunrise</string>
+    <string name="keys_json_weather_sunset">sunset</string>
+    <!-- for 24hr forecast -->
+    <string name="keys_json_weather_avgtempc">avgTempC</string>
+    <string name="keys_json_weather_avgtempf">avgTempF</string>
+    <string name="keys_json_weather_hourly_timestamp">timestamp</string>
+
 
 </resources>

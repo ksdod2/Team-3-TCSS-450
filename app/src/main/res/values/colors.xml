@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Main Colors -->
+    <color name="headerColor">#041f49</color>
 
-    //default colors
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorPrimaryDarkTransparent">#A000574B</color>
-    <color name="colorAccent">#D81B60</color>
 
-    //spooky orange colors
-    <color name="spookyPrimaryColor">#ff9800</color>
-    <color name="spookyPrimaryLightColor">#ffc947</color>
-    <color name="spookyPrimaryDarkColor">#c66900</color>
-    <color name="spookyPrimaryDarkTransparent">#A0c66900</color>
-    <color name="spookySecondaryColor">#212121</color>
-    <color name="spookySecondaryLightColor">#484848</color>
-    <color name="spookySecondaryDarkColor">#000000</color>
-    <color name="spookyPrimaryTextColor">#000000</color>
-    <color name="spookySecondaryTextColor">#fb8c00</color>
+
+    <color name="gradientCenterColor">#374675</color>
+    <color name="gradientEndColor">#000022</color>
+
+    <color name="darkModeButtonColor">#80DEEA</color>
+    <color name="lightModeButtonColor">#072F97</color>
+
+    <color name="primaryHintColor">#9F9F9F</color>
+
+    <color name="darkModeTextColor">#FFFFFF</color>
+
+    <color name="lightModeTextColor">#000000</color>
+
+
+    <color name="darkModeBackgroundColor">#252B3D</color>
+    <color name="lightModeBackgroundColor">#5B99C2</color>
+
+    <color name="messageSentColor">#6E9EEB</color>
+    <color name="messageReceivedColor">#CACACA</color>
 
 </resources>
+

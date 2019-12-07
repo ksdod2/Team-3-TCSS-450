@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="edu.uw.tcss450.team3chatapp.LoginFragment"
+        android:name="edu.uw.tcss450.team3chatapp.ui.LoginFragment"
         android:label="nav_fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="edu.uw.tcss450.team3chatapp.RegisterFragment"
+        android:name="edu.uw.tcss450.team3chatapp.ui.RegisterFragment"
         android:label="nav_fragment_register"
         tools:layout="@layout/fragment_register">
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/verificationFragment"
-        android:name="edu.uw.tcss450.team3chatapp.VerificationFragment"
+        android:name="edu.uw.tcss450.team3chatapp.ui.VerificationFragment"
         android:label="nav_fragment_verification"
         tools:layout="@layout/fragment_verification">
         <action
@@ -51,5 +51,20 @@
             android:name="userId"
             app:argType="integer"
             android:defaultValue="-1" />
+        <argument
+            android:name="chatMessage"
+            app:argType="edu.uw.tcss450.team3chatapp.model.ChatMessageNotification"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="connection"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Connection"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="chat"
+            app:argType="edu.uw.tcss450.team3chatapp.model.Chat"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </activity>
 </navigation>
