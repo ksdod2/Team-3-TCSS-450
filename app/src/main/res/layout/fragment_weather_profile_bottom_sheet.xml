@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.WeatherProfileBottomSheetFragment" >
+    tools:context=".ui.WeatherProfileBottomSheetFragment">
 
     <Button
         android:id="@+id/btn_profilemenu_use"
@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/lightModeButtonColor"
+        android:backgroundTint="@color/design_default_color_primary"
         android:text="@string/btn_weatheprofile_use"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toStartOf="@+id/btn_profilemenu_remove"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,8 +25,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:background="@color/lightModeButtonColor"
+        android:backgroundTint="@color/design_default_color_primary"
         android:text="@string/btn_weatherprofile_remove"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
