@@ -72,6 +72,7 @@ public class ChatMessageFragment extends Fragment {
     /** Required empty public constructor. */
     public ChatMessageFragment() {}
 
+    /** {@inheritDoc} */
     @Override
     public void onResume() {
         super.onResume();
@@ -82,6 +83,7 @@ public class ChatMessageFragment extends Fragment {
         Objects.requireNonNull(getActivity()).registerReceiver(mPushMessageReceiver, iFilter);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void onPause() {
         super.onPause();
@@ -90,6 +92,7 @@ public class ChatMessageFragment extends Fragment {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,6 +132,7 @@ public class ChatMessageFragment extends Fragment {
         return view;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -136,6 +140,7 @@ public class ChatMessageFragment extends Fragment {
         menu.add(label);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Ensure the item selected was the one added by the fragment and not an activity's item
@@ -218,6 +223,7 @@ public class ChatMessageFragment extends Fragment {
         }
     }
 
+    /** @return the chat ID */
     public int getChatID() { return mChatID; }
 
     /**
@@ -237,6 +243,7 @@ public class ChatMessageFragment extends Fragment {
     /** A PushMessageReceiver for handling chat messages in the foreground. */
     private class PushMessageReceiver extends BroadcastReceiver {
 
+        /** {@inheritDoc} */
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.hasExtra("SENDER") && intent.hasExtra("MESSAGE")) {

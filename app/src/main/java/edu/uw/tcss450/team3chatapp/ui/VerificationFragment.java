@@ -17,15 +17,13 @@ import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.R;
 
-/**
- * A simple {@link Fragment} subclass to display instructions for the user after registering.
- */
+/** Handles logic for verification screen. */
 public class VerificationFragment extends Fragment {
 
     /** Required empty public constructor. */
     public VerificationFragment() {}
 
-
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,6 +31,10 @@ public class VerificationFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_verification, container, false);
     }
 
+    /**
+     * {@inheritDoc}
+     * Sets up views.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

@@ -1,10 +1,6 @@
-/*General TODOs:
-TODO make layout "scroll" up as user clicks fields lower on screen so that they don't have to exit keyboard every time
-TODO Add javadox on existing code so we don't have to document entire app at once
- */
-
 package edu.uw.tcss450.team3chatapp.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -44,34 +40,36 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+/** Logic for login screen. */
 public class LoginFragment extends Fragment {
 
+    /** User credentials object. */
     private Credentials mCredentials;
 
-    public LoginFragment() {
-        // Required empty public constructor
-    }
+    /** Required empty constructor. */
+    public LoginFragment() {/* Required empty constructor. */}
 
+    /** {@inheritDoc} */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /** {@inheritDoc} */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
+    /**
+     * {@inheritDoc}
+     * Checks shared preferences for user preference to staying signed in.
+     */
     @Override
     public void onStart() {
         super.onStart();
 
-        SharedPreferences prefs = getActivity().getSharedPreferences(
+        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(
                 getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
 
         if (prefs.contains(getString(R.string.keys_prefs_email)) &&
@@ -81,16 +79,19 @@ public class LoginFragment extends Fragment {
             final String email = prefs.getString(getString(R.string.keys_prefs_email), "");
             final String password = prefs.getString(getString(R.string.keys_prefs_password), "");
             //Load the two login EditTexts with the credentials found in SharedPrefs
-            EditText emailEdit = getActivity().findViewById(R.id.et_login_email);
+            EditText emailEdit = Objects.requireNonNull(getActivity()).findViewById(R.id.et_login_email);
             emailEdit.setText(email);
-            EditText passwordEdit = getActivity().findViewById(R.id.et_login_password);
+            EditText passwordEdit = Objects.requireNonNull(getActivity()).findViewById(R.id.et_login_password);
             passwordEdit.setText(password);
 
-            // Button not needed to actually log in
-            loginAttempt(null);
+            loginAttempt();
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * Sets up views on screen and sets onClickListeners.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -107,14 +108,15 @@ public class LoginFragment extends Fragment {
 
         //Set onClickListener for Login Button:
         TextView btnLogin = view.findViewById(R.id.btn_login_login);
-        btnLogin.setOnClickListener(this::loginAttempt);
+        btnLogin.setOnClickListener(v -> loginAttempt());
 
         TextView tvRegister = view.findViewById(R.id.tv_login_register);
         tvRegister.setOnClickListener(v -> Navigation.findNavController(v)
                 .navigate(R.id.nav_action_loginToRegister));
     }
 
-    private void loginAttempt(final View tButton) {
+    /** Validates entered credentials with server. */
+    private void loginAttempt() {
         EditText etEmail = Objects.requireNonNull(getView()).findViewById(R.id.et_login_email);
         EditText etPass = getView().findViewById(R.id.et_login_password);
 
@@ -135,42 +137,61 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    private void saveCredentials(final Credentials credentials) {
+    /**
+     * Saves credentials objects to shared preferences.
+     * @param theCredentials credentials object to save.
+     */
+    private void saveCredentials(final Credentials theCredentials) {
         SharedPreferences prefs =
-                getActivity().getSharedPreferences(
+                Objects.requireNonNull(getActivity()).getSharedPreferences(
                         getString(R.string.keys_shared_prefs),
                         Context.MODE_PRIVATE);
         //Store the credentials in SharedPrefs
-        prefs.edit().putString(getString(R.string.keys_prefs_email), credentials.getEmail()).apply();
-        prefs.edit().putString(getString(R.string.keys_prefs_password), credentials.getPassword()).apply();
+        prefs.edit().putString(getString(R.string.keys_prefs_email), theCredentials.getEmail()).apply();
+        prefs.edit().putString(getString(R.string.keys_prefs_password), theCredentials.getPassword()).apply();
         prefs.edit().putString(getString(R.string.keys_prefs_stay_logged_in), "true").apply();
     }
 
+    /** AsyncTask class responsible for handling login tasks. */
+    @SuppressLint("StaticFieldLeak")
     private class AttemptLoginTask extends AsyncTask<String, Void, String> {
 
+        /**
+         * {@inheritDoc}
+         * Shows login screen and disables buttons.
+         */
         @Override
         protected void onPreExecute() {
-            getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
-            getActivity().findViewById(R.id.btn_login_login).setEnabled(false);
-            getActivity().findViewById(R.id.tv_login_register).setEnabled(false);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.btn_login_login).setEnabled(false);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.tv_login_register).setEnabled(false);
         }
 
+        /**
+         * {@inheritDoc}
+         * hides loading screen and re-enables buttons.
+         */
         @Override
         protected void onCancelled(String result) {
             Log.e("ASYNC_TASK_ERROR", result);
             // Restore layout's appearance
-            getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
-            getActivity().findViewById(R.id.tv_login_register).setEnabled(true);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.btn_login_login).setEnabled(true);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.tv_login_register).setEnabled(true);
         }
 
+        /**
+         * {@inheritDoc}
+         * makes post request to given url.
+         * @param urls the url(s)
+         */
         @Override
         protected String doInBackground(String... urls) {
 
-            String deviceToken = "";
+            String deviceToken;
             try {
                 // Assign a unique token to this device
-                deviceToken = Pushy.register(getActivity().getApplicationContext());
+                deviceToken = Pushy.register(Objects.requireNonNull(getActivity()).getApplicationContext());
             }
             catch (Exception exc) {
                 cancel(true);
@@ -218,6 +239,11 @@ public class LoginFragment extends Fragment {
             return response.toString();
         }
 
+        /**
+         * {@inheritDoc}
+         * Parses JSON response and sets up fragment.
+         * @param result JSON response from server.
+         */
         @Override
         protected void onPostExecute(String result) {
             try {
@@ -226,14 +252,14 @@ public class LoginFragment extends Fragment {
                     boolean success = root.getBoolean(getString(R.string.keys_json_register_success_bool));
                     if(success) {
                         Credentials userCreds = new Credentials.Builder(
-                                ((EditText) getActivity().findViewById(R.id.et_login_email)).getText().toString(),
-                                ((EditText) getActivity().findViewById(R.id.et_login_password)).getText().toString())
+                                ((EditText) Objects.requireNonNull(getActivity()).findViewById(R.id.et_login_email)).getText().toString(),
+                                ((EditText) Objects.requireNonNull(getActivity()).findViewById(R.id.et_login_password)).getText().toString())
                                 .addFirstName(root.getString("firstname"))
                                 .addLastName(root.getString("lastname"))
                                 .addUsername(root.getString("username"))
                                 .build();
 
-                        if(((Switch) getActivity().findViewById(R.id.swt_login_stayloggedin)).isChecked()) {
+                        if(((Switch) Objects.requireNonNull(getActivity()).findViewById(R.id.swt_login_stayloggedin)).isChecked()) {
                             saveCredentials(userCreds);
                         }
 
@@ -245,10 +271,10 @@ public class LoginFragment extends Fragment {
 
                         if (getArguments() != null) {
                             if (getArguments().containsKey("type")) {
-                                if (getArguments().getString("type").equals("msg")) {
+                                if (Objects.requireNonNull(getArguments().getString("type")).equals("msg")) {
                                     // Go to chat room using information from push notification
                                     try {
-                                        JSONObject msg = new JSONObject(getArguments().getString("message"));
+                                        JSONObject msg = new JSONObject(Objects.requireNonNull(getArguments().getString("message")));
                                         ChatMessage pushed = new ChatMessage(msg.getInt(getString(R.string.keys_json_connections_memberid_int))  == root.getInt("memberid"),
                                                 getArguments().getString("sender"),
                                                 msg.getString(getString(R.string.keys_json_push_chatmessage_time)),
@@ -260,12 +286,12 @@ public class LoginFragment extends Fragment {
                                         homeActivity.setChatMessage(chat);
                                     } catch(JSONException e) {
                                         // Couldn't get the notification properly, just give up
-                                        getActivity().finish();
+                                        Objects.requireNonNull(getActivity()).finish();
                                     }
-                                } else if (getArguments().get("type").equals("conn")) {
+                                } else if (Objects.requireNonNull(getArguments().get("type")).equals("conn")) {
                                     // Go to view connection using information from push notification
                                     try {
-                                        JSONObject info = new JSONObject(getArguments().getString("message"));
+                                        JSONObject info = new JSONObject(Objects.requireNonNull(getArguments().getString("message")));
                                         Connection pushed =
                                                 new Connection(info.getInt(getString(R.string.keys_json_connections_memberid_int)),
                                                         info.getString(getString(R.string.keys_json_connections_firstname_str)),
@@ -276,19 +302,19 @@ public class LoginFragment extends Fragment {
                                         homeActivity.setConnection(pushed);
                                     } catch (JSONException e) {
                                         // Couldn't get the notification properly, just give up
-                                        getActivity().finish();
+                                        Objects.requireNonNull(getActivity()).finish();
                                     }
-                                } else if (getArguments().get("type").equals("convo")) {
+                                } else if (Objects.requireNonNull(getArguments().get("type")).equals("convo")) {
                                     // Go to chatroom using information from push notification
                                     try {
-                                        JSONObject info = new JSONObject(getArguments().getString("message"));
+                                        JSONObject info = new JSONObject(Objects.requireNonNull(getArguments().getString("message")));
                                         Chat pushed = new Chat(info.getInt(getString(R.string.keys_json_chats_id)),
                                                 info.getString(getString(R.string.keys_json_chats_name)),
                                                 info.getString(getString(R.string.keys_json_chats_description)));
                                         homeActivity.setChat(pushed);
                                     } catch (JSONException e) {
                                         // Couldn't get the notification properly, just give up
-                                        getActivity().finish();
+                                        Objects.requireNonNull(getActivity()).finish();
                                     }
                                 }
                             }
@@ -300,16 +326,15 @@ public class LoginFragment extends Fragment {
 
                         Objects.requireNonNull(getActivity()).finish();
                     } else {
-                        //TODO better error here too?
                         Log.e("ERROR_LOGIN", "Unsuccessful");
                         ((EditText) Objects
                                 .requireNonNull(getView())
                                 .findViewById(R.id.et_login_email))
                                 .setError("Unable to login.\nPlease check credentials and retry.");
                     }
-                    getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
-                    getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
-                    getActivity().findViewById(R.id.tv_login_register).setEnabled(true);
+                    Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+                    Objects.requireNonNull(getActivity()).findViewById(R.id.btn_login_login).setEnabled(true);
+                    Objects.requireNonNull(getActivity()).findViewById(R.id.tv_login_register).setEnabled(true);
                 } else {
                     Log.e("ERROR", "Unsuccessful");
                 }
@@ -318,15 +343,21 @@ public class LoginFragment extends Fragment {
                         + System.lineSeparator()
                         + error.getMessage());
 
-                getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
-                getActivity().findViewById(R.id.btn_login_login).setEnabled(true);
-                getActivity().findViewById(R.id.tv_login_register).setEnabled(true);
+                Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+                Objects.requireNonNull(getActivity()).findViewById(R.id.btn_login_login).setEnabled(true);
+                Objects.requireNonNull(getActivity()).findViewById(R.id.tv_login_register).setEnabled(true);
 
                 ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_login_email)).setError("Unable to login.\nPlease try again later");
             }
         }
     }
 
+    /**
+     * Basic in-app validation so more obvious invalid logins don't go to server for validation.
+     * @param etEmail   where the user entered their email.
+     * @param etPass    where the user entered their password.
+     * @return          true if the credentials are valid, false otherwise.
+     */
     private boolean validateLogin(EditText etEmail, EditText etPass) {
         boolean result = true;
         String email = etEmail.getText().toString().trim();

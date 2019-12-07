@@ -2,7 +2,6 @@ package edu.uw.tcss450.team3chatapp.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,34 +20,38 @@ import android.widget.PopupMenu;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.utils.ThemeChanger;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
+/** Handles logic for settings menu. */
 public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemClickListener {
 
-    SharedPreferences mPrefs;
+    /** User shared preferences. */
+    private SharedPreferences mPrefs;
 
-    public SettingsFragment() {
-        // Required empty public constructor
-    }
+    /** Required empty public constructor */
+    public SettingsFragment() {/* Required empty public constructor */}
 
+    /** {@inheritDoc} */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
+    /**
+     * {@inheritDoc}
+     * Sets up views.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPrefs = getActivity().getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+        mPrefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
 
-        FrameLayout themeOption = getView().findViewById(R.id.frame_settings_theme);
+        FrameLayout themeOption = Objects.requireNonNull(getView()).findViewById(R.id.frame_settings_theme);
         themeOption.setOnClickListener(this::showThemeChangePopup);
 
         RadioGroup tempUnitOptions = getView().findViewById(R.id.rg_settings_temp);
@@ -70,16 +73,17 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
         ImageView iv_settings_currentThemeIcon = getView().findViewById(R.id.iv_settings_currentTheme);
 
         if (currentThemeID == R.style.DarkMode) {
-            tv_settings_currentTheme.setText("Current Theme: Dark Mode");
+            tv_settings_currentTheme.setText(getString(R.string.settings_theme_currentIsDark));
             iv_settings_currentThemeIcon.setImageResource(R.drawable.logo_dark);
         } else {
-            tv_settings_currentTheme.setText("Current Theme: Light Mode");
+            tv_settings_currentTheme.setText(getString(R.string.settings_theme_currentIsLight));
             iv_settings_currentThemeIcon.setImageResource(R.drawable.logo_light);
         }
         
-        tempUnitOptions.setOnCheckedChangeListener(this::changeTempUnits);
+        tempUnitOptions.setOnCheckedChangeListener((RadioGroup, checkedButton) -> changeTempUnits(checkedButton));
     }
 
+    /** Shows popup menu for theme selection */
     private void showThemeChangePopup(final View theView) {
         PopupMenu popup = new PopupMenu(getContext(), theView, Gravity.END);
         popup.setOnMenuItemClickListener(this);
@@ -89,6 +93,10 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
         popup.show();
     }
 
+    /**
+     * {@inheritDoc}
+     * Captures selection for theme selection.
+     */
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
@@ -103,12 +111,15 @@ public class SettingsFragment extends Fragment implements PopupMenu.OnMenuItemCl
         }
     }
 
+    /** Updates theme preference in user preferences.
+     */
     private void updateTheme(int theThemeId) {
         mPrefs.edit().putInt(getString(R.string.keys_prefs_theme), theThemeId).apply();
-        ThemeChanger.applyChange(getActivity());
+        ThemeChanger.applyChange(Objects.requireNonNull(getActivity()));
     }
 
-    private void changeTempUnits(RadioGroup radioGroup, int newlyCheckedButton) {
+    /** Updates units preference in shared preferences. */
+    private void changeTempUnits(int newlyCheckedButton) {
         switch(newlyCheckedButton) {
             case R.id.rb_settings_f:
                 mPrefs.edit().putString(getString(R.string.keys_prefs_tempunit), "F").apply();

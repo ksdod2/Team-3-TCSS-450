@@ -33,6 +33,7 @@ public class RegisterFragment extends Fragment {
     /** Required empty public constructor. */
     public RegisterFragment() {}
 
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class RegisterFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_register, container, false);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -157,7 +159,7 @@ public class RegisterFragment extends Fragment {
     private void handleRegisterPre() {
         Objects.requireNonNull(getActivity()).findViewById(R.id.layout_register_wait)
                 .setVisibility(View.VISIBLE);
-        getActivity().findViewById(R.id.btn_register_register).setEnabled(false);
+        Objects.requireNonNull(getActivity()).findViewById(R.id.btn_register_register).setEnabled(false);
     }
 
     /**
@@ -183,7 +185,7 @@ public class RegisterFragment extends Fragment {
                 }
                 Objects.requireNonNull(getActivity()).findViewById(R.id.layout_register_wait)
                         .setVisibility(View.GONE);
-                getActivity().findViewById(R.id.btn_register_register).setEnabled(true);
+                Objects.requireNonNull(getActivity()).findViewById(R.id.btn_register_register).setEnabled(true);
             } else {
                 Log.e("ERROR", "No Success");
             }
@@ -194,7 +196,7 @@ public class RegisterFragment extends Fragment {
 
             Objects.requireNonNull(getActivity()).findViewById(R.id.layout_register_wait)
                     .setVisibility(View.GONE);
-            getActivity().findViewById(R.id.btn_register_register).setEnabled(true);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.btn_register_register).setEnabled(true);
 
             ((TextView) Objects.requireNonNull(getView()).findViewById(R.id.et_register_email))
                     .setError("Unable to register, please try again later");

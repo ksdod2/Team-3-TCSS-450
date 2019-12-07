@@ -96,6 +96,8 @@ public class ChatListViewModel extends ViewModel {
     public static ViewModelProvider.Factory getFactory() {
         return new ViewModelProvider.Factory() {
 
+            /** {@inheritDoc} */
+            @SuppressWarnings("unchecked")
             @NonNull
             @Override
             public ChatListViewModel create(@NonNull Class modelClass) {

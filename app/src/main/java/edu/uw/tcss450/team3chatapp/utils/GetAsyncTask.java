@@ -70,9 +70,7 @@ public class GetAsyncTask extends AsyncTask<Void, String, String> {
 
         /**
          * Set the action to perform during AsyncTask onPreExecute.
-         *
          * @param val a action to perform during AsyncTask onPreExecute
-         * @return
          */
         public Builder onPreExecute(final Runnable val) {
             onPre = val;
@@ -80,23 +78,8 @@ public class GetAsyncTask extends AsyncTask<Void, String, String> {
         }
 
         /**
-         * Set the action to perform during AsyncTask onProgressUpdate. An action for
-         * onProgressUpdate is included but a call to publishProgress is never made in
-         * doInBackground rendering onProgressUpdate unused.
-         *
-         * @param val a action to perform during AsyncTask onProgressUpdate
-         * @return
-         */
-        public Builder onProgressUpdate(final Consumer<String[]> val) {
-            onProg = val;
-            return this;
-        }
-
-        /**
          * Set the action to perform during AsyncTask onPostExecute.
-         *
          * @param val a action to perform during AsyncTask onPostExecute
-         * @return
          */
         public Builder onPostExecute(final Consumer<String> val) {
             onPost = val;
@@ -108,9 +91,7 @@ public class GetAsyncTask extends AsyncTask<Void, String, String> {
          * called in doInBackGround during exception handling. Use this action to respond to
          * exceptional situations resulting from doInBackground execution. Note that external
          * cancellation will cause this action to execute.
-         *
          * @param val a action to perform during AsyncTask onCancelled
-         * @return
          */
         public Builder onCancelled(final Consumer<String> val) {
             onCancel = val;
@@ -118,19 +99,7 @@ public class GetAsyncTask extends AsyncTask<Void, String, String> {
         }
 
         /**
-         * Add a Key/Value pair to be set in the Header of the HTTP request.
-         * @param key the key of the pair
-         * @param value the vaue of the pair
-         * @return
-         */
-        public Builder addHeaderField(final String key, final String value) {
-            headers.put(key, value);
-            return this;
-        }
-
-        /**
          * Constructs a SendPostAsyncTask with the current attributes.
-         *
          * @return a SendPostAsyncTask with the current attributes
          */
         public GetAsyncTask build() {
@@ -141,7 +110,6 @@ public class GetAsyncTask extends AsyncTask<Void, String, String> {
 
     /**
      * Construct a SendPostAsyncTask internally from a builder.
-     *
      * @param builder the builder used to construct this object
      */
     private GetAsyncTask(final Builder builder) {

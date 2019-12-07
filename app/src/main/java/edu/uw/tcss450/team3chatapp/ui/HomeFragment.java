@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.HomeActivity;
@@ -46,6 +47,7 @@ import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
 import edu.uw.tcss450.team3chatapp.utils.Utils;
 import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 
+/** Controls home/landing page after user logs in. */
 public class HomeFragment extends Fragment {
 
     private TextView mWeatherTemp;
@@ -57,6 +59,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<Chat> mFavs;
     private Chat currentChat;
 
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,12 +89,14 @@ public class HomeFragment extends Fragment {
         Objects.requireNonNull(roomList.getAdapter()).notifyDataSetChanged();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // Custom back button functionality to exit app from this fragment
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            /** {@inheritDoc} */
             @Override
             public void handleOnBackPressed() {
                 Objects.requireNonNull(getActivity()).finish();
@@ -100,7 +105,7 @@ public class HomeFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
         //Get shared preferences for preferred temperature units
-        SharedPreferences prefs = Objects.requireNonNull(getActivity())
+        SharedPreferences prefs = Objects.requireNonNull(Objects.requireNonNull(getActivity()))
                 .getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         if(prefs.contains(getString(R.string.keys_prefs_tempunit))) {
             mUnits = prefs.getString(getString(R.string.keys_prefs_tempunit), "F");
@@ -141,8 +146,8 @@ public class HomeFragment extends Fragment {
         units.setText(tempUnitsDisplay);
 
         // format the date and day of week
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd");
-        SimpleDateFormat dayOfWeekFormat = new SimpleDateFormat("EEEE");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd", Locale.getDefault());
+        SimpleDateFormat dayOfWeekFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
 
         String dateString = dateFormat.format(calendar.getTime());
         String dayOfWeekString = dayOfWeekFormat.format((calendar.getTime()));
@@ -159,6 +164,7 @@ public class HomeFragment extends Fragment {
         populateWeatherData();
     }
 
+    /** Gets weather info from API on device location if weather profile not saved for it already. */
     private void populateWeatherData() {
         WeatherProfileViewModel model = ViewModelProviders
                 .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
@@ -194,15 +200,24 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /** Shows loading screen to user before executing AsyncTask. */
     private void weatherOnPre() {
         Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Removes loading screen on error/cancel.
+     * @param result JSON response from server.
+     */
     private void weatherOnCancel(final String result) {
         Log.e("ASYNC_TASK_ERROR", result);
         Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
     }
 
+    /**
+     * Parses JSON response from server and displays information on screen.
+     * @param result JSON response from server.
+     */
     private void weatherOnPost(final String result) {
         try {
             JSONObject currentWeatherRoot = new JSONObject(result);
@@ -222,7 +237,9 @@ public class HomeFragment extends Fragment {
 
                     String icFile = ob.getString(getString(R.string.keys_json_weather_icon)).substring(0, ob.getString(getString(R.string.keys_json_weather_icon)).length()-4);
 
-                    int id = getResources().getIdentifier(icFile, "mipmap", getContext().getPackageName());
+                    int id = getResources()
+                            .getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext())
+                            .getPackageName());
 
                     // Display info
                     mWeatherDescription.setText(ob.getString(getString(R.string.keys_json_weather_desc_long)));
@@ -233,10 +250,9 @@ public class HomeFragment extends Fragment {
                     Log.d("WEATHER_POST", "Either Place or Ob missing form Response: " + response.toString());
                 }
             }
-            getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
         } catch(JSONException e) {
-            //TODO Print useful error message
-            getActivity().findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
+            Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
         }
     }
 
@@ -294,11 +310,11 @@ public class HomeFragment extends Fragment {
                 MobileNavigationDirections.ActionGlobalNavChatroom chatroom =
                         MobileNavigationDirections.actionGlobalNavChatroom(messages,
                                 ((HomeActivity) Objects.requireNonNull(getActivity())).mArgs.getJwt(),
-                                ((HomeActivity) getActivity()).mArgs.getUserId(),
+                                ((HomeActivity) Objects.requireNonNull(getActivity())).mArgs.getUserId(),
                                 currentChat.getChatID(),
                                 currentChat.getName(),
                                 currentChat.isFavorited());
-                Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
+                Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment)
                         .navigate(chatroom);
             } else {
                 Log.e("ERROR!", "Couldn't get messages from chat");

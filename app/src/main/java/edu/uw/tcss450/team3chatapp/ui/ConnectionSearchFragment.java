@@ -60,7 +60,7 @@ public class ConnectionSearchFragment extends Fragment {
     /** Required empty public constructor. */
     public ConnectionSearchFragment() {}
 
-
+    /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -193,5 +193,4 @@ public class ConnectionSearchFragment extends Fragment {
                 ConnectionSearchFragmentDirections.actionConnectionSearchFragmentToNavConnectionview(tConn, mMemberID, mJWT);
         nc.navigate(connectionView);
     }
-
 }

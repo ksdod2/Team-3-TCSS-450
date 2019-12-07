@@ -51,11 +51,14 @@ public class Chat implements Serializable, Parcelable {
      * A Creator for use in creating chats.
      */
     public static final Creator<Chat> CREATOR = new Creator<Chat>() {
+
+        /** {@inheritDoc} */
         @Override
         public Chat createFromParcel(Parcel in) {
             return new Chat(in);
         }
 
+        /** {@inheritDoc} */
         @Override
         public Chat[] newArray(int size) {
             return new Chat[size];
@@ -104,11 +107,13 @@ public class Chat implements Serializable, Parcelable {
      */
     void setFavorited(final boolean tFavoriteFlag) { mFavorited = tFavoriteFlag;}
 
+    /** {@inheritDoc} */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(mName);
@@ -116,6 +121,7 @@ public class Chat implements Serializable, Parcelable {
         parcel.writeInt(mChatID);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(@Nullable Object obj) {
         if(!(obj instanceof  Chat))
@@ -123,6 +129,7 @@ public class Chat implements Serializable, Parcelable {
         return mChatID == ((Chat) obj).mChatID;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return Integer.hashCode(mChatID);

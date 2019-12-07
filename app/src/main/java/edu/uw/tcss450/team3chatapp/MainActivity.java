@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_LOCATIONS = 8414;
 
-    private SharedPreferences mPrefs;
     private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
@@ -35,12 +34,12 @@ public class MainActivity extends AppCompatActivity {
         Pushy.listen(this);
 
         //Apply user-preferred theme from shared preferences before setContentView
-        mPrefs = getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
-        if(mPrefs.contains(getString(R.string.keys_prefs_theme))) {
-            int themeId = mPrefs.getInt(getString(R.string.keys_prefs_theme), R.style.DarkMode);
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+        if(prefs.contains(getString(R.string.keys_prefs_theme))) {
+            int themeId = prefs.getInt(getString(R.string.keys_prefs_theme), R.style.DarkMode);
             ThemeChanger.setThemeOnActivityCreation(this, themeId);
         } else {
-            mPrefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.DarkMode).apply();
+            prefs.edit().putInt(getString(R.string.keys_prefs_theme), R.style.DarkMode).apply();
             ThemeChanger.setThemeOnActivityCreation(this, R.style.DarkMode);
         }
 

@@ -45,6 +45,7 @@ public class ConnectionHomeFragment extends Fragment {
     /** Required empty public constructor. */
     public ConnectionHomeFragment() {}
 
+    /** {@inheritDoc} */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,

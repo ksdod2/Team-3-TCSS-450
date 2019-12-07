@@ -136,6 +136,8 @@
 
     <!-- Settings menu strings -->
     <!-- Theme settings strings -->
+    <string name="settings_theme_currentIsDark">"Current Theme: Dark Mode"</string>
+    <string name="settings_theme_currentIsLight">"Current Theme: Light Mode"</string>
     <string name="tv_settings_themechange">Change App Theme</string>
     <string name="tv_settings_themecurrent">Current Theme</string>
     <string name="tv_settings_temp">Change Temperature Units</string>

@@ -72,6 +72,8 @@ public class ConnectionListViewModel extends ViewModel {
     public static ViewModelProvider.Factory getFactory() {
         return new ViewModelProvider.Factory() {
 
+            /** {@inheritDoc} */
+            @SuppressWarnings("unchecked")
             @NonNull
             @Override
             public ConnectionListViewModel create(@NonNull Class modelClass) {

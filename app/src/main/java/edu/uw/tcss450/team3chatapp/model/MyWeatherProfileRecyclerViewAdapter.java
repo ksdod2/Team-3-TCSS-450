@@ -1,12 +1,8 @@
 package edu.uw.tcss450.team3chatapp.model;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -29,18 +25,29 @@ import java.util.Objects;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link WeatherProfile} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
+ *
+ * @author Kameron Dodd
+ * @author Alex Bledsoe
  */
 public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyWeatherProfileRecyclerViewAdapter.ViewHolder> {
 
+    /** The weather profiles to display */
     private final List<WeatherProfile> mValues;
+    /** The listener */
     private final OnListFragmentInteractionListener mListener;
-    private Context mContext;
 
+    /**
+     * Constructor
+     *
+     * @param items     list of current and saved location weather profiles
+     * @param listener  the listener
+     */
     public MyWeatherProfileRecyclerViewAdapter(List<WeatherProfile> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
 
+    /** {@inheritDoc} */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -49,30 +56,30 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         return new ViewHolder(view);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        mContext = holder.mView.getContext();
         holder.mWP = mValues.get(position);
 
         try {
             JSONObject rootAll = new JSONObject(holder.mWP.get10DayForecast());
-            JSONObject rootToday = getFirst(rootAll);
+            JSONObject rootToday = getFirst(rootAll, holder.mView.getContext());
 
             // Get info from JSON
             String name = holder.mWP.getCityState();
-            String icFile = rootToday.getString(mContext.getString(R.string.keys_json_weather_icon))
-                    .substring(0, rootToday.getString(mContext.getString(R.string.keys_json_weather_icon)).length()-4);
-            String desc = rootToday.getString(mContext.getString(R.string.keys_json_weather_primary)) + '\u00A0';
-            int intRain = Integer.parseInt(rootToday.getString(mContext.getString(R.string.keys_json_weather_precipitation)));
+            String icFile = rootToday.getString(holder.mView.getContext().getString(R.string.keys_json_weather_icon))
+                    .substring(0, rootToday.getString(holder.mView.getContext().getString(R.string.keys_json_weather_icon)).length()-4);
+            String desc = rootToday.getString(holder.mView.getContext().getString(R.string.keys_json_weather_primary)) + '\u00A0';
+            int intRain = Integer.parseInt(rootToday.getString(holder.mView.getContext().getString(R.string.keys_json_weather_precipitation)));
             String pop = intRain + "%";
             String highTemp = "F".equals(holder.mUnits)
-                    ? rootToday.getString(mContext.getString(R.string.keys_json_weather_maxtempf))
-                    : rootToday.getString(mContext.getString(R.string.keys_json_weather_maxtempc));
-            highTemp += mContext.getString(R.string.misc_temp_unit_symbol);
+                    ? rootToday.getString(holder.mView.getContext().getString(R.string.keys_json_weather_maxtempf))
+                    : rootToday.getString(holder.mView.getContext().getString(R.string.keys_json_weather_maxtempc));
+            highTemp += holder.mView.getContext().getString(R.string.misc_temp_unit_symbol);
             String lowTemp = "F".equals(holder.mUnits)
-                    ? rootToday.getString(mContext.getString(R.string.keys_json_weather_mintempf))
-                    : rootToday.getString(mContext.getString(R.string.keys_json_weather_mintempc));
-            lowTemp += mContext.getString(R.string.misc_temp_unit_symbol);
+                    ? rootToday.getString(holder.mView.getContext().getString(R.string.keys_json_weather_mintempf))
+                    : rootToday.getString(holder.mView.getContext().getString(R.string.keys_json_weather_mintempc));
+            lowTemp += holder.mView.getContext().getString(R.string.misc_temp_unit_symbol);
 
             // Display Info
             holder.mLocationName.setText(name);
@@ -81,7 +88,7 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
             holder.mHighTemp.setText(highTemp);
             holder.mHighTemp.setTypeface(Typeface.DEFAULT_BOLD);
             holder.mLowTemp.setText(lowTemp);
-            holder.mIcon.setImageResource(mContext.getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(mContext.getPackageName())));
+            holder.mIcon.setImageResource(holder.mView.getContext().getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(holder.mView.getContext().getPackageName())));
 
             //Display context specific info
             if(intRain > 20) {holder.mRainChance.setVisibility(View.VISIBLE);}
@@ -103,11 +110,13 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         });
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getItemCount() {
         return mValues.size();
     }
 
+    /** Inner ViewHolder class */
     class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
         final Space mSpace;
@@ -121,6 +130,11 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         final String mUnits;
         WeatherProfile mWP;
 
+        /**
+         * Constructor
+         *
+         * @param view weather fragment view
+         */
         ViewHolder(View view) {
             super(view);
             mView = view;
@@ -142,6 +156,7 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
             }
         }
 
+        /** {@inheritDoc} */
         @NonNull
         @Override
         public String toString() {
@@ -149,14 +164,21 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         }
     }
 
-    private JSONObject getFirst(final JSONObject theListJSON) {
+    /**
+     * Takes an array of JSON objects and returns the first one, parsed down right to the needed information.
+     *
+     * @param theListJSON   JSON object wrapper for array.
+     * @param theContext    view context for access to keys in res folder.
+     * @return the first JSON object in the array, with all the wrapper JSON objects removed.
+     */
+    private JSONObject getFirst(final JSONObject theListJSON, final Context theContext) {
         JSONObject first = null;
 
         try {
             first = theListJSON
-                    .getJSONArray(mContext.getString(R.string.keys_json_weather_response))
+                    .getJSONArray(theContext.getString(R.string.keys_json_weather_response))
                     .getJSONObject(0)
-                    .getJSONArray(mContext.getString(R.string.keys_json_weather_periods_array))
+                    .getJSONArray(theContext.getString(R.string.keys_json_weather_periods_array))
                     .getJSONObject(0);
         } catch (JSONException e) {
             e.printStackTrace();

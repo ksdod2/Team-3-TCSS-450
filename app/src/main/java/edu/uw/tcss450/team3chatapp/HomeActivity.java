@@ -444,6 +444,7 @@ public class HomeActivity extends AppCompatActivity {
     /** A BroadcastReceiver that listens for messages sent from PushReceiver. */
     private class HomePushMessageReceiver extends BroadcastReceiver {
 
+        @SuppressWarnings("deprecation")
         @Override
         public void onReceive(Context context, Intent intent) {
 
