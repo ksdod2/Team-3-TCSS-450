@@ -3,5 +3,4 @@ A chat client, social network and weather forecaster. Everything you need to sta
 
 [Project Showcase](https://youtu.be/-drNv2Us5FI)
 
-### Note:
-Weather no longer works since trial for AerisWeather API ended.
+### Note: Real-time weather no longer works since trial for AerisWeather API ended.
