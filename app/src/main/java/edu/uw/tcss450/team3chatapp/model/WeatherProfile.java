@@ -23,48 +23,48 @@ public class WeatherProfile implements Serializable {
     /** Current conditions JSON from weather API */
     private String mCurrentWeatherJSONStr;
     /** 10 Day forecast info JSON from weather API */
-    private String m10DayForecastJSONStr;
+    private String m7DayForecastJSONStr;
     /** 24 Hour forecast info JSON from weather API */
-    private String m24hrForecastJSONStr;
+    private String m48hrForecastJSONStr;
 
     /**
      * Constructor
      *
      * @param tLoc          latitiude & longitude that weather relates to.
      * @param tCurWeather   current conditions JSON string.
-     * @param t10day        10 day forecast JSON string.
-     * @param t24hr         24 hour forecast JSON string.
+     * @param t7day        10 day forecast JSON string.
+     * @param t48hr         24 hour forecast JSON string.
      * @param tCityState    formatted city and state of location
      */
     public WeatherProfile( final LatLng tLoc,
                     final String tCurWeather,
-                    final String t10day,
-                    final String t24hr,
+                    final String t7day,
+                    final String t48hr,
                     final String tCityState) {
 
         mLatitude = tLoc.latitude;
         mLongitude = tLoc.longitude;
         mCurrentWeatherJSONStr = tCurWeather;
-        m10DayForecastJSONStr = t10day;
-        m24hrForecastJSONStr = t24hr;
+        m7DayForecastJSONStr = t7day;
+        m48hrForecastJSONStr = t48hr;
         mCityState = tCityState;
     }
 
     /** @return latitude and longitude of location as LatLng object. */
-    public LatLng getLocation() {return new LatLng(mLatitude, mLongitude);}
+    public LatLng getLocation() { return new LatLng(mLatitude, mLongitude); }
     /** @return JSON string for current weather conditions. */
-    public String getCurrentWeather() {return mCurrentWeatherJSONStr;}
+    public String getCurrentWeather() { return mCurrentWeatherJSONStr; }
     /** @return JSON string for 10 day forecast information. */
-    public String get10DayForecast() {return m10DayForecastJSONStr;}
+    public String get7DayForecast() { return m7DayForecastJSONStr; }
     /** @return JSON string for 24 hour forecast information. */
-    public String get24hrForecast() {return m24hrForecastJSONStr;}
+    public String get48hrForecast() { return m48hrForecastJSONStr; }
     /** @return "{CityName}, {StateName}" */
-    public String getCityState() {return mCityState;}
+    public String getCityState() { return mCityState; }
 
     /** @return true if the weather profiles have the same mCityState field; false otherwise. */
     @Override
     public boolean equals(@Nullable Object theOther) {
-        if(!(theOther instanceof WeatherProfile)){return false;}
+        if(!(theOther instanceof WeatherProfile)) { return false; }
         WeatherProfile other = (WeatherProfile) theOther;
         return mCityState.equals(Objects.requireNonNull(other).getCityState());
     }

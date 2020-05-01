@@ -7,7 +7,10 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.model.LocationViewModel;
@@ -103,26 +106,31 @@ public class Utils {
 
     /**
      * Formats the city and state strings into one in the form "{City}, {State}"
-     * @param name  the city
-     * @param state the state
+     * @param tCity  the city
+     * @param tState the state
      * @return      the formatted, concatenated string.
      */
-    public static String formatCityState(String name, String state) {
+    public static String formatCityState(String tCity, String tState) {
 
-        StringBuilder city = new StringBuilder();
+        StringBuilder formattedCity = new StringBuilder();
 
         String[] split;
-        if(name.contains(" ")) {
-            split = name.split(" ");
+        if(tCity.contains(" ")) {
+            split = tCity.split(" ");
             for(String s : split) {
-                city.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
+                formattedCity.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
             }
         } else {
-            city.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).append(" ");
+            formattedCity.append(tCity.substring(0, 1).toUpperCase()).append(tCity.substring(1)).append(" ");
         }
-        city.trimToSize();
+        formattedCity.trimToSize();
 
-        return city.append(", ").append(state).toString();
+        String formattedState = tState;
+        if(tState.length() > 2) {
+            formattedState = getStateAbbr(tState);
+        }
+
+        return formattedCity.append(", ").append(formattedState).toString();
     }
 
     /**
@@ -168,5 +176,90 @@ public class Utils {
         }
         Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-}
 
+    public static String getDisplayTemp(Double tNumber, String tUnit) {
+        DecimalFormat df = new DecimalFormat("###");
+        double result = tNumber - 273.15;
+        if("f".equals(tUnit.toLowerCase())) {
+            result = result * 9 / 5 + 32;
+        }
+        return df.format(result);
+    }
+
+    public static String getStateAbbr(String fullName) {
+        Map<String, String> states = new HashMap<String, String>();
+        states.put("Alabama","AL");
+        states.put("Alaska","AK");
+        states.put("Alberta","AB");
+        states.put("American Samoa","AS");
+        states.put("Arizona","AZ");
+        states.put("Arkansas","AR");
+        states.put("Armed Forces (AE)","AE");
+        states.put("Armed Forces Americas","AA");
+        states.put("Armed Forces Pacific","AP");
+        states.put("British Columbia","BC");
+        states.put("California","CA");
+        states.put("Colorado","CO");
+        states.put("Connecticut","CT");
+        states.put("Delaware","DE");
+        states.put("District Of Columbia","DC");
+        states.put("Florida","FL");
+        states.put("Georgia","GA");
+        states.put("Guam","GU");
+        states.put("Hawaii","HI");
+        states.put("Idaho","ID");
+        states.put("Illinois","IL");
+        states.put("Indiana","IN");
+        states.put("Iowa","IA");
+        states.put("Kansas","KS");
+        states.put("Kentucky","KY");
+        states.put("Louisiana","LA");
+        states.put("Maine","ME");
+        states.put("Manitoba","MB");
+        states.put("Maryland","MD");
+        states.put("Massachusetts","MA");
+        states.put("Michigan","MI");
+        states.put("Minnesota","MN");
+        states.put("Mississippi","MS");
+        states.put("Missouri","MO");
+        states.put("Montana","MT");
+        states.put("Nebraska","NE");
+        states.put("Nevada","NV");
+        states.put("New Brunswick","NB");
+        states.put("New Hampshire","NH");
+        states.put("New Jersey","NJ");
+        states.put("New Mexico","NM");
+        states.put("New York","NY");
+        states.put("Newfoundland","NF");
+        states.put("North Carolina","NC");
+        states.put("North Dakota","ND");
+        states.put("Northwest Territories","NT");
+        states.put("Nova Scotia","NS");
+        states.put("Nunavut","NU");
+        states.put("Ohio","OH");
+        states.put("Oklahoma","OK");
+        states.put("Ontario","ON");
+        states.put("Oregon","OR");
+        states.put("Pennsylvania","PA");
+        states.put("Prince Edward Island","PE");
+        states.put("Puerto Rico","PR");
+        states.put("Quebec","QC");
+        states.put("Rhode Island","RI");
+        states.put("Saskatchewan","SK");
+        states.put("South Carolina","SC");
+        states.put("South Dakota","SD");
+        states.put("Tennessee","TN");
+        states.put("Texas","TX");
+        states.put("Utah","UT");
+        states.put("Vermont","VT");
+        states.put("Virgin Islands","VI");
+        states.put("Virginia","VA");
+        states.put("Washington","WA");
+        states.put("West Virginia","WV");
+        states.put("Wisconsin","WI");
+        states.put("Wyoming","WY");
+        states.put("Yukon Territory","YT");
+
+        return states.get(fullName);
+    }
+}

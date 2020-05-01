@@ -131,7 +131,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_weatherprf_highTemp"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@mipmap/rainw" />
+                    app:srcCompat="@mipmap/icon10d" />
 
                 <TextView
                     android:id="@+id/tv_weatherprof_pop"

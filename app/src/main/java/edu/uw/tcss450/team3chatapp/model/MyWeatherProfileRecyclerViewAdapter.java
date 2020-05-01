@@ -62,7 +62,7 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.mWP = mValues.get(position);
 
         try {
-            JSONObject rootAll = new JSONObject(holder.mWP.get10DayForecast());
+            JSONObject rootAll = new JSONObject(holder.mWP.get7DayForecast());
             JSONObject rootToday = getFirst(rootAll, holder.mView.getContext());
 
             // Get info from JSON

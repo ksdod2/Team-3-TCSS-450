@@ -141,13 +141,12 @@ public class WeatherFragment extends Fragment {
                             ArrayList<LatLng> wrapper = new ArrayList<>();
                             mFromZip = new LatLng(add.getLatitude(),add.getLongitude());
                             wrapper.add(mFromZip);
-
+                            //TODO - test
                             Uri uri = new Uri.Builder()
                                     .scheme("https")
                                     .authority("team3-chatapp-backend.herokuapp.com")
                                     .appendPath("weather")
-                                    .appendPath("batch")
-                                    .appendQueryParameter("requests", Utils.buildWeatherProfileQuery(wrapper))
+                                    .appendPath(Double.toString(mFromZip.latitude) + ":" + Double.toString(mFromZip.longitude))
                                     .build();
 
                             Log.d("API_CALL_MAP", uri.toString());
@@ -184,7 +183,7 @@ public class WeatherFragment extends Fragment {
         Log.d("ZIP", result);
     }
 
-    /** onPost */
+    /** onPost */ //TODO - fix
     private void searchZipPost(final String result) {
         WeatherProfile wpToLoad = null;
         try {
@@ -256,100 +255,86 @@ public class WeatherFragment extends Fragment {
     /** Controller for setting up views with weather info. */
     private void populateWeatherData(final WeatherProfile theWP) {
         if(theWP != null) {
-            try {
-                JSONObject currentWeatherJSON = new JSONObject(theWP.getCurrentWeather());
-                JSONObject forecast24HrJSON = new JSONObject(theWP.get24hrForecast());
-                JSONObject forecast10DayJSON = new JSONObject(theWP.get10DayForecast());
+//            try {
+//                JSONObject currentWeatherJSON = new JSONObject(theWP.getCurrentWeather());
+//                JSONArray forecast48HrJSON = new JSONArray(theWP.get48hrForecast());
+//                JSONArray forecast7DayJSON = new JSONArray(theWP.get7DayForecast());
 
-                setupCurrent(currentWeatherJSON, getFirst(forecast10DayJSON));
-                setup24Hour(forecast24HrJSON);
-                setup10Day(forecast10DayJSON);
-            } catch (JSONException e) {e.printStackTrace();}
+            setupCurrent(theWP);
+//                setupCurrent(currentWeatherJSON, getFirst(forecast7DayJSON));
+//                setup24Hour(forecast48HrJSON);
+//                setup10Day(forecast7DayJSON);
+//            } catch (JSONException e) {e.printStackTrace();}
         } else {
             Log.e("WEATHER_FRAG_ERR", "No current weather profile");
         }
     }
 
     /** Sets up current conditions section in fragment. */
-    private void setupCurrent(final JSONObject theCurrentConditionsJSON, final JSONObject theDaysForecastJSON) {
+    private void setupCurrent(final WeatherProfile tWP) {
         // Get TextViews to populate from layout
         TextView tvCurrentTempUnits = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_current_tempunits);
-        TextView tvWindSpeedUnits = Objects.requireNonNull(getView().findViewById(R.id.tv_weather_current_windspeed_units));
 
         TextView tvCityState = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentCityState);
         TextView tvCurrentTemp = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentTemperatureDefault);
         TextView tvDescription = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentDescriptionDefault);
         TextView tvHumidity = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentHumidityDefault);
-        TextView tvWindSpeed = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentWindDefault);
         ImageView ivIcon = Objects.requireNonNull(getView()).findViewById(R.id.iv_weather_currentIcon);
 
         TextView tvMinTemp = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentMinimumDefault);
         TextView tvMaxTemp = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentMaximumDefault);
-        TextView tvRainChance = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentPrecipitationDefault);
         TextView tvSunrise = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentSunriseDefault);
         TextView tvSunset = Objects.requireNonNull(getView()).findViewById(R.id.tv_weather_currentSunsetDefault);
 
         //Set units
         String tempUnitDisplay = mUnits;
         tvCurrentTempUnits.setText(tempUnitDisplay);
-        tvWindSpeedUnits.setText("F".equals(mUnits) ? getString(R.string.tv_weather_windunits_imperial)
-                                                    : getString(R.string.tv_weather_windunits_metric));
 
         // parse JSON
         try {
-            if (theCurrentConditionsJSON.has(getString(R.string.keys_json_weather_response))) {
-                JSONObject response = theCurrentConditionsJSON.getJSONObject(getString(R.string.keys_json_weather_response));
-                if(response.has(getString(R.string.keys_json_weather_place)) && response.has(getString(R.string.keys_json_weather_ob))) {
-                    JSONObject place = response.getJSONObject("place");
-                    JSONObject ob = response.getJSONObject("ob");
+            //Get relevant JSON from tWP
+            JSONObject currCond = new JSONObject(tWP.getCurrentWeather());
+            JSONObject hiLoInfo = getFirst(new JSONArray(tWP.get7DayForecast()));
+            String cityState = tWP.getCityState();
 
-                    // Get icon file resource name (minus ".png" extension)
-                    String icFile = ob.getString(getString(R.string.keys_json_weather_icon))
-                            .substring(0, ob.getString(getString(R.string.keys_json_weather_icon)).length()-4);
+            // Get icon file resource name
+            String icFile = "icon" + currCond
+                    .getJSONArray("weather")
+                    .getJSONObject(0)
+                    .getString("icon");
 
-                    // Display info
-                    String cityState = Utils.formatCityState(place.getString("name"), place.getString("state").toUpperCase()) + "\u00A0";
-                    tvCityState.setText(cityState);
+            // Display info
+            tvCityState.setText(cityState);
 
-                    String curTempDisplay = "F".equals(mUnits)
-                                            ? ob.getString(getString(R.string.keys_json_weather_tempf))
-                                            : ob.getString(getString(R.string.keys_json_weather_tempc));
-                    curTempDisplay += getString(R.string.misc_temp_unit_symbol);
-                    tvCurrentTemp.setText(curTempDisplay);
+            String curTempDisplay = Utils.getDisplayTemp(currCond.getDouble("temp"), mUnits);
+            curTempDisplay += getString(R.string.misc_temp_unit_symbol);
+            tvCurrentTemp.setText(curTempDisplay);
 
-                    tvDescription.setText(Utils.cloudDecode(ob.getString(getString(R.string.keys_json_weather_cloudcode))));
+            tvDescription.setText(currCond
+                    .getJSONArray("weather")
+                    .getJSONObject(0)
+                    .getString("description"));
 
-                    String humidityDisplay = ob.getString(getString(R.string.keys_json_weather_humidity)) + "%";
-                    tvHumidity.setText(humidityDisplay);
+            String humidityDisplay = currCond.getString("humidity") + "%";
+            tvHumidity.setText(humidityDisplay);
 
-                    tvWindSpeed.setText("F".equals(mUnits)
-                                            ? ob.getString(getString(R.string.keys_json_weather_windspeed_imperial))
-                                            : ob.getString(getString(R.string.keys_json_weather_windspeed_metric)));
+            ivIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
 
-                    ivIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
+            JSONObject tempJSON = hiLoInfo.getJSONObject("temp");
+            String lowTempDisplay = Utils.getDisplayTemp(tempJSON.getDouble("min"), mUnits);
+            lowTempDisplay += getString(R.string.misc_temp_unit_symbol);
+            tvMinTemp.setText(lowTempDisplay);
 
-                    String lowTempDisplay = "F".equals(mUnits)
-                            ? theDaysForecastJSON.getString(getString(R.string.keys_json_weather_mintempf))
-                            : theDaysForecastJSON.getString(getString(R.string.keys_json_weather_mintempc));
-                    lowTempDisplay += getString(R.string.misc_temp_unit_symbol);
-                    tvMinTemp.setText(lowTempDisplay);
+            String highTempDisplay = Utils.getDisplayTemp(tempJSON.getDouble("max"), mUnits);
+            highTempDisplay += getString(R.string.misc_temp_unit_symbol);
+            tvMaxTemp.setText(highTempDisplay);
 
-                    String highTempDisplay = "F".equals(mUnits)
-                            ? theDaysForecastJSON.getString(getString(R.string.keys_json_weather_maxtempf))
-                            : theDaysForecastJSON.getString(getString(R.string.keys_json_weather_maxtempc));
-                    highTempDisplay += getString(R.string.misc_temp_unit_symbol);
-                    tvMaxTemp.setText(highTempDisplay);
+            tvSunrise.setText(new SimpleDateFormat("HH:mm").format(new java.util.Date(currCond.getLong("sunrise")*1000L)));
 
-                    String rainChanceDisplay = theDaysForecastJSON.getString(getString(R.string.keys_json_weather_precipitation)) + "%";
-                    tvRainChance.setText(rainChanceDisplay);
+            tvSunset.setText(new SimpleDateFormat("HH:mm").format(new java.util.Date(currCond.getLong("sunset")*1000L)));
 
-                    tvSunrise.setText(new SimpleDateFormat("HH:mm").format(new java.util.Date(Long.parseLong(theDaysForecastJSON.getString(getString(R.string.keys_json_weather_sunrise)))*1000L)));
-
-                    tvSunset.setText(new SimpleDateFormat("HH:mm").format(new java.util.Date(Long.parseLong(theDaysForecastJSON.getString(getString(R.string.keys_json_weather_sunset)))*1000L)));
-                }
-            }
-        } catch(JSONException e) {
-            //TODO Print useful error message
+        } catch (JSONException e) { //TODO Print useful error message
+            e.printStackTrace();
         }
     }
 
@@ -457,15 +442,11 @@ public class WeatherFragment extends Fragment {
      * @param theListJSON   JSON object containing list of all 10 forecasts
      * @return              JSON object containing just the first day's forecast (today)
      */
-    private JSONObject getFirst(final JSONObject theListJSON) {
+    private JSONObject getFirst(final JSONArray theListJSON) {
         JSONObject first = null;
 
         try {
-            first = theListJSON
-                    .getJSONArray(getString(R.string.keys_json_weather_response))
-                    .getJSONObject(0)
-                    .getJSONArray(getString(R.string.keys_json_weather_periods_array))
-                    .getJSONObject(0);
+            first = theListJSON.getJSONObject(0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
