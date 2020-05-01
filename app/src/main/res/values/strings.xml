@@ -42,7 +42,7 @@
     <string name="tv_weather_savedLocations"><u>View Saved Locations</u></string>
     <string name="tv_weather_currentConditions">Current Conditions</string>
     <string name="tv_weather_24hourForecast">24-Hour Forecast</string>
-    <string name="tv_weather_10dayForecast">10-Day Forecast</string>
+    <string name="tv_weather_7dayForecast">7-Day Forecast</string>
     <string name="btn_weather_search">Search</string>
     <string name="btn_map_use">Use This Location</string>
     <!--current conditions strings-->

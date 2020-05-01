@@ -1243,7 +1243,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/tv_weather_10dayForecast"
+            android:text="@string/tv_weather_7dayForecast"
             android:textColor="@color/darkModeButtonColor"
             android:textSize="30sp"
             android:textStyle="bold"
