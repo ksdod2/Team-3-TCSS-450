@@ -260,11 +260,14 @@ public class WeatherFragment extends Fragment {
 //                JSONArray forecast48HrJSON = new JSONArray(theWP.get48hrForecast());
 //                JSONArray forecast7DayJSON = new JSONArray(theWP.get7DayForecast());
 
-            setupCurrent(theWP);
 //                setupCurrent(currentWeatherJSON, getFirst(forecast7DayJSON));
 //                setup24Hour(forecast48HrJSON);
 //                setup10Day(forecast7DayJSON);
 //            } catch (JSONException e) {e.printStackTrace();}
+
+            setupCurrent(theWP);
+            setup24Hour(theWP);
+            setup7Day(theWP);
         } else {
             Log.e("WEATHER_FRAG_ERR", "No current weather profile");
         }
@@ -339,7 +342,8 @@ public class WeatherFragment extends Fragment {
     }
 
     /** Sets up 24 hour forecast section in fragment. */
-    private void setup24Hour(final JSONObject the24HourForecastJSON) {
+    private void setup24Hour(final WeatherProfile tWP) {
+
         LinearLayout container = Objects.requireNonNull(getView()).findViewById(R.id.layout_weather_24hourForecast);
         ArrayList<ArrayList<View>> lists = build24HourLists(container);
 
@@ -349,32 +353,28 @@ public class WeatherFragment extends Fragment {
 
         // Parse JSON
         try {
-            if (the24HourForecastJSON.has(getString(R.string.keys_json_weather_response))) {
-                JSONArray responseArr = the24HourForecastJSON.getJSONArray(getString(R.string.keys_json_weather_response));
-                if(responseArr.getJSONObject(0).has(getString(R.string.keys_json_weather_periods_array))) {
-                    JSONArray periods = responseArr.getJSONObject(0).getJSONArray(getString(R.string.keys_json_weather_periods_array));
+            JSONArray allHoursJSON = new JSONArray(tWP.get48hrForecast());
 
-                    for(int i = 0; i < periods.length(); i++) {
-                        JSONObject curHourData = periods.getJSONObject(i);
+            for(int i = 0; i < 24; i++) {
+                JSONObject curHourData = allHoursJSON.getJSONObject(i+1);
 
-                        TextView tvCurHour = (TextView) hours.get(i);
-                        ImageView ivCurIcon = (ImageView) icons.get(i);
-                        TextView tvCurTemp = (TextView) temps.get(i);
+                TextView tvCurHour = (TextView) hours.get(i);
+                ImageView ivCurIcon = (ImageView) icons.get(i);
+                TextView tvCurTemp = (TextView) temps.get(i);
 
-                        String hourDisplay =new SimpleDateFormat("HH:mm").format(new java.util.Date(Long.parseLong(curHourData.getString(getString(R.string.keys_json_weather_hourly_timestamp)))*1000L));
-                        tvCurHour.setText(hourDisplay);
+                String hourDisplay = new SimpleDateFormat("HH:mm")
+                        .format(new java.util.Date(curHourData.getLong("dt")*1000L));
+                tvCurHour.setText(hourDisplay);
 
-                        String icFile = curHourData.getString(getString(R.string.keys_json_weather_icon))
-                                .substring(0, curHourData.getString(getString(R.string.keys_json_weather_icon)).length()-4);
-                        ivCurIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
+                String icFile = "icon" + curHourData
+                        .getJSONArray("weather")
+                        .getJSONObject(0)
+                        .getString("icon");;
+                ivCurIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
 
-                        String tempDisplay = "F".equals(mUnits)
-                                ? curHourData.getString(getString(R.string.keys_json_weather_avgtempf))
-                                : curHourData.getString(getString(R.string.keys_json_weather_avgtempc));
-                         tempDisplay += getString(R.string.misc_temp_unit_symbol);
-                        tvCurTemp.setText(tempDisplay);
-                    }
-                }
+                String tempDisplay = Utils.getDisplayTemp(curHourData.getDouble("temp"), mUnits);
+                tempDisplay += getString(R.string.misc_temp_unit_symbol);
+                tvCurTemp.setText(tempDisplay);
             }
         } catch(JSONException e) {
             //TODO Print useful error message
@@ -382,9 +382,9 @@ public class WeatherFragment extends Fragment {
     }
 
     /** Sets up 10 day forecast section in fragment. */
-    private void setup10Day(final JSONObject the10DayJSON) {
+    private void setup7Day(final WeatherProfile tWP) {
         LinearLayout container = Objects.requireNonNull(getView()).findViewById(R.id.layout_weather_10dayForecast);
-        ArrayList<ArrayList<View>> lists = build10DayLists(container);
+        ArrayList<ArrayList<View>> lists = build7DayLists(container);
 
         ArrayList<View> dates = lists.get(0);
         ArrayList<View> icons = lists.get(1);
@@ -393,42 +393,35 @@ public class WeatherFragment extends Fragment {
 
         // parse JSON
         try{
-            if (the10DayJSON.has(getString(R.string.keys_json_weather_response))) {
-                JSONArray responseArr = the10DayJSON.getJSONArray(getString(R.string.keys_json_weather_response));
-                if (responseArr.getJSONObject(0).has(getString(R.string.keys_json_weather_periods_array))) {
-                    JSONArray periods = responseArr.getJSONObject(0).getJSONArray(getString(R.string.keys_json_weather_periods_array));
+            JSONArray allDaysJSON = new JSONArray(tWP.get7DayForecast());
 
-                    for(int i = 0; i < periods.length(); i++) {
-                        JSONObject curDayData = periods.getJSONObject(i);
+            for(int i = 0; i < allDaysJSON.length()-1; i++) {
+                JSONObject curDayData = allDaysJSON.getJSONObject(i+1);
 
-                        // Get views to display info in
-                        TextView tvCurDate = (TextView) dates.get(i);
-                        ImageView ivCurIcon = (ImageView) icons.get(i);
-                        TextView tvCurHigh = (TextView) highs.get(i);
-                        TextView tvCurLow = (TextView) lows.get(i);
+                // Get views to display info in
+                TextView tvCurDate = (TextView) dates.get(i);
+                ImageView ivCurIcon = (ImageView) icons.get(i);
+                TextView tvCurHigh = (TextView) highs.get(i);
+                TextView tvCurLow = (TextView) lows.get(i);
 
-                        // Display Info
-                        String formattedDate = new SimpleDateFormat("EEE, MMM dd")
-                                .format(new java.util.Date(Long.parseLong(curDayData.getString(getString(R.string.keys_json_weather_hourly_timestamp)))*1000L));
-                        tvCurDate.setText(formattedDate);
+                // Display Info
+                String formattedDate = new SimpleDateFormat("EEE, MMM dd")
+                        .format(new java.util.Date(curDayData.getLong("dt")*1000L));
+                tvCurDate.setText(formattedDate);
 
-                        String icFile = curDayData.getString(getString(R.string.keys_json_weather_icon))
-                                .substring(0, curDayData.getString(getString(R.string.keys_json_weather_icon)).length()-4);
-                        ivCurIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
+                String icFile = "icon" + curDayData
+                        .getJSONArray("weather")
+                        .getJSONObject(0)
+                        .getString("icon");
+                ivCurIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
 
-                        String tempDisplay = "F".equals(mUnits)
-                                ? curDayData.getString(getString(R.string.keys_json_weather_maxtempf))
-                                : curDayData.getString(getString(R.string.keys_json_weather_maxtempc));
-                        tempDisplay += getString(R.string.misc_temp_unit_symbol);
-                        tvCurHigh.setText(tempDisplay);
+                String tempDisplay = Utils.getDisplayTemp(curDayData.getJSONObject("temp").getDouble("max"), mUnits);
+                tempDisplay += getString(R.string.misc_temp_unit_symbol);
+                tvCurHigh.setText(tempDisplay);
 
-                        tempDisplay = "F".equals(mUnits)
-                                ? curDayData.getString(getString(R.string.keys_json_weather_mintempf))
-                                : curDayData.getString(getString(R.string.keys_json_weather_mintempc));
-                        tempDisplay += getString(R.string.misc_temp_unit_symbol);
-                        tvCurLow.setText(tempDisplay);
-                    }
-                }
+                tempDisplay = Utils.getDisplayTemp(curDayData.getJSONObject("temp").getDouble("min"), mUnits);
+                tempDisplay += getString(R.string.misc_temp_unit_symbol);
+                tvCurLow.setText(tempDisplay);
             }
         } catch (JSONException e) {
             //TODO Print useful error message
@@ -487,7 +480,7 @@ public class WeatherFragment extends Fragment {
     }
 
     /** Helper method gets lists of views to populate for 24 hour forecast section. */
-    private ArrayList<ArrayList<View>> build10DayLists(final LinearLayout theParent) {
+    private ArrayList<ArrayList<View>> build7DayLists(final LinearLayout theParent) {
         ArrayList<ArrayList<View>> lists = new ArrayList<>();
         ArrayList<View> dates = new ArrayList<>();
         ArrayList<View> icons = new ArrayList<>();

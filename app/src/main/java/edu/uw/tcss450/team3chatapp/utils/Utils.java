@@ -63,6 +63,8 @@ public class Utils {
                 for(WeatherProfile wp : theWeatherVM.getSavedLocationWeatherProfiles().getValue()) {
                     locationsToUpdate.add(wp.getLocation());
                 }
+
+                theWeatherVM.update(locationsToUpdate);
             }
         }
     }
