@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,33 +121,31 @@ public class WeatherFragment extends Fragment {
             Toast.makeText(getContext(), "Zip-code invalid: Must be 5 digits", Toast.LENGTH_LONG).show();
         } else {
             Utils.hideKeyboard(Objects.requireNonNull(getActivity()));
-            Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
             try {
-                List<Address> list = geo.getFromLocationName(tZip, 1);
-                if(list != null && !list.isEmpty()) {
-                    Address add = list.get(0);
-                    String cityState = Utils.formatCityState(add.getLocality(), add.getAdminArea());
-
+                Address addr = Utils.getAddressFromLocation(tZip, getContext());
+                if(addr != null) {
                     //compare to current and saved locations
+                    String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
+                    WeatherProfile match = null;
                     if(!Objects.requireNonNull(mWeatherVM.getCurrentLocationWeatherProfile().getValue()).getCityState().equals(cityState)) {
                         boolean noMatch = true;
                         for(WeatherProfile wp : Objects.requireNonNull(mWeatherVM.getSavedLocationWeatherProfiles().getValue())) {
                             if(cityState.equals(wp.getCityState())) {
                                 noMatch = false;
+                                match = wp;
                                 break;
                             }
                         }
 
                         if(noMatch) {
                             ArrayList<LatLng> wrapper = new ArrayList<>();
-                            mFromZip = new LatLng(add.getLatitude(),add.getLongitude());
+                            mFromZip = new LatLng(addr.getLatitude(),addr.getLongitude());
                             wrapper.add(mFromZip);
-                            //TODO - test
                             Uri uri = new Uri.Builder()
                                     .scheme("https")
                                     .authority("team3-chatapp-backend.herokuapp.com")
                                     .appendPath("weather")
-                                    .appendPath(Double.toString(mFromZip.latitude) + ":" + Double.toString(mFromZip.longitude))
+                                    .appendPath(mFromZip.latitude + ":" + mFromZip.longitude)
                                     .build();
 
                             Log.d("API_CALL_MAP", uri.toString());
@@ -157,6 +156,8 @@ public class WeatherFragment extends Fragment {
                                     .onPostExecute(this::searchZipPost)
                                     .onCancelled(error -> Log.e("", error))
                                     .build().execute();
+                        } else {
+                            //TODO display info from wp saved in var 'match'
                         }
                     }
                 } else {
@@ -187,24 +188,29 @@ public class WeatherFragment extends Fragment {
     private void searchZipPost(final String result) {
         WeatherProfile wpToLoad = null;
         try {
-            JSONObject root = new JSONObject(result).getJSONObject("response");
-            if(root.has("responses")) {
-                JSONArray data = root.getJSONArray("responses");
+            JSONObject root = new JSONObject(result);
 
-                String obsJSONStr = data.getJSONObject(0).toString();
-                String dailyJSONStr = data.getJSONObject(1).toString();
-                String hourlyJSONStr = data.getJSONObject(2).toString();
-                String cityState = getCityState(obsJSONStr);
+            //Get weather info from result
+            String currJSONStr = root.getJSONObject("current").toString();
+            String dailyJSONStr = root.getJSONArray("daily").toString();
+            String hourlyJSONStr = root.getJSONArray("hourly").toString();
 
-                wpToLoad = new WeatherProfile(mFromZip, obsJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
+            //Get formatted City, State
+            Address addr = Utils.getAddressFromLocation(root.getDouble("lat"),
+                                                        root.getDouble("lon"),
+                                                        getContext());
+            String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
 
-                // Set current location to one chosen on map so it's loaded again when they go back to map
-                WeatherProfileViewModel weatherVm = ViewModelProviders
-                        .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
-                        .get(WeatherProfileViewModel.class);
-                weatherVm.setSelectedLocationWeatherProfile(wpToLoad);
-            }
-        } catch(JSONException e) {
+            //Create WeatherProfile and add to view model
+            wpToLoad = new WeatherProfile(mFromZip, currJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
+
+            // Set current location to one chosen on map so it's loaded again when they go back to map
+            WeatherProfileViewModel weatherVm = ViewModelProviders
+                    .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
+                    .get(WeatherProfileViewModel.class);
+            weatherVm.setSelectedLocationWeatherProfile(wpToLoad);
+
+        } catch(JSONException | IOException e) {
             e.printStackTrace();
             Log.e("WEATHER_UPDATE_ERR", Objects.requireNonNull(e.getMessage()));
 
@@ -255,16 +261,6 @@ public class WeatherFragment extends Fragment {
     /** Controller for setting up views with weather info. */
     private void populateWeatherData(final WeatherProfile theWP) {
         if(theWP != null) {
-//            try {
-//                JSONObject currentWeatherJSON = new JSONObject(theWP.getCurrentWeather());
-//                JSONArray forecast48HrJSON = new JSONArray(theWP.get48hrForecast());
-//                JSONArray forecast7DayJSON = new JSONArray(theWP.get7DayForecast());
-
-//                setupCurrent(currentWeatherJSON, getFirst(forecast7DayJSON));
-//                setup24Hour(forecast48HrJSON);
-//                setup10Day(forecast7DayJSON);
-//            } catch (JSONException e) {e.printStackTrace();}
-
             setupCurrent(theWP);
             setup24Hour(theWP);
             setup7Day(theWP);

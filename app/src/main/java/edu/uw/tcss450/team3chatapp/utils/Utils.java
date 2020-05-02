@@ -1,15 +1,21 @@
 package edu.uw.tcss450.team3chatapp.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -106,6 +112,26 @@ public class Utils {
         return result.toString();
     }
 
+    public static Address getAddressFromLocation(Double tLat, Double tLon, Context tContext) throws IOException {
+        Address result = null;
+        Geocoder geo = new Geocoder(tContext, Locale.getDefault());
+        List<Address> addresses = geo.getFromLocation(tLat, tLon, 1);
+        if(addresses != null && !addresses.isEmpty()) {
+            result = addresses.get(0);
+        }
+        return result;
+    }
+
+    public static Address getAddressFromLocation(String tZip, Context tContext) throws IOException {
+        Address result = null;
+        Geocoder geo = new Geocoder(tContext, Locale.getDefault());
+        List<Address> addresses = geo.getFromLocationName(tZip, 1);
+        if(addresses != null && !addresses.isEmpty()) {
+            result = addresses.get(0);
+        }
+        return result;
+    }
+
     /**
      * Formats the city and state strings into one in the form "{City}, {State}"
      * @param tCity  the city
@@ -113,50 +139,31 @@ public class Utils {
      * @return      the formatted, concatenated string.
      */
     public static String formatCityState(String tCity, String tState) {
-
         StringBuilder formattedCity = new StringBuilder();
 
-        String[] split;
-        if(tCity.contains(" ")) {
-            split = tCity.split(" ");
-            for(String s : split) {
-                formattedCity.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
-            }
+        if(tCity == null || tState == null) {
+            formattedCity.append("Unknown Location");
         } else {
-            formattedCity.append(tCity.substring(0, 1).toUpperCase()).append(tCity.substring(1)).append(" ");
-        }
-        formattedCity.trimToSize();
+            String[] split;
+            if(tCity.contains(" ")) {
+                split = tCity.split(" ");
+                for(String s : split) {
+                    formattedCity.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
+                }
+            } else {
+                formattedCity.append(tCity.substring(0, 1).toUpperCase()).append(tCity.substring(1)).append(" ");
+            }
+            formattedCity.trimToSize();
 
-        String formattedState = tState;
-        if(tState.length() > 2) {
-            formattedState = getStateAbbr(tState);
+            String formattedState = tState;
+            if(tState.length() > 2) {
+                formattedState = getStateAbbr(tState);
+            }
+
+            formattedCity.append(", ").append(formattedState);
         }
 
-        return formattedCity.append(", ").append(formattedState).toString();
-    }
-
-    /**
-     * Provides custom weather info based on cloud code returned by API.
-     * @param theCode   cloud code.
-     * @return          custom weather message.
-     */
-    public static String cloudDecode(final String theCode) {
-        String response;
-        switch(theCode) {
-            case "CL":
-                response = "Clear Outside"; break;
-            case "FW":
-                response = "Mostly Clear"; break;
-            case "SC":
-                response = "Partly Cloudy"; break;
-            case "BK":
-                response = "Mostly Cloudy"; break;
-            case "OV":
-                response = "Cloudy Outside"; break;
-            default:
-                response = "Unsure. Try again later."; break;
-        }
-        return response;
+        return formattedCity.toString();
     }
 
     /** @return the current time, rounded down to the last hour. */

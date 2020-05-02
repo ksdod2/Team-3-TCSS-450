@@ -50,7 +50,7 @@
     <string name="tv_weather_tempMin">Today\'s High:</string>
     <string name="tv_weather_tempMax">Today\'s Low:</string>
     <string name="tv_weather_wind">Wind:</string>
-    <string name="tv_weather_description">Looks like its:</string>
+    <string name="tv_weather_description">Looks like:</string>
     <string name="tv_weather_precipitation">Precipitation:</string>
     <string name="tv_weather_humidity">Humidity:</string>
     <string name="tv_weather_sunrise">Sunrise:</string>

@@ -2,6 +2,8 @@ package edu.uw.tcss450.team3chatapp.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -175,15 +178,13 @@ public class HomeFragment extends Fragment {
            that updates the weather for current location to run BEFORE reaching this
            point, so weather data for current location needs to be loaded manually.*/
         if(curLocWP == null) {
-            String locEP = mLocation.getLatitude() + "," + mLocation.getLongitude();
+            String locEP = mLocation.getLatitude() + ":" + mLocation.getLongitude();
 
             Uri uri = new Uri.Builder()
                     .scheme("https")
                     .authority(getString(R.string.ep_base))
                     .appendPath(getString(R.string.ep_weather))
-                    .appendPath(getString(R.string.ep_weather_obs))
                     .appendPath(locEP)
-                    .appendQueryParameter("fields", Utils.OBS_FIELDS)
                     .build();
 
             Log.d("API_CALL_HOME", uri.toString());
@@ -196,7 +197,16 @@ public class HomeFragment extends Fragment {
                     .build().execute();
 
         } else {
-            weatherOnPost(curLocWP.getCurrentWeather());
+            JSONObject json = new JSONObject();
+            try {
+                json.put("lat", curLocWP.getLocation().latitude);
+                json.put("lon", curLocWP.getLocation().longitude);
+                json.put("current", new JSONObject(curLocWP.getCurrentWeather()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            weatherOnPost(json.toString());
         }
     }
 
@@ -219,39 +229,42 @@ public class HomeFragment extends Fragment {
      * @param result JSON response from server.
      */
     private void weatherOnPost(final String result) {
+        Geocoder geo = new Geocoder(this.getContext(), Locale.getDefault());
+
         try {
-            JSONObject currentWeatherRoot = new JSONObject(result);
-            if (currentWeatherRoot.has(getString(R.string.keys_json_weather_response))) {
-                JSONObject response = currentWeatherRoot.getJSONObject(getString(R.string.keys_json_weather_response));
-                if(response.has(getString(R.string.keys_json_weather_place))
-                        && response.has(getString(R.string.keys_json_weather_ob))) {
+            JSONObject root = new JSONObject(result);
+            JSONObject current = root.getJSONObject("current");
 
-                    JSONObject place = response.getJSONObject(getString(R.string.keys_json_weather_place));
-                    JSONObject ob = response.getJSONObject(getString(R.string.keys_json_weather_ob));
+            String tempDisplay = Utils.getDisplayTemp(current.getDouble("temp"), mUnits);
+            tempDisplay += '\u00A0';
 
-                    String tempDisplay = "F".equals(mUnits) ? ob.getString(getString(R.string.keys_json_weather_tempf)) : ob.getString(getString(R.string.keys_json_weather_tempc));
-                    tempDisplay += '\u00A0';
+            String desc = current
+                    .getJSONArray("weather")
+                    .getJSONObject(0)
+                    .getString("description");
 
-                    String cityState = Utils.formatCityState(place.getString(getString(R.string.keys_json_weather_name)),
-                            place.getString(getString(R.string.keys_json_weather_state)).toUpperCase());
+            List<Address> addresses = geo.getFromLocation(root.getDouble("lat"), root.getDouble("lon"), 1);
+            String city = addresses.get(0).getLocality();
+            String state = addresses.get(0).getAdminArea();
+            String cityState = Utils.formatCityState(city, state);
 
-                    String icFile = ob.getString(getString(R.string.keys_json_weather_icon)).substring(0, ob.getString(getString(R.string.keys_json_weather_icon)).length()-4);
+            String icFile = "icon" + current
+                    .getJSONArray("weather")
+                    .getJSONObject(0)
+                    .getString("icon");
 
-                    int id = getResources()
-                            .getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext())
+            int id = getResources()
+                    .getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext())
                             .getPackageName());
 
-                    // Display info
-                    mWeatherDescription.setText(ob.getString(getString(R.string.keys_json_weather_desc_long)));
-                    mWeatherTemp.setText(tempDisplay);
-                    mCityState.setText(cityState);
-                    mWeatherIcon.setImageResource(id);
-                } else {
-                    Log.d("WEATHER_POST", "Either Place or Ob missing form Response: " + response.toString());
-                }
-            }
+            // Display info
+            mWeatherDescription.setText(desc);
+            mWeatherTemp.setText(tempDisplay);
+            mCityState.setText(cityState);
+            mWeatherIcon.setImageResource(id);
             Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
-        } catch(JSONException e) {
+        } catch(JSONException | IOException e) {
+            Log.e("HOME_API_ERR", e.toString());
             Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
         }
     }
