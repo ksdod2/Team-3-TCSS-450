@@ -3,7 +3,6 @@ package edu.uw.tcss450.team3chatapp.ui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -229,8 +228,6 @@ public class HomeFragment extends Fragment {
      * @param result JSON response from server.
      */
     private void weatherOnPost(final String result) {
-        Geocoder geo = new Geocoder(this.getContext(), Locale.getDefault());
-
         try {
             JSONObject root = new JSONObject(result);
             JSONObject current = root.getJSONObject("current");
@@ -243,10 +240,8 @@ public class HomeFragment extends Fragment {
                     .getJSONObject(0)
                     .getString("description");
 
-            List<Address> addresses = geo.getFromLocation(root.getDouble("lat"), root.getDouble("lon"), 1);
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String cityState = Utils.formatCityState(city, state);
+            Address addr = Utils.getAddressFromLocation(root.getDouble("lat"), root.getDouble("lon"), getContext());
+            String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
 
             String icFile = "icon" + current
                     .getJSONArray("weather")

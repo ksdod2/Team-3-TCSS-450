@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.util.Log;
 
@@ -193,7 +192,6 @@ public class WeatherProfileViewModel extends AndroidViewModel {
      * & shared preferences.
      */
     private void processWeatherData() {
-        Geocoder geo = new Geocoder(this.getApplication(), Locale.getDefault());
         ArrayList<WeatherProfile> savedLocationWeatherProfileList = new ArrayList<>();
 
         for(int i = 0; i < mRawWeatherData.size(); i++) {
@@ -206,10 +204,8 @@ public class WeatherProfileViewModel extends AndroidViewModel {
                 String dailyJSONStr = root.getJSONArray("daily").toString();
                 String hourlyJSONStr = root.getJSONArray("hourly").toString();
 
-                List<Address> addresses = geo.getFromLocation(root.getDouble("lat"), root.getDouble("lon"), 1);
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String cityState = Utils.formatCityState(city, state);
+                Address addr = Utils.getAddressFromLocation(root.getDouble("lat"), root.getDouble("lon"), getApplication());
+                String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
 
                 WeatherProfile wp = new WeatherProfile(currSavedLoc, currJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
 
