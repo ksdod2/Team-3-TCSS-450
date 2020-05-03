@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.R;
@@ -137,9 +136,7 @@ public class WeatherFragment extends Fragment {
                         }
 
                         if(noMatch) {
-                            ArrayList<LatLng> wrapper = new ArrayList<>();
                             mFromZip = new LatLng(addr.getLatitude(),addr.getLongitude());
-                            wrapper.add(mFromZip);
                             Uri uri = new Uri.Builder()
                                     .scheme("https")
                                     .authority("team3-chatapp-backend.herokuapp.com")
@@ -156,7 +153,13 @@ public class WeatherFragment extends Fragment {
                                     .onCancelled(error -> Log.e("", error))
                                     .build().execute();
                         } else {
-                            //TODO display info from wp saved in var 'match'
+                            //Display weather info of WP from saved locations instead
+                            mWPtoLoad = match;
+                            mWeatherVM.setSelectedLocationWeatherProfile(mWPtoLoad);
+                            populateWeatherData(mWPtoLoad);
+
+                            Objects.requireNonNull(getActivity()).findViewById(R.id.btn_weather_search).setEnabled(true);
+                            Objects.requireNonNull(getActivity()).findViewById(R.id.layout_wait).setVisibility(View.GONE);
                         }
                     }
                 } else {
@@ -222,6 +225,7 @@ public class WeatherFragment extends Fragment {
             wpToLoad = mWeatherVM.getCurrentLocationWeatherProfile().getValue();
         }
 
+        // Display weather profile info
         mWeatherVM.setSelectedLocationWeatherProfile(wpToLoad);
         mWPtoLoad = wpToLoad;
         populateWeatherData(wpToLoad);
@@ -364,7 +368,7 @@ public class WeatherFragment extends Fragment {
                 String icFile = "icon" + curHourData
                         .getJSONArray("weather")
                         .getJSONObject(0)
-                        .getString("icon");;
+                        .getString("icon");
                 ivCurIcon.setImageResource(getResources().getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext()).getPackageName()));
 
                 String tempDisplay = Utils.getDisplayTemp(curHourData.getDouble("temp"), mUnits);
@@ -424,7 +428,7 @@ public class WeatherFragment extends Fragment {
     }
 
     /**
-     * Helper method gets first day of 10 day forecast for
+     * Helper method gets first day of 7 day forecast for
      * populating current conditions (i.e. today's forecast).
      *
      * @param theListJSON   JSON object containing list of all 10 forecasts
@@ -518,34 +522,5 @@ public class WeatherFragment extends Fragment {
         lists.add(lows);
 
         return lists;
-    }
-
-    /**
-     * Parses JSON from for the city and state information of location.
-     * @param theJSONasStr JSON object representing API's observation endpoint response.
-     * @return the city and state information, formatted as "{City}, {State}".
-     */
-    private String getCityState(final String theJSONasStr) {
-
-        String result = "";
-
-        try {
-            JSONObject theJSON = new JSONObject(theJSONasStr);
-            if (theJSON.has(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_response))) {
-                JSONObject response = theJSON.getJSONObject(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_response));
-                if(response.has(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_place))) {
-
-                    JSONObject place = response.getJSONObject(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_place));
-
-                    result = Utils.formatCityState(place.getString(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_name)),
-                            place.getString(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_state)).toUpperCase());
-
-                } else {
-                    Log.d("WEATHER_POST", "Either Place or Ob missing form Response: " + response.toString());
-                }
-            }
-        } catch(JSONException e){e.printStackTrace();}
-
-        return result;
     }
 }
