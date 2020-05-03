@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/layout_currentConditionsContainer"
@@ -417,7 +417,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour1"
@@ -450,7 +450,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour2"
@@ -484,7 +484,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour3"
@@ -518,7 +518,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour4"
@@ -552,7 +552,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour5"
@@ -586,7 +586,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour6"
@@ -620,7 +620,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour7"
@@ -654,7 +654,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour8"
@@ -688,7 +688,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour9"
@@ -722,7 +722,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour10"
@@ -756,7 +756,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour11"
@@ -790,7 +790,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour12"
@@ -824,7 +824,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour13"
@@ -858,7 +858,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour14"
@@ -892,7 +892,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour15"
@@ -925,7 +925,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour16"
@@ -959,7 +959,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour17"
@@ -993,7 +993,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour18"
@@ -1027,7 +1027,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour19"
@@ -1061,7 +1061,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour20"
@@ -1095,7 +1095,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour21"
@@ -1129,7 +1129,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour22"
@@ -1163,7 +1163,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="8dp">
 
                     <TextView
                         android:id="@+id/tv_weather_24hour23"
@@ -1231,7 +1231,7 @@
         android:id="@+id/layout_10DayContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
