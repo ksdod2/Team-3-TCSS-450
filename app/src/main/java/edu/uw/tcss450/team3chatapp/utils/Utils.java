@@ -155,15 +155,19 @@ public class Utils {
             }
             formattedCity.trimToSize();
 
-            String formattedState = tState;
+            String abbr = null;
             if(tState.length() > 2) {
-                formattedState = getStateAbbr(tState);
+                abbr = getStateAbbr(tState);
             }
 
-            formattedCity.append(", ").append(formattedState);
+            if(abbr != null) {
+                formattedCity.append(", ").append(abbr);
+            } else {
+                formattedCity.append(", ").append(tState);
+            }
         }
 
-        return formattedCity.toString();
+        return formattedCity.append('\u00A0').toString();
     }
 
     /** @return the current time, rounded down to the last hour. */

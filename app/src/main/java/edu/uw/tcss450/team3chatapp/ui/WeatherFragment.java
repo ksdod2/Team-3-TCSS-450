@@ -183,7 +183,7 @@ public class WeatherFragment extends Fragment {
         Log.d("ZIP", result);
     }
 
-    /** onPost */ //TODO - fix
+    /** onPost */
     private void searchZipPost(final String result) {
         WeatherProfile wpToLoad = null;
         try {
