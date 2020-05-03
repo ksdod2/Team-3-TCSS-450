@@ -331,9 +331,9 @@ public class WeatherFragment extends Fragment {
             highTempDisplay += getString(R.string.misc_temp_unit_symbol);
             tvMaxTemp.setText(highTempDisplay);
 
-            tvSunrise.setText(new SimpleDateFormat("HH:mm").format(new java.util.Date(currCond.getLong("sunrise")*1000L)));
+            tvSunrise.setText(new SimpleDateFormat("h:mm a").format(new java.util.Date(currCond.getLong("sunrise")*1000L)));
 
-            tvSunset.setText(new SimpleDateFormat("HH:mm").format(new java.util.Date(currCond.getLong("sunset")*1000L)));
+            tvSunset.setText(new SimpleDateFormat("h:mm a").format(new java.util.Date(currCond.getLong("sunset")*1000L)));
 
         } catch (JSONException e) { //TODO Print useful error message
             e.printStackTrace();
@@ -361,7 +361,7 @@ public class WeatherFragment extends Fragment {
                 ImageView ivCurIcon = (ImageView) icons.get(i);
                 TextView tvCurTemp = (TextView) temps.get(i);
 
-                String hourDisplay = new SimpleDateFormat("HH:mm")
+                String hourDisplay = new SimpleDateFormat("h:mm a")
                         .format(new java.util.Date(curHourData.getLong("dt")*1000L));
                 tvCurHour.setText(hourDisplay);
 
