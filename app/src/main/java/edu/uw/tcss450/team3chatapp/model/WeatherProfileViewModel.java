@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.util.Log;
 
@@ -18,7 +17,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,9 +24,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
-import java.text.DecimalFormat;
 
 import edu.uw.tcss450.team3chatapp.R;
 import edu.uw.tcss450.team3chatapp.utils.GetAsyncTask;
@@ -80,21 +76,12 @@ public class WeatherProfileViewModel extends AndroidViewModel {
     public void update(ArrayList<LatLng> theLocationsToUpdate) {
         if(theLocationsToUpdate.size() > 0) {
             mSavedLocations = theLocationsToUpdate;
-
-//            Uri uri = new Uri.Builder()
-//                    .scheme("https")
-//                    .authority("team3-chatapp-backend.herokuapp.com")
-//                    .appendPath("weather")
-//                    .appendPath("batch")
-//                    .appendQueryParameter("requests", Utils.buildWeatherProfileQuery(theLocationsToUpdate))
-//                    .build();
-
             for(LatLng loc : mSavedLocations) {
                 Uri uri = new Uri.Builder()
                         .scheme("https")
                         .authority("team3-chatapp-backend.herokuapp.com")
                         .appendPath("weather")
-                        .appendPath(Double.toString(loc.latitude) + ':' + Double.toString(loc.longitude))
+                        .appendPath(Double.toString(loc.latitude) + ':' + loc.longitude)
                         .build();
 
                 Log.d("WEATHER_API_CALL", uri.toString());
@@ -193,7 +180,6 @@ public class WeatherProfileViewModel extends AndroidViewModel {
      * & shared preferences.
      */
     private void processWeatherData() {
-        Geocoder geo = new Geocoder(this.getApplication(), Locale.getDefault());
         ArrayList<WeatherProfile> savedLocationWeatherProfileList = new ArrayList<>();
 
         for(int i = 0; i < mRawWeatherData.size(); i++) {
@@ -206,10 +192,8 @@ public class WeatherProfileViewModel extends AndroidViewModel {
                 String dailyJSONStr = root.getJSONArray("daily").toString();
                 String hourlyJSONStr = root.getJSONArray("hourly").toString();
 
-                List<Address> addresses = geo.getFromLocation(root.getDouble("lat"), root.getDouble("lon"), 1);
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String cityState = Utils.formatCityState(city, state);
+                Address addr = Utils.getAddressFromLocation(root.getDouble("lat"), root.getDouble("lon"), getApplication());
+                String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
 
                 WeatherProfile wp = new WeatherProfile(currSavedLoc, currJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
 
@@ -225,35 +209,6 @@ public class WeatherProfileViewModel extends AndroidViewModel {
 
                 // Save updated WeatherProfileVM info to sharedPrefs:
                 saveToSharedPrefs();
-
-
-//                if(root.has("responses")) {
-//                    JSONArray data = root.getJSONArray("responses");
-//                    ArrayList<WeatherProfile> savedLocationWeatherProfileList = new ArrayList<>();
-//
-//                    for(int i = 0; i < data.length(); i+=3) {
-//                        int id = i / 3;
-//                        LatLng loc = mSavedLocations.get(id);
-//                        String obsJSONStr = data.getJSONObject(i).toString();
-//                        String dailyJSONStr = data.getJSONObject(i+1).toString();
-//                        String hourlyJSONStr = data.getJSONObject(i+2).toString();
-//                        String cityState = getCityState(obsJSONStr);
-//
-//                        WeatherProfile wp = new WeatherProfile(loc, obsJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
-//
-//                        // First block of weather info is always current location
-//                        if(i == 0) {
-//                            mCurrentLocationWeatherProfile.setValue(wp);
-//                        } else {
-//                            savedLocationWeatherProfileList.add(wp);
-//                        }
-//                    }
-//                    mSavedLocationsWeatherProfiles.setValue(savedLocationWeatherProfileList);
-//                    mLastUpdated = System.currentTimeMillis() / 1000L;
-//
-//                    // Save updated WeatherProfileVM info to sharedPrefs:
-//                    saveToSharedPrefs();
-//                }
             } catch(JSONException | IOException e) {
                 e.printStackTrace();
                 Log.e("WEATHER_UPDATE_ERR", Objects.requireNonNull(e.getMessage()));
@@ -270,35 +225,6 @@ public class WeatherProfileViewModel extends AndroidViewModel {
         prefs.edit().putString(getApplication().getString(R.string.keys_prefs_weathervm_saved), gson.toJson(getSavedLocationWeatherProfiles().getValue())).apply();
         prefs.edit().putLong(getApplication().getString(R.string.keys_prefs_weathervm_lastupdated), mLastUpdated).apply();
 
-    }
-
-    /**
-     * Parses JSON from for the city and state information of location.
-     * @param theJSONasStr JSON object representing API's observation endpoint response.
-     * @return the city and state information, formatted as "{City}, {State}".
-     */
-    private String getCityState(final String theJSONasStr) {
-
-        String result = "";
-
-        try {
-            JSONObject theJSON = new JSONObject(theJSONasStr);
-            if (theJSON.has(getApplication().getString(R.string.keys_json_weather_response))) {
-                JSONObject response = theJSON.getJSONObject(getApplication().getString(R.string.keys_json_weather_response));
-                if(response.has(getApplication().getString(R.string.keys_json_weather_place))) {
-
-                    JSONObject place = response.getJSONObject(getApplication().getString(R.string.keys_json_weather_place));
-
-                    result = Utils.formatCityState(place.getString(getApplication().getString(R.string.keys_json_weather_name)),
-                            place.getString(getApplication().getString(R.string.keys_json_weather_state)).toUpperCase());
-
-                } else {
-                    Log.d("WEATHER_POST", "Either Place or Ob missing form Response: " + response.toString());
-                }
-            }
-        } catch(JSONException e) { e.printStackTrace(); }
-
-        return result;
     }
 
     /** Static factory class for building view model. */
