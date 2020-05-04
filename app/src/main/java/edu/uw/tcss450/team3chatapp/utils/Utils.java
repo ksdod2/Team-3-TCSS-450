@@ -26,11 +26,6 @@ import edu.uw.tcss450.team3chatapp.model.WeatherProfileViewModel;
 /** Collection of static utility methods used in multiple places throughout the app. */
 public class Utils {
 
-    /** Sorting params for weather API requests. (basically "limit response to these fields".) */
-    public static final String OBS_FIELDS = "place.name,place.state,ob.tempC,ob.tempF,ob.humidity,ob.windSpeedKPH,ob.windSpeedMPH,ob.weather,ob.weatherShort,ob.cloudsCoded,ob.icon";
-    private static final String DAILY_FIELDS = "periods.timestamp,periods.weatherPrimary,periods.minTempC,periods.minTempF,periods.maxTempC,periods.maxTempF,periods.pop,periods.sunrise,periods.sunset,periods.icon";
-    private static final String HOURLY_FIELDS = "periods.timestamp,periods.avgTempC,periods.avgTempF,periods.icon";
-
     /** Shouldn't be able to instantiate. */
     private Utils() {}
 
@@ -75,43 +70,6 @@ public class Utils {
         }
     }
 
-    /**
-     * Helper method to build the monster batch request param string for API GET request.
-     * @param tLocations    locations to get weather for, current and or saved.
-     * @return              query string formatted to get current, 10 day & 24 hour weather information for each location.
-     */
-    public static String buildWeatherProfileQuery(ArrayList<LatLng> tLocations) {
-        StringBuilder result = new StringBuilder();
-
-        String qm = "%3F";
-        String amp = "%26";
-
-        for (LatLng loc : tLocations) {
-            String locEP = loc.latitude + "," + loc.longitude;
-
-            //append query string for this location to entire request.
-            String req = "/observations/" + locEP + qm +
-                    "fields=" + Utils.OBS_FIELDS +
-                    "," +
-                    //append 10-day forecast request: '/forecasts/{locEP}?limit=10&fields={dailyFields},'
-                    "/forecasts/" + locEP + qm +
-                    "limit=10" + amp +
-                    "fields=" + Utils.DAILY_FIELDS +
-                    "," +
-                    //append 24hr forecast request: '/forecasts/{locEP}?filter=1hr&limit=24&fields={hourlyFields},'
-                    "/forecasts/" + locEP + qm +
-                    "filter=1hr" + amp +
-                    "limit=24" + amp +
-                    "fields=" + Utils.HOURLY_FIELDS +
-                    ",";
-            result.append(req);
-        }
-        //remove trailing comma:
-        result.deleteCharAt(result.length() - 1);
-
-        return result.toString();
-    }
-
     public static Address getAddressFromLocation(Double tLat, Double tLon, Context tContext) throws IOException {
         Address result = null;
         Geocoder geo = new Geocoder(tContext, Locale.getDefault());
@@ -133,41 +91,37 @@ public class Utils {
     }
 
     /**
-     * Formats the city and state strings into one in the form "{City}, {State}"
-     * @param tCity  the city
-     * @param tState the state
+     * Formats the location of the provided address into a string.
+     * @param tAddr the address from the Geocoder
      * @return      the formatted, concatenated string.
      */
-    public static String formatCityState(String tCity, String tState) {
-        StringBuilder formattedCity = new StringBuilder();
+    public static String getFormattedLocation(Address tAddr) {
+        StringBuilder result = new StringBuilder();
+        String first;
+        String second;
+        boolean useCountry = true;
 
-        if(tCity == null || tState == null) {
-            formattedCity.append("Unknown Location");
-        } else {
-            String[] split;
-            if(tCity.contains(" ")) {
-                split = tCity.split(" ");
-                for(String s : split) {
-                    formattedCity.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
-                }
-            } else {
-                formattedCity.append(tCity.substring(0, 1).toUpperCase()).append(tCity.substring(1)).append(" ");
-            }
-            formattedCity.trimToSize();
-
-            String abbr = null;
-            if(tState.length() > 2) {
-                abbr = getStateAbbr(tState);
-            }
-
-            if(abbr != null) {
-                formattedCity.append(", ").append(abbr);
-            } else {
-                formattedCity.append(", ").append(tState);
-            }
+        //Handle City/State;
+        if(tAddr.getLocality() != null) {//Use city if available
+            first = tAddr.getLocality() + ", ";
+            useCountry = false;
+        } else if(tAddr.getAdminArea() != null) {//Use "state" if no city
+            first = tAddr.getAdminArea() + ", ";
+        } else {//Otherwise just use coordinates
+            DecimalFormat df = new DecimalFormat("##.##");
+            first = df.format(tAddr.getLatitude()) + ":" + df.format(tAddr.getLongitude()) + ", ";
         }
 
-        return formattedCity.append('\u00A0').toString();
+        //Handle State/Country depending on City/State:
+        if(useCountry) {
+            second = tAddr.getCountryName();
+        } else { //Use state abbreviation if in US; country name otherwise
+            String state = getStateAbbr(tAddr.getAdminArea());
+            second = state == null ? tAddr.getCountryName() : state;
+        }
+
+        result.append(first).append(second).append('\u00A0');
+        return result.toString();
     }
 
     /** @return the current time, rounded down to the last hour. */
@@ -211,8 +165,8 @@ public class Utils {
         return df.format(result);
     }
 
-    public static String getStateAbbr(String fullName) {
-        Map<String, String> states = new HashMap<String, String>();
+    private static String getStateAbbr(String fullName) {
+        Map<String, String> states = new HashMap<>();
         states.put("Alabama","AL");
         states.put("Alaska","AK");
         states.put("Alberta","AB");

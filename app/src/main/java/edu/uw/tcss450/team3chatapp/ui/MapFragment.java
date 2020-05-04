@@ -131,18 +131,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         Log.i("MAP", mapLocation.toString());
 
         // Get location info from LatLng passed back
-        String cityState = "";
+        String locationStr = "";
         try {
             Address address = Utils.getAddressFromLocation(mapLocation.latitude, mapLocation.longitude, getContext());
             String area = address.getLocality();
             String state = address.getAdminArea();
-            cityState = Utils.formatCityState(area, state);
+            locationStr = Utils.getFormattedLocation(address);
         } catch (IOException e) {e.printStackTrace();}
 
         // Compare to saved locations
-        if(!"".equals(cityState)) {
+        if(!"".equals(locationStr)) {
             for(WeatherProfile wp : Objects.requireNonNull(weatherVM.getSavedLocationWeatherProfiles().getValue())) {
-                if(cityState.equals(wp.getCityState())) {
+                if(locationStr.equals(wp.getLocationStr())) {
                     wpToLoad = wp;
                     break;
                 }
@@ -183,9 +183,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             Address addr = Utils.getAddressFromLocation(root.getDouble("lat"),
                     root.getDouble("lon"),
                     getContext());
-            String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
+            String locationStr = Utils.getFormattedLocation(addr);
 
-            wpToLoad = new WeatherProfile(mMarker.getPosition(), currJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
+            wpToLoad = new WeatherProfile(mMarker.getPosition(), currJSONStr, dailyJSONStr, hourlyJSONStr, locationStr);
 
             // Set current location to one chosen on map so it's loaded again when they go back to map
             WeatherProfileViewModel weatherVm = ViewModelProviders

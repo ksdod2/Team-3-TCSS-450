@@ -241,7 +241,7 @@ public class HomeFragment extends Fragment {
             String desc = Utils.jadenCase(weather.getString("description"));
 
             Address addr = Utils.getAddressFromLocation(root.getDouble("lat"), root.getDouble("lon"), getContext());
-            String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
+            String locationStr = Utils.getFormattedLocation(addr);
 
             String icFile = "icon" + weather.getString("icon") + LARGE_ICON_SUFFIX;
 
@@ -252,7 +252,7 @@ public class HomeFragment extends Fragment {
             // Display info
             mWeatherDescription.setText(desc);
             mWeatherTemp.setText(tempDisplay);
-            mCityState.setText(cityState);
+            mCityState.setText(locationStr);
             mWeatherIcon.setImageResource(id);
             Objects.requireNonNull(getActivity()).findViewById(R.id.layout_login_wait).setVisibility(View.GONE);
         } catch(JSONException | IOException e) {

@@ -68,7 +68,7 @@ public class MyWeatherProfileRecyclerViewAdapter extends RecyclerView.Adapter<My
             JSONObject rootToday = getFirst(root7Day);
 
             // Get info from JSON
-            String name = holder.mWP.getCityState();
+            String name = holder.mWP.getLocationStr();
             JSONObject weather = rootToday.getJSONArray("weather").getJSONObject(0);
             String icFile = "icon" + weather.getString("icon");
 

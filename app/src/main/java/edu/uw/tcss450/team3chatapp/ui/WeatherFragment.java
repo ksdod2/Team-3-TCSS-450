@@ -125,12 +125,12 @@ public class WeatherFragment extends Fragment {
                 Address addr = Utils.getAddressFromLocation(tZip, getContext());
                 if(addr != null) {
                     //compare to current and saved locations
-                    String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
+                    String locationStr = Utils.getFormattedLocation(addr);
                     WeatherProfile match = null;
-                    if(!Objects.requireNonNull(mWeatherVM.getCurrentLocationWeatherProfile().getValue()).getCityState().equals(cityState)) {
+                    if(!Objects.requireNonNull(mWeatherVM.getCurrentLocationWeatherProfile().getValue()).getLocationStr().equals(locationStr)) {
                         boolean noMatch = true;
                         for(WeatherProfile wp : Objects.requireNonNull(mWeatherVM.getSavedLocationWeatherProfiles().getValue())) {
-                            if(cityState.equals(wp.getCityState())) {
+                            if(locationStr.equals(wp.getLocationStr())) {
                                 noMatch = false;
                                 match = wp;
                                 break;
@@ -203,10 +203,10 @@ public class WeatherFragment extends Fragment {
             Address addr = Utils.getAddressFromLocation(root.getDouble("lat"),
                                                         root.getDouble("lon"),
                                                         getContext());
-            String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
+            String locationStr = Utils.getFormattedLocation(addr);
 
             //Create WeatherProfile and add to view model
-            wpToLoad = new WeatherProfile(mFromZip, currJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
+            wpToLoad = new WeatherProfile(mFromZip, currJSONStr, dailyJSONStr, hourlyJSONStr, locationStr);
 
             // Set current location to one chosen on map so it's loaded again when they go back to map
             WeatherProfileViewModel weatherVm = ViewModelProviders
@@ -245,10 +245,10 @@ public class WeatherFragment extends Fragment {
         if (Objects.requireNonNull(savedLocationWPs).size() >= SAVED_LOCATIONS_LIMIT) {
             Toast.makeText(getContext(), "Maximum number of saved locations already reached.", Toast.LENGTH_LONG).show();
         } else if(Objects.requireNonNull(tWPVM.getCurrentLocationWeatherProfile().getValue()).equals(mWPtoLoad)) {
-            Toast.makeText(getContext(), "Saved " + mWPtoLoad.getCityState() + " to your saved locations!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Saved " + mWPtoLoad.getLocationStr() + " to your saved locations!", Toast.LENGTH_LONG).show();
         } else {
             for(WeatherProfile wp : savedLocationWPs) {
-                if(mWPtoLoad.getCityState().equals(wp.getCityState())) {
+                if(mWPtoLoad.getLocationStr().equals(wp.getLocationStr())) {
                     noMatch = false;
                     break;
                 }
@@ -256,7 +256,7 @@ public class WeatherFragment extends Fragment {
             //if no match then save location, otherwise let the user know it's already saved.
             if(noMatch) {
                 tWPVM.saveLocation(mWPtoLoad);
-                Toast.makeText(getContext(), "Saved " + mWPtoLoad.getCityState() + " to your saved locations!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Saved " + mWPtoLoad.getLocationStr() + " to your saved locations!", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getContext(), "This location is already saved!", Toast.LENGTH_LONG).show();
             }
@@ -300,7 +300,7 @@ public class WeatherFragment extends Fragment {
             JSONObject currCond = new JSONObject(tWP.getCurrentWeather());
             JSONObject hiLoInfo = getFirst(new JSONArray(tWP.get7DayForecast()));
             JSONObject weather = currCond.getJSONArray("weather").getJSONObject(0);
-            String cityState = tWP.getCityState();
+            String cityState = tWP.getLocationStr();
 
             // Get icon file resource name
             String icFile = "icon" + weather.getString("icon") + LARGE_ICON_SUFFIX;
