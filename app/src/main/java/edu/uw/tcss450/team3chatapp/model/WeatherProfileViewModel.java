@@ -193,9 +193,9 @@ public class WeatherProfileViewModel extends AndroidViewModel {
                 String hourlyJSONStr = root.getJSONArray("hourly").toString();
 
                 Address addr = Utils.getAddressFromLocation(root.getDouble("lat"), root.getDouble("lon"), getApplication());
-                String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
+                String locationStr = Utils.getFormattedLocation(addr);
 
-                WeatherProfile wp = new WeatherProfile(currSavedLoc, currJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
+                WeatherProfile wp = new WeatherProfile(currSavedLoc, currJSONStr, dailyJSONStr, hourlyJSONStr, locationStr);
 
                 // First block of weather info is always current location
                 if(i == 0) {
