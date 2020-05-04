@@ -233,23 +233,17 @@ public class HomeFragment extends Fragment {
         try {
             JSONObject root = new JSONObject(result);
             JSONObject current = root.getJSONObject("current");
+            JSONObject weather = current.getJSONArray("weather").getJSONObject(0);
 
             String tempDisplay = Utils.getDisplayTemp(current.getDouble("temp"), mUnits);
             tempDisplay += '\u00A0';
 
-            String desc = current
-                    .getJSONArray("weather")
-                    .getJSONObject(0)
-                    .getString("description");
+            String desc = Utils.jadenCase(weather.getString("description"));
 
             Address addr = Utils.getAddressFromLocation(root.getDouble("lat"), root.getDouble("lon"), getContext());
             String cityState = Utils.formatCityState(addr.getLocality(), addr.getAdminArea());
 
-            String icFile = "icon" + current
-                    .getJSONArray("weather")
-                    .getJSONObject(0)
-                    .getString("icon")
-                    + LARGE_ICON_SUFFIX;
+            String icFile = "icon" + weather.getString("icon") + LARGE_ICON_SUFFIX;
 
             int id = getResources()
                     .getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext())
