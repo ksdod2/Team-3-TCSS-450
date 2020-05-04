@@ -46,8 +46,10 @@ import edu.uw.tcss450.team3chatapp.utils.Utils;
 @SuppressLint("SimpleDateFormat")
 public class WeatherFragment extends Fragment {
 
-    /**  */
+    /** Maximum number of locations that the user can have saved at once. */
     private static final int SAVED_LOCATIONS_LIMIT = 10;
+    /** Appended to icon file name to indicate that larger image should be used (current conditions icon) */
+    private static final String LARGE_ICON_SUFFIX = "_2x";
 
     /** ViewModel for weather profiles */
     private WeatherProfileViewModel mWeatherVM;
@@ -303,7 +305,8 @@ public class WeatherFragment extends Fragment {
             String icFile = "icon" + currCond
                     .getJSONArray("weather")
                     .getJSONObject(0)
-                    .getString("icon");
+                    .getString("icon")
+                    + LARGE_ICON_SUFFIX;
 
             // Display info
             tvCityState.setText(cityState);
