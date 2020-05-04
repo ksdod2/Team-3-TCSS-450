@@ -52,6 +52,8 @@ import edu.uw.tcss450.team3chatapp.utils.SendPostAsyncTask;
 /** Controls home/landing page after user logs in. */
 public class HomeFragment extends Fragment {
 
+    private static final String LARGE_ICON_SUFFIX = "_2x";
+
     private TextView mWeatherTemp;
     private TextView mWeatherDescription;
     private ImageView mWeatherIcon;
@@ -246,7 +248,8 @@ public class HomeFragment extends Fragment {
             String icFile = "icon" + current
                     .getJSONArray("weather")
                     .getJSONObject(0)
-                    .getString("icon");
+                    .getString("icon")
+                    + LARGE_ICON_SUFFIX;
 
             int id = getResources()
                     .getIdentifier(icFile, "mipmap", Objects.requireNonNull(getContext())

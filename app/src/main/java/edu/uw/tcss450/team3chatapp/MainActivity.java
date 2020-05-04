@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
-                            Log.d("LOCATION", location.toString());
+                            Log.d("REQUESTED_LOCATION", location.toString());
 
                             LocationViewModel LocModel = LocationViewModel.getFactory().create(LocationViewModel.class);
                             LocModel.changeLocation(location);
