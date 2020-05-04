@@ -190,6 +190,18 @@ public class Utils {
         Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    public static String jadenCase(String str) {
+        String[] strArr = str.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(String word : strArr) {
+            String cap = word.substring(0, 1).toUpperCase() + word.substring(1);
+            sb.append(cap);
+            sb.append(" ");
+        }
+        sb.trimToSize();
+        return sb.toString();
+    }
+
     public static String getDisplayTemp(Double tNumber, String tUnit) {
         DecimalFormat df = new DecimalFormat("###");
         double result = tNumber - 273.15;

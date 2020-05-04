@@ -299,14 +299,11 @@ public class WeatherFragment extends Fragment {
             //Get relevant JSON from tWP
             JSONObject currCond = new JSONObject(tWP.getCurrentWeather());
             JSONObject hiLoInfo = getFirst(new JSONArray(tWP.get7DayForecast()));
+            JSONObject weather = currCond.getJSONArray("weather").getJSONObject(0);
             String cityState = tWP.getCityState();
 
             // Get icon file resource name
-            String icFile = "icon" + currCond
-                    .getJSONArray("weather")
-                    .getJSONObject(0)
-                    .getString("icon")
-                    + LARGE_ICON_SUFFIX;
+            String icFile = "icon" + weather.getString("icon") + LARGE_ICON_SUFFIX;
 
             // Display info
             tvCityState.setText(cityState);
@@ -315,10 +312,8 @@ public class WeatherFragment extends Fragment {
             curTempDisplay += getString(R.string.misc_temp_unit_symbol);
             tvCurrentTemp.setText(curTempDisplay);
 
-            tvDescription.setText(currCond
-                    .getJSONArray("weather")
-                    .getJSONObject(0)
-                    .getString("description"));
+            String desc = Utils.jadenCase(weather.getString("description"));
+            tvDescription.setText(desc);
 
             String humidityDisplay = currCond.getString("humidity") + "%";
             tvHumidity.setText(humidityDisplay);
