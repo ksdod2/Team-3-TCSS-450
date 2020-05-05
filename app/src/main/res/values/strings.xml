@@ -42,7 +42,7 @@
     <string name="tv_weather_savedLocations"><u>View Saved Locations</u></string>
     <string name="tv_weather_currentConditions">Current Conditions</string>
     <string name="tv_weather_24hourForecast">24-Hour Forecast</string>
-    <string name="tv_weather_10dayForecast">10-Day Forecast</string>
+    <string name="tv_weather_7dayForecast">7-Day Forecast</string>
     <string name="btn_weather_search">Search</string>
     <string name="btn_map_use">Use This Location</string>
     <!--current conditions strings-->
@@ -50,7 +50,7 @@
     <string name="tv_weather_tempMin">Today\'s High:</string>
     <string name="tv_weather_tempMax">Today\'s Low:</string>
     <string name="tv_weather_wind">Wind:</string>
-    <string name="tv_weather_description">Looks like its:</string>
+    <string name="tv_weather_description">Looks like:</string>
     <string name="tv_weather_precipitation">Precipitation:</string>
     <string name="tv_weather_humidity">Humidity:</string>
     <string name="tv_weather_sunrise">Sunrise:</string>

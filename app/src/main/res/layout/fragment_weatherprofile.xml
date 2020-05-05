@@ -131,21 +131,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_weatherprf_highTemp"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@mipmap/rainw" />
-
-                <TextView
-                    android:id="@+id/tv_weatherprof_pop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:text="@string/tv_weather_precipitationDefault"
-                    android:textColor="@color/lightModeBackgroundColor"
-                    android:textSize="12sp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_weatherprof_icon"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.35" />
+                    app:srcCompat="@mipmap/icon10d" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

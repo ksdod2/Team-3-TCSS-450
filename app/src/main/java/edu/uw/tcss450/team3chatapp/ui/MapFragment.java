@@ -26,14 +26,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import edu.uw.tcss450.team3chatapp.R;
@@ -134,37 +131,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         Log.i("MAP", mapLocation.toString());
 
         // Get location info from LatLng passed back
-        String cityState = "";
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        String locationStr = "";
         try {
-            Address address = geocoder.getFromLocation(mapLocation.latitude, mapLocation.longitude, 1).get(0);
+            Address address = Utils.getAddressFromLocation(mapLocation.latitude, mapLocation.longitude, getContext());
             String area = address.getLocality();
             String state = address.getAdminArea();
-            cityState = area == null || state == null
-                    ? "" : Utils.formatCityState(address.getLocality(), address.getAdminArea());
+            locationStr = Utils.getFormattedLocation(address);
         } catch (IOException e) {e.printStackTrace();}
 
         // Compare to saved locations
-        if(!"".equals(cityState)) {
+        if(!"".equals(locationStr)) {
             for(WeatherProfile wp : Objects.requireNonNull(weatherVM.getSavedLocationWeatherProfiles().getValue())) {
-                if(cityState.equals(wp.getCityState())) {
+                if(locationStr.equals(wp.getLocationStr())) {
                     wpToLoad = wp;
                     break;
                 }
             }
         }
 
-        // Hit
+        // Need to get weather info from API
         if(wpToLoad == null) {
-            ArrayList<LatLng> wrapper = new ArrayList<>();
-            wrapper.add(mapLocation);
-
             Uri uri = new Uri.Builder()
                     .scheme("https")
                     .authority("team3-chatapp-backend.herokuapp.com")
                     .appendPath("weather")
-                    .appendPath("batch")
-                    .appendQueryParameter("requests", Utils.buildWeatherProfileQuery(wrapper))
+                    .appendPath(mapLocation.latitude + ":" + mapLocation.longitude)
                     .build();
 
             Log.d("API_CALL_MAP", uri.toString());
@@ -183,24 +174,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private void fetchWeatherPost(final String result) {
         WeatherProfile wpToLoad = null;
         try {
-            JSONObject root = new JSONObject(result).getJSONObject("response");
-            if(root.has("responses")) {
-                JSONArray data = root.getJSONArray("responses");
+            JSONObject root = new JSONObject(result);
 
-                String obsJSONStr = data.getJSONObject(0).toString();
-                String dailyJSONStr = data.getJSONObject(1).toString();
-                String hourlyJSONStr = data.getJSONObject(2).toString();
-                String cityState = getCityState(obsJSONStr);
+            String currJSONStr = root.getJSONObject("current").toString();
+            String dailyJSONStr = root.getJSONArray("daily").toString();
+            String hourlyJSONStr = root.getJSONArray("hourly").toString();
 
-                wpToLoad = new WeatherProfile(mMarker.getPosition(), obsJSONStr, dailyJSONStr, hourlyJSONStr, cityState);
+            Address addr = Utils.getAddressFromLocation(root.getDouble("lat"),
+                    root.getDouble("lon"),
+                    getContext());
+            String locationStr = Utils.getFormattedLocation(addr);
 
-                // Set current location to one chosen on map so it's loaded again when they go back to map
-                WeatherProfileViewModel weatherVm = ViewModelProviders
-                        .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
-                        .get(WeatherProfileViewModel.class);
-                weatherVm.setSelectedLocationWeatherProfile(wpToLoad);
-            }
-        } catch(JSONException e) {
+            wpToLoad = new WeatherProfile(mMarker.getPosition(), currJSONStr, dailyJSONStr, hourlyJSONStr, locationStr);
+
+            // Set current location to one chosen on map so it's loaded again when they go back to map
+            WeatherProfileViewModel weatherVm = ViewModelProviders
+                    .of(this, new WeatherProfileViewModel.WeatherFactory(Objects.requireNonNull(getActivity()).getApplication()))
+                    .get(WeatherProfileViewModel.class);
+            weatherVm.setSelectedLocationWeatherProfile(wpToLoad);
+        } catch(JSONException | IOException e) {
             e.printStackTrace();
             Log.e("WEATHER_UPDATE_ERR", Objects.requireNonNull(e.getMessage()));
         }
@@ -208,31 +200,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         if(wpToLoad == null) {Toast.makeText(getContext(), "Oops, something went wrong. Please try again.", Toast.LENGTH_LONG).show();}
 
         Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_global_nav_weather);
-    }
-
-    /**
-     * Parses JSON from for the city and state information of location.
-     * @param theJSONasStr JSON object representing API's observation endpoint response.
-     * @return the city and state information, formatted as "{City}, {State}".
-     */
-    private String getCityState(final String theJSONasStr) {
-        String result = "";
-        try {
-            JSONObject theJSON = new JSONObject(theJSONasStr);
-            if (theJSON.has(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_response))) {
-                JSONObject response = theJSON.getJSONObject(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_response));
-                if(response.has(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_place))) {
-
-                    JSONObject place = response.getJSONObject(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_place));
-
-                    result = Utils.formatCityState(place.getString(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_name)),
-                            place.getString(Objects.requireNonNull(getActivity()).getString(R.string.keys_json_weather_state)).toUpperCase());
-
-                } else {
-                    Log.d("WEATHER_POST", "Either Place or Ob missing form Response: " + response.toString());
-                }
-            }
-        } catch(JSONException e){e.printStackTrace();}
-        return result;
     }
 }
